@@ -1,0 +1,17 @@
+git submodule add https://github.com/vim-scripts/Color-Sampler-Pack .vim/bundle/Color-Sampler-Pack
+git submodule add https://github.com/vim-scripts/DirDiff .vim/bundle/DirDiff
+git submodule add https://github.com/vim-scripts/DoxygenToolkit .vim/bundle/DoxygenToolkit
+git submodule add https://github.com/vim-scripts/IndexedSearch .vim/bundle/IndexedSearch
+git submodule add https://github.com/vim-scripts/a.vim .vim/bundle/a.vim
+git submodule add https://github.com/vim-scripts/bandit.vim .vim/bundle/bandit.vim
+git submodule add https://github.com/vim-scripts/Enter-Indent .vim/bundle/Enter-Indent
+git submodule add https://github.com/vim-scripts/grep.vim .vim/bundle/grep.vim
+git submodule add https://github.com/vim-scripts/gtags.vim .vim/bundle/gtags.vim
+git submodule add https://github.com/vim-scripts/Mark--Karkat .vim/bundle/Mark--Karkat
+git submodule add https://github.com/vim-scripts/marvim .vim/bundle/marvim
+git submodule add https://github.com/vim-scripts/matchit.zip .vim/bundle/matchit.zip
+git submodule add https://github.com/vim-scripts/Rename2 .vim/bundle/Rename2
+git submodule add https://github.com/vim-scripts/sessionman.vim .vim/bundle/sessionman.vim
+git submodule add https://github.com/vim-scripts/TabBar .vim/bundle/TabBar
+git submodule add https://github.com/vim-scripts/Vimball .vim/bundle/Vimball
+

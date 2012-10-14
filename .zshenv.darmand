@@ -1,0 +1,22 @@
+export CVSROOT=:pserver:NCEDOM+darmand@ncecvsgco:/cvsgco/ngiobe
+
+# if [[ "$HOST" == "ncegcolnx152" ]]
+# then
+#   echo "Applying zshenv APE config ..."
+  source /projects/apedev/etc/zshenv.ape
+#else
+  #echo "Applying zshenv APL config ..."
+  #export USER_PACKAGE=inv
+  ## export ICECC_CC=/opt/gcc-3.4.2/bin/gcc
+  ## export ICECC_CXX=/opt/gcc-3.4.2/bin/g++
+  #export PATH=/data/ngi/ngidelde/bin:$PATH
+  #export ORACLE_SID=db07a10
+  #export TWO_TASK=db07a10ls
+#fi
+
+export BIN=$BIN:$HOME/doc/global-6.1/global
+export BIN=$BIN:$HOME/doc/global-6.1/gtags
+export BIN=$BIN:$HOME/doc/global-6.1/gtags-cscope
+export BIN=$BIN:$HOME/doc/global-6.1/gozilla
+export BIN=$BIN:$HOME/doc/global-6.1/htags
+export PATH=$PATH:$BIN

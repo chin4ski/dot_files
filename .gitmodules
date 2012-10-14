@@ -1,3 +1,42 @@
 [submodule ".vim/bundle/vundle"]
 	path = .vim/bundle/vundle
 	url = https://github.com/gmarik/vundle.git
+[submodule ".vim/bundle/Color-Sampler-Pack"]
+	path = .vim/bundle/Color-Sampler-Pack
+	url = https://github.com/vim-scripts/Color-Sampler-Pack
+[submodule ".vim/bundle/IndexedSearch"]
+	path = .vim/bundle/IndexedSearch
+	url = https://github.com/vim-scripts/IndexedSearch
+[submodule ".vim/bundle/bandit.vim"]
+	path = .vim/bundle/bandit.vim
+	url = https://github.com/vim-scripts/bandit.vim
+[submodule ".vim/bundle/a.vim"]
+	path = .vim/bundle/a.vim
+	url = https://github.com/vim-scripts/a.vim
+[submodule ".vim/bundle/Enter-Indent"]
+	path = .vim/bundle/Enter-Indent
+	url = https://github.com/vim-scripts/Enter-Indent
+[submodule ".vim/bundle/grep.vim"]
+	path = .vim/bundle/grep.vim
+	url = https://github.com/vim-scripts/grep.vim
+[submodule ".vim/bundle/gtags.vim"]
+	path = .vim/bundle/gtags.vim
+	url = https://github.com/vim-scripts/gtags.vim
+[submodule ".vim/bundle/marvim"]
+	path = .vim/bundle/marvim
+	url = https://github.com/vim-scripts/marvim
+[submodule ".vim/bundle/matchit.zip"]
+	path = .vim/bundle/matchit.zip
+	url = https://github.com/vim-scripts/matchit.zip
+[submodule ".vim/bundle/Rename2"]
+	path = .vim/bundle/Rename2
+	url = https://github.com/vim-scripts/Rename2
+[submodule ".vim/bundle/sessionman.vim"]
+	path = .vim/bundle/sessionman.vim
+	url = https://github.com/vim-scripts/sessionman.vim
+[submodule ".vim/bundle/TabBar"]
+	path = .vim/bundle/TabBar
+	url = https://github.com/vim-scripts/TabBar
+[submodule ".vim/bundle/Vimball"]
+	path = .vim/bundle/Vimball
+	url = https://github.com/vim-scripts/Vimball

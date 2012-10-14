@@ -40,7 +40,7 @@ if version >= 702
   Bundle 'DoxygenToolkit'
   Bundle 'IndexedSearch'
   Bundle 'MatchTag'
-  Bundle 'a'
+  Bundle 'a.vim'
   Bundle 'taghighlight'
   Bundle 'aftersyntax'
   Bundle 'aftersyntaxc.vim'
@@ -78,7 +78,6 @@ if version >= 702
   Bundle 'vimproc'
   Bundle 'vundle'
   Bundle 'xml'
-  othree  / xml.vim'
   Bundle 'xterm-color-table'
   Bundle 'yankring_140'
 
@@ -95,6 +94,54 @@ if version >= 702
 
   "" non github repos
   Bundle 'git://repo.or.cz/vcscommand'
+
+  "" ---------------------------------------------------------------------------
+  "" let Vundle manage Vundle
+  "" required! 
+  "Bundle 'gmarik/vundle'
+
+  "" My Bundles here:
+  "Bundle 'aftersyntax'
+  "Bundle 'aftersyntaxc.vim'
+  "Bundle 'ape_syntax'
+  "Bundle 'cpp_stuff'
+  "Bundle 'themes'
+
+
+  "Bundle 'Rykka/localbundle.vim'
+  "call localbundle#init()
+
+  "" original repos on github
+  "Bundle 'gregsexton/MatchTag'
+  "Bundle 'abudden/taghighlight'
+  "Bundle 'troydm/asyncfinder.vim'
+  "Bundle 'coderifous/textobj-word-column.vim'
+  "Bundle 'tyru/current-func-info.vim'
+  "Bundle 'kana/exjumplist.vim'
+  "Bundle 'bogado/file-line'
+  "Bundle 'sjl/gundo.vim'
+  "Bundle 'kien/ctrlp.vim'
+  "Bundle 'Rykka/localbundle.vim'
+  "Bundle 'nathanaelkane/vim-indent-guides'
+  "Bundle 'Shougo/neocomplcache'
+  "Bundle 'Shougo/neocomplcache-snippets-complete'
+  "Bundle 'Shougo/vimproc'
+  "Bundle 'scrooloose/erdcommenter'
+  "Bundle 'Lokaltog/vim-powerline'
+  "Bundle 'tomtom/quickfixsigns_vim'
+  "Bundle 'duff/vim-scratch'
+  "Bundle 'tpope/vim-surround'
+  "Bundle 'othree/xml.vim'
+  "Bundle 'guns/xterm-color-table.vim'
+  "Bundle 'cometsong/YankRing'
+
+  "" vim-scripts repos
+  "https://github.com/vim-scripts/
+
+  """ non github repos
+  ""Bundle 'git://git.wincent.com/command-t.git'
+  "Bundle 'git://repo.or.cz/vcscommand'
+  "" ---------------------------------------------------------------------------
 
   "" ---------------------------------------------------------------------------
   "" let Vundle manage Vundle
