@@ -40,3 +40,57 @@
 [submodule ".vim/bundle/Vimball"]
 	path = .vim/bundle/Vimball
 	url = https://github.com/vim-scripts/Vimball
+[submodule ".vim/bundle/MatchTag"]
+	path = .vim/bundle/MatchTag
+	url = https://github.com/gregsexton/MatchTag
+[submodule ".vim/bundle/asyncfinder.vim"]
+	path = .vim/bundle/asyncfinder.vim
+	url = https://github.com/troydm/asyncfinder.vim
+[submodule ".vim/bundle/textobj-word-column.vim"]
+	path = .vim/bundle/textobj-word-column.vim
+	url = https://github.com/coderifous/textobj-word-column.vim
+[submodule ".vim/bundle/current-func-info.vim"]
+	path = .vim/bundle/current-func-info.vim
+	url = https://github.com/tyru/current-func-info.vim
+[submodule ".vim/bundle/file-line"]
+	path = .vim/bundle/file-line
+	url = https://github.com/bogado/file-line
+[submodule ".vim/bundle/gundo.vim"]
+	path = .vim/bundle/gundo.vim
+	url = https://github.com/sjl/gundo.vim
+[submodule ".vim/bundle/ctrlp.vim"]
+	path = .vim/bundle/ctrlp.vim
+	url = https://github.com/kien/ctrlp.vim
+[submodule ".vim/bundle/localbundle.vim"]
+	path = .vim/bundle/localbundle.vim
+	url = https://github.com/Rykka/localbundle.vim
+[submodule ".vim/bundle/vim-indent-guides"]
+	path = .vim/bundle/vim-indent-guides
+	url = https://github.com/nathanaelkane/vim-indent-guides
+[submodule ".vim/bundle/neocomplcache"]
+	path = .vim/bundle/neocomplcache
+	url = https://github.com/Shougo/neocomplcache
+[submodule ".vim/bundle/neocomplcache-snippets-complete"]
+	path = .vim/bundle/neocomplcache-snippets-complete
+	url = https://github.com/Shougo/neocomplcache-snippets-complete
+[submodule ".vim/bundle/vimproc"]
+	path = .vim/bundle/vimproc
+	url = https://github.com/Shougo/vimproc
+[submodule ".vim/bundle/vim-powerline"]
+	path = .vim/bundle/vim-powerline
+	url = https://github.com/Lokaltog/vim-powerline
+[submodule ".vim/bundle/quickfixsigns_vim"]
+	path = .vim/bundle/quickfixsigns_vim
+	url = https://github.com/tomtom/quickfixsigns_vim
+[submodule ".vim/bundle/vim-scratch"]
+	path = .vim/bundle/vim-scratch
+	url = https://github.com/duff/vim-scratch
+[submodule ".vim/bundle/vim-surround"]
+	path = .vim/bundle/vim-surround
+	url = https://github.com/tpope/vim-surround
+[submodule ".vim/bundle/Nnerdcommenter"]
+	path = .vim/bundle/Nnerdcommenter
+	url = https://github.com/scrooloose/nerdcommenter
+[submodule ".vim/bundle/nerdcommenter"]
+	path = .vim/bundle/nerdcommenter
+	url = https://github.com/scrooloose/nerdcommenter
