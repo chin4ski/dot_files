@@ -1,19 +1,21 @@
 set nocompatible
 
+let &rtp = ''
+
 " set default 'runtimepath' (without ~/.vim folders)
-let &runtimepath = printf('%s/vimfiles,%s,%s/vimfiles/after', $VIM, $VIMRUNTIME, $VIM)
+let &rtp = &rtp . ',' . printf('%s/vimfiles,%s,%s/vimfiles/after', $VIM, $VIMRUNTIME, $VIM)
 
 " what is the name of the directory containing this file?
 let s:portable = expand('<sfile>:p:h')
 
 " add the directory to 'runtimepath'
-let &runtimepath = printf('%s,%s,%s/after', s:portable, &runtimepath, s:portable)
+let &rtp= &rtp . ',' . printf('%s,%s,%s/after', s:portable, &runtimepath, s:portable)
 
-" add vundle plugin path
-let &runtimepath = '~/.vim/bundle/vundle'
-" add localbundle target dir
-let &runtimepath = '~/.vim,~/.vim/localbundle,~/.vim/localbundle/after'
-
+if $USER != "apeoncal"
+  let g:dot_vim_dir = $HOME.'/.vim'
+else
+  let g:dot_vim_dir = $HOME.'/.vim.darmand'
+endif
 
 if version >= 702
 
@@ -22,15 +24,24 @@ if version >= 702
   autocmd!
 
 
-  """""""""""""" vundle/localbundle - START
+  """""""""""""" vundle+localbundle - START
   set nocompatible               " be iMproved
   filetype off                   " required!
+
+  " add vundle plugin path
+  let &rtp = &rtp . ',' . g:dot_vim_dir.'/bundle/vundle'
+
+
+  if isdirectory(g:dot_vim_dir.'/localbundle')
+    " add localbundle target dir
+    let &runtimepath = g:dot_vim_dir.','.g:dot_vim_dir.'/localbundle,'.g:dot_vim_dir.'/localbundle/after'
+  endif
 
   call vundle#rc()
 
   " let Vundle manage Vundle
   " required! 
-  "Bundle 'gmarik/vundle'
+  Bundle 'vundle'
 
   " My Bundles here:
   "
@@ -40,7 +51,7 @@ if version >= 702
   Bundle 'DoxygenToolkit'
   Bundle 'IndexedSearch'
   Bundle 'MatchTag'
-  Bundle 'a.vim'
+  Bundle 'a'
   Bundle 'taghighlight'
   Bundle 'aftersyntax'
   Bundle 'aftersyntaxc.vim'
@@ -55,9 +66,8 @@ if version >= 702
   Bundle 'file_line'
   Bundle 'grep'
   Bundle 'gtags'
-  Bundle 'gundo'
+  Bundle 'undotree'
   Bundle 'ctrlp.vim'
-  Bundle 'localbundle.vim'
   Bundle 'mark'
   Bundle 'marvim'
   Bundle 'matchit'
@@ -76,13 +86,21 @@ if version >= 702
   Bundle 'vcscommand.vim'
   Bundle 'vimball'
   Bundle 'vimproc'
-  Bundle 'vundle'
   Bundle 'xml'
   Bundle 'xterm-color-table'
   Bundle 'yankring_140'
+  Bundle 'vim-orgmode'
+  Bundle 'errormarker.vim'
+  Bundle 'EasyGrep'
+  Bundle 'vim-repeat'
 
   Bundle 'localbundle.vim'
   call localbundle#init()
+
+  if !isdirectory(g:dot_vim_dir.'/localbundle')
+    LocalBundle
+  endif
+
   "" original repos on github
   "Bundle 'tpope/vim-fugitive'
   "Bundle 'Lokaltog/vim-easymotion'
@@ -91,121 +109,8 @@ if version >= 702
   "" vim-scripts repos
   "Bundle 'L9'
   "Bundle 'FuzzyFinder'
-
   "" non github repos
-  Bundle 'git://repo.or.cz/vcscommand'
-
-  "" ---------------------------------------------------------------------------
-  "" let Vundle manage Vundle
-  "" required! 
-  "Bundle 'gmarik/vundle'
-
-  "" My Bundles here:
-  "Bundle 'aftersyntax'
-  "Bundle 'aftersyntaxc.vim'
-  "Bundle 'ape_syntax'
-  "Bundle 'cpp_stuff'
-  "Bundle 'themes'
-
-
-  "Bundle 'Rykka/localbundle.vim'
-  "call localbundle#init()
-
-  "" original repos on github
-  "Bundle 'gregsexton/MatchTag'
-  "Bundle 'abudden/taghighlight'
-  "Bundle 'troydm/asyncfinder.vim'
-  "Bundle 'coderifous/textobj-word-column.vim'
-  "Bundle 'tyru/current-func-info.vim'
-  "Bundle 'kana/exjumplist.vim'
-  "Bundle 'bogado/file-line'
-  "Bundle 'sjl/gundo.vim'
-  "Bundle 'kien/ctrlp.vim'
-  "Bundle 'Rykka/localbundle.vim'
-  "Bundle 'nathanaelkane/vim-indent-guides'
-  "Bundle 'Shougo/neocomplcache'
-  "Bundle 'Shougo/neocomplcache-snippets-complete'
-  "Bundle 'Shougo/vimproc'
-  "Bundle 'scrooloose/erdcommenter'
-  "Bundle 'Lokaltog/vim-powerline'
-  "Bundle 'tomtom/quickfixsigns_vim'
-  "Bundle 'duff/vim-scratch'
-  "Bundle 'tpope/vim-surround'
-  "Bundle 'othree/xml.vim'
-  "Bundle 'guns/xterm-color-table.vim'
-  "Bundle 'cometsong/YankRing'
-
-  "" vim-scripts repos
-  "https://github.com/vim-scripts/
-
-  """ non github repos
-  ""Bundle 'git://git.wincent.com/command-t.git'
-  "Bundle 'git://repo.or.cz/vcscommand'
-  "" ---------------------------------------------------------------------------
-
-  "" ---------------------------------------------------------------------------
-  "" let Vundle manage Vundle
-  "" required! 
-  "Bundle 'gmarik/vundle'
-
-  "" My Bundles here:
-  "Bundle 'aftersyntax'
-  "Bundle 'aftersyntaxc.vim'
-  "Bundle 'ape_syntax'
-  "Bundle 'cpp_stuff'
-  "Bundle 'themes'
-
-
-  "Bundle 'Rykka/localbundle.vim'
-  "call localbundle#init()
-
-  "" original repos on github
-  "Bundle 'gregsexton/MatchTag'
-  "Bundle 'abudden/taghighlight'
-  "Bundle 'troydm/asyncfinder.vim'
-  "Bundle 'coderifous/textobj-word-column.vim'
-  "Bundle 'tyru/current-func-info.vim'
-  "Bundle 'kana/exjumplist.vim'
-  "Bundle 'bogado/file-line'
-  "Bundle 'sjl/gundo.vim'
-  "Bundle 'kien/ctrlp.vim'
-  "Bundle 'Rykka/localbundle.vim'
-  "Bundle 'nathanaelkane/vim-indent-guides'
-  "Bundle 'Shougo/neocomplcache'
-  "Bundle 'Shougo/neocomplcache-snippets-complete'
-  "Bundle 'Shougo/vimproc'
-  "Bundle 'scrooloose/erdcommenter'
-  "Bundle 'Lokaltog/vim-powerline'
-  "Bundle 'tomtom/quickfixsigns_vim'
-  "Bundle 'duff/vim-scratch'
-  "Bundle 'tpope/vim-surround'
-  "Bundle 'othree/xml.vim'
-  "Bundle 'guns/xterm-color-table.vim'
-  "Bundle 'cometsong/YankRing'
-
-  "" vim-scripts repos
-  "Bundle 'CVSconflict'
-  "Bundle 'Color-Sampler-Pack'
-  "Bundle 'DirDiff'
-  "Bundle 'DoxygenToolkit'
-  "Bundle 'IndexedSearch'
-  "Bundle 'a'
-  "Bundle 'bandit.vim'
-  "Bundle 'enter-indent'
-  "Bundle 'grep'
-  "Bundle 'gtags'
-  "Bundle 'Mark--Karkat' " Most recent version at http://www.vim.org/scripts/script.php?script_id=2666
-  "Bundle 'marvim'
-  "Bundle 'matchit.zip'
-  "Bundle 'Rename2'
-  "Bundle 'sessionman.vim'
-  "Bundle 'TabBar'
-  "Bundle 'Vimball'
-
-  """ non github repos
-  ""Bundle 'git://git.wincent.com/command-t.git'
-  "Bundle 'git://repo.or.cz/vcscommand'
-  "" ---------------------------------------------------------------------------
+  "Bundle 'git://git.wincent.com/command-t.git'
 
   filetype plugin indent on     " required!
   "
@@ -218,7 +123,7 @@ if version >= 702
   " see :h vundle for more details or wiki for FAQ
   " NOTE: comments after Bundle command are not allowed..
 
-  """""""""""""" vundle/localbundle - END
+  """""""""""""" vundle+localbundle - END
 
 
   """""""""""""" neobundle - START
@@ -348,10 +253,10 @@ if version >= 702
   " with all path separators substituted to percent '%' signs. This will
   " ensure file name uniqueness in the preserve directory.
   call EnsureDirExists($HOME.'/.vimswap')
-  set dir=~/.vimswap//
+  let &dir=$HOME.'/.vimswap//'
 
   call EnsureDirExists($HOME.'/.vimview')
-  set viewdir=~/.vimview//
+  let &viewdir=$HOME.'/.vimview//'
 
   set backup
   call EnsureDirExists($TMPDIR.'/'.$USER.'/_VIM/backup')
@@ -361,7 +266,7 @@ if version >= 702
   if version >= 703
     set undofile
     call EnsureDirExists($HOME.'/.vimundo')
-    set undodir=~/.vimundo//
+    let &undodir=$HOME.'/.vimundo//'
     set undolevels=1000         " How many undos
     set undoreload=10000        " number of lines to save for undo
   endif
@@ -397,6 +302,15 @@ if version >= 702
     " >> indentation size
     set shiftwidth=2
 
+    "set autoindent
+    "set cindent
+    set smartindent
+
+    set list
+    set listchars=tab:>-,trail:_
+    "set listchars=tab:\\ \ ,trail:_
+
+
     " reselect visual block after in/dedent so we can in/dedent more
     vnoremap < <gv
     vnoremap > >gv
@@ -404,7 +318,7 @@ if version >= 702
     vnoremap = =gv
 
     " select the last changed text (or the text that was just pasted)
-    nnoremap <expr> gvv '`[' . strpart(getregtype(), 0, 1) . '`]'
+    nnoremap <expr> gV "`[".getregtype(v:register)[0]."`]"
     
     " move visual selection:
     " to the right
@@ -486,6 +400,9 @@ if version >= 702
 
   " syntax higlight on
   syntax on
+
+  " Syntax coloring lines that are too long just slows down the world
+  set synmaxcol=2048
 
   set showmatch
   set matchtime=5  " show matching brackets for 0.5 seconds
@@ -742,8 +659,7 @@ if version >= 702
     "Allow switching buffers without writing to disk
     set hidden
 
-"    set viminfo='100,\"1000,:5000,%,'1000,n~/.viminfo 
-    set viminfo=\"1000,:5000,'1000,n~/.viminfo 
+    let &viminfo="\"1000,:5000,'1000,n".$HOME."/.viminfo"
 
     " Menu completion, bash tab style completion
     set wildmenu
@@ -1010,6 +926,15 @@ if version >= 702
         "imap <CR>     <Plug>(neocomplcache_snippets_expand)
         "smap <CR>     <Plug>(neocomplcache_snippets_expand)
 
+        " SuperTab like snippets behavior.
+        imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ?
+         \ "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+
+        " For snippet_complete marker.
+        if has('conceal')
+          set conceallevel=2 concealcursor=i
+        endif
+
         " For snippet_complete marker.
         if has('conceal')
           set conceallevel=2 concealcursor=i
@@ -1030,8 +955,8 @@ if version >= 702
     let g:indent_guides_start_level = 2
     let g:indent_guides_guide_size = 1
     let g:indent_guides_auto_colors = 0
-    autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=237
-    autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=238
+    autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=237 ctermfg=240
+    autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=238 ctermfg=242
 
     "nnoremap Y y$
 
@@ -1064,8 +989,11 @@ if version >= 702
     "hi MarkWord5  ctermbg=magenta     ctermfg=white
     "hi MarkWord6  ctermbg=darkblue    ctermfg=white
 
-    " gundo
-    nnoremap <silent> [19~ :GundoToggle<CR>
+    "" gundo
+    "nnoremap <silent> [19~ :GundoToggle<CR>
+
+    " undotree
+    nnoremap <silent> [19~  :UndotreeToggle<cr>
 
     " Enhanced Commentify
     "let g:EnhCommentifyTraditionalMode = 'no'
@@ -1103,6 +1031,7 @@ if version >= 702
           "\ ]
     " vcscommand
     au BufEnter *CVS* set syntax=rcslog
+    nmap <Leader>C <Plug>VCSCommit
 
     " Sessionman
     " <F12>
@@ -1184,17 +1113,17 @@ if version >= 702
 
     " Mark (simultaneous multiple highlights)
     " I already use <Leader>r to repalce words..
-    nmap <unique> <silent> <Leader>R <Plug>MarkRegex
-    xmap <unique> <silent> <Leader>R <Plug>MarkRegex
+    nmap <silent> <Leader>R <Plug>MarkRegex
+    xmap <silent> <Leader>R <Plug>MarkRegex
     " Add new mark
-    nmap <unique> <silent> + <Plug>MarkSet
-    xmap <unique> <silent> + <Plug>MarkSet
+    nmap <silent> + <Plug>MarkSet
+    xmap <silent> + <Plug>MarkSet
     " Clear all marks
-    nmap <unique> <silent> - <Plug>ClearLastMark
-    xmap <unique> <silent> - <Plug>ClearLastMark
+    nmap <silent> - <Plug>ClearLastMark
+    xmap <silent> - <Plug>ClearLastMark
 
-    nnoremap <unique> <silent>  :nohlsearch<CR>
-    nnoremap <unique> <silent>  :nohlsearch<CR>
+    nnoremap <silent>  :nohlsearch<CR>
+    nnoremap <silent>  :nohlsearch<CR>
 
     vnoremap <silent> * :<C-U>
       \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
@@ -1290,6 +1219,22 @@ if version >= 702
     "Scratch
     nnoremap <silent> <Leader>sc :Sscratch<CR>
 
+    " errormarker
+    "nmap <silent> <unique> <Leader>cc :ErrorAtCursor<CR>
+    let g:errormarker_disablemappings = 1
+
+    " EasyGrep
+    "set grepprg=grep\ -R
+    " 0 - vimgrep
+    " 1 - grep (follows grepprg)
+    let EasyGrepCommand = 1
+    let EasyGrepMode = 2
+    let EasyGrepRecursive = 1
+    let EasyGrepHidden = 1
+    let EasyGrepAllOptionsInExplorer = 1
+    " 0 - quickfix
+    " 1 - location list
+    let EasyGrepWindow = 0
 
   " }}} Plugins/Scripts end
 
@@ -1301,9 +1246,21 @@ if version >= 702
   """""""""""""""""""""""""""""""""
   " Mappings {{{
 
-    " Delete the previous word
-    "Arpeggio inoremap dw <C-W>
-    "call arpeggio#map('i', '', 0, '<SPACE>', '<C-W>')
+    " Edit/source dot files
+    nmap <silent> <Leader>ev :execute "e ".g:dot_vim_dir."/.vimrc"<CR>
+    nmap <silent> <Leader>sv :execute "source ".g:dot_vim_dir."/.vimrc"<CR>
+    nmap <silent> <Leader>ez :execute "e ~/.zshrc.".$USER<CR>
+
+    " Edit TTS files
+    nmap <silent> <Leader>el :e %.log<CR>
+    nmap <silent> <Leader>er :e NONREG_RESULTS-STDOUT.txt<CR>
+
+    " Wrap on/off
+    nmap <silent> <Leader>w :set invwrap<CR>:set wrap?<CR>
+
+  " Delete the previous word
+  "Arpeggio inoremap dw <C-W>
+  "call arpeggio#map('i', '', 0, '<SPACE>', '<C-W>')
 
     " Map Alt+Right/Left to move forward/backward 1 word
     "imap [1;3C <C-Right>
@@ -1337,6 +1294,7 @@ if version >= 702
 
     " window splitting maps
     nmap <leader>v :vsplit<CR><C-w><C-w>:Tbbl<CR>zz<C-w><C-w><C-w><C-w>zz
+    "nmap <leader>v :vertical wincmd ^<CR>:wincmd w<CR>
     nmap <leader>h :split<CR><C-w><C-w>:Tbbl<CR>zz<C-w><C-w><C-w><C-w>zz
     "nmap <leader>v :vsplit<CR><C-w><C-w><Plug>(exjumplist-previous-buffer)<Plug>(exjumplist-previous-buffer)<Plug>(exjumplist-previous-buffer)zz<C-w><C-w><C-w><C-w>zz
     "nmap <leader>h :split<CR><C-w><C-w><Plug>(exjumplist-previous-buffer)<Plug>(exjumplist-previous-buffer)<Plug>(exjumplist-previous-buffer)zz<C-w><C-w><C-w><C-w>zz
@@ -1464,7 +1422,26 @@ if version >= 702
     vnoremap <silent> <C-Q> <ESC>:CloseBufferAndSplit<CR>
     inoremap <silent> <C-Q> <ESC>:CloseBufferAndSplit<CR>i
 
-    " Switch to most recently used buffer
+    "From http://stackoverflow.com/questions/3984544/skipping-a-window-in-vim-with-ctrl-w-w
+    function! s:NextWindowBut(skip,dir)
+      let w0 = winnr()
+      let nok = 1
+      while nok
+        " exe "normal! \<c-W>w"
+        " or better
+        exe 'wincmd '.a:dir
+        let w = winnr()
+        let n = bufname('%')
+        let nok = (n=~a:skip) && (w != w0)
+        " echo "skip(".n."):".(n=~a:skip)." w!=w0:".(w != w0)." --> ".nok
+      endwhile
+      if w == w0
+        echomsg "No other acceptable window"
+      endif
+    endfunction
+
+    nnoremap <silent> <leader><leader> :call <sid>NextWindowBut('-TabBar-','w')<cr>
+
     "noremap <silent> ` :b#<CR>
     "vnoremap <silent> ` <ESC>:b#<CR>gv
     "inoremap <silent> ` <ESC>:b#<CR>i
@@ -1550,7 +1527,7 @@ if version >= 702
           \ }
 
     " matcher for ctrlP 
-    let g:path_to_matcher = $HOME.'/.vim/bundle/ctrlp.vim/matcher'
+    let g:path_to_matcher = g:dot_vim_dir.'/bundle/ctrlp.vim/matcher'
 
     "let g:ctrlp_user_command = {
           "\ 'types': {
@@ -1624,8 +1601,8 @@ if version >= 702
     au WinEnter *
           \ if &modifiable |
           \   nnoremap <CR> :put=''<CR> |
-          \   nnoremap <S-CR> :put!=''<CR> |
           \ endif
+          "\   nnoremap <S-CR> :put!=''<CR> |
     "nnoremap <CR> :put=''<CR>
     "nnoremap <S-CR> :put!=''<CR>
 
@@ -1653,10 +1630,10 @@ if version >= 702
 
     " NERD commenter
     map <Leader>x <plug>NERDCommenterInvert
+    map <Leader>x <plug>NERDCommenterInvert
     let g:NERDCustomDelimiters = {
         \ 'edifact': { 'left': ''' ' }
     \ }
-    "TPlugin nerdcommenter
 
     " Surround
     "map <Leader>' ysiw'
@@ -1739,19 +1716,20 @@ if version >= 702
       endif
     endfunction
 
+    " <F5>
+    "noremap [15~ do]czz
+    "ALT->
+    noremap <silent> . :silent call MergeLeftToRight()<CR>
+    " <F6>
+    "noremap [17~ dp]czz
+    "ALT-<
+    noremap <silent> , :silent call MergeRightToLeft()<CR>
+    
     " if it's a diff
     if &diff
       noremap z [czz
       noremap x ]czz
 
-      " <F5>
-      "noremap [15~ do]czz
-      "ALT->
-      noremap <silent> . :silent call MergeLeftToRight()<CR>
-      " <F6>
-      "noremap [17~ dp]czz
-      "ALT-<
-      noremap <silent> , :silent call MergeRightToLeft()<CR>
     else
       map z :silent cprev<CR>zz
       map x :silent cnext<CR>zz
@@ -1806,7 +1784,18 @@ if version >= 702
     " (http://www.reddit.com/r/vim/comments/wii9v/try_that_xnoremap_expr_p_vregisterpgvyp/)
     vnoremap P "_dP
 
-    " }}} Mappings end
+    "nnoremap x <C-I>
+    "nnoremap z <C-O>
+
+    " Swap two words
+    "nmap <silent> Xp :s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR>`':nohlsearch<CR>
+    nmap <silent> Xp dawwP
+
+    " Underline the current line with '=' or '-'
+    nmap <silent> <Leader>u= :t.\|s/./=/g\|:nohls<cr>
+    nmap <silent> <Leader>u- :t.\|s/./-/g\|:nohls<cr>
+
+  " }}} Mappings end
 
 
   """""""""""""""""""""""""""""""""
@@ -1880,7 +1869,7 @@ if version >= 702
     %s/esponse\nUNH/esponse\r\r\rUNH/
   endfunction
 
-  function DeleteHiddenBuffers()
+  function! DeleteHiddenBuffers()
     let tpbl=[]
     call map(range(1, tabpagenr('$')), 'extend(tpbl, tabpagebuflist(v:val))')
     for buf in filter(range(1, bufnr('$')), 'bufexists(v:val) && index(tpbl, v:val)==-1')
@@ -1913,16 +1902,32 @@ if version >= 702
       exe 'set shellcmdflag='.escape(l:save_shellcmdflag,' ')
       :cf $TMPDIR/$USER/_VIM/scons_errors/scons.err
     endfunction
+
     " F7
-    :noremap [18~ :!~/doc/scripts/kill_scons.sh<CR>
+    noremap [18~ :!~/doc/scripts/kill_scons.sh<CR>
+
+    function! RestartBE()
+      let l:save_shellcmdflag = &shellcmdflag
+      set shellcmdflag=-ic
+      :!~/doc/scripts/restartBEs.sh LINUX AGS_SvrAVL_APE 2>&1 >| $TMPDIR/$USER/_VIM/restart_logs/logs&
+      exe 'set shellcmdflag='.escape(l:save_shellcmdflag,' ')
+      :cf $TMPDIR/$USER/_VIM/restart_logs/logs
+    endfunction
+
     " F9
-    :noremap [20~ :call Scons()<CR>:botright copen<CR>
-    " ATL-F9
-    :noremap [20;3~ :SyntasticCheck<CR>
+    noremap [20~ :call Scons()<CR>:botright copen<CR>
+
+    call EnsureDirExists($TMPDIR.'/'.$USER.'/_VIM/restart_logs')
+    " ALT-F9
+    noremap [20;3~ :call RestartBE()<CR>:botright copen<CR>
+    "noremap [20;3~ :SyntasticCheck<CR>
+
     " F10
-    :noremap <silent> [21~ :silent botright copen<CR>:silent cg $TMPDIR/$USER/_VIM/scons_errors/scons.err<CR>:silent setlocal autoread<CR>G
+    noremap <silent> [21~ :silent botright copen<CR>:silent cg $TMPDIR/$USER/_VIM/scons_errors/scons.err<CR>:silent setlocal autoread<CR>G
+
     " ATL-F10
-    :noremap <silent> [21;3~ :silent botright Errors<CR>
+    noremap <silent> [21;3~ :silent botright copen<CR>:silent cg $TMPDIR/$USER/_VIM/restart_logs/logs<CR>:silent setlocal autoread<CR>G
+    "noremap <silent> [21;3~ :silent botright Errors<CR>
 
     "au FileChangedShellPost * echo "Warning: File changed on disk"
     "au FileType *
@@ -2019,8 +2024,11 @@ if version >= 702
     " ***********************************************
     " Target string is the word under the cursor
     " ***********************************************
-    " Recursive search in file tree 
+    " Recursive search in file tree, NOT whole word ("pattern")
+    "map <silent> <Leader>ss <plug>EgMapGrepCurrentWord_v
+    " WHOLE word ("\<pattern\>")
     nnoremap  <Leader>ss :Rgrep -i \<<C-r><C-w>\> *pp
+    "map <silent> <Leader>sS <plug>EgMapGrepCurrentWord_V
     " Search in open buffers 
     nnoremap  <Leader>ssb :Bgrep -i \<<C-r><C-w>\>
     " Search in files matching the regex, save matching filenames in args
@@ -2032,6 +2040,7 @@ if version >= 702
     " Recursive search in file tree
     vnoremap <Leader>s y:Rgrep -i <C-R>=escape(@",'\\/.*$^~[]')<CR> *pp<Left><Left><Left><Left>
     vnoremap <Leader>ss y:Rgrep -i <C-R>=escape(@",'\\/.*$^~[]')<CR> *pp<Left><Left><Left><Left>
+    "vmap <silent> <Leader>ss <plug>EgMapGrepSelection_v
     " Search in all open files
     vnoremap <Leader>sb y:Bgrep -i <C-R>=escape(@",'\\/.*$^~[]')<CR>
     " Search in files matching the regex, save matching filenames in args
@@ -2067,6 +2076,10 @@ if version >= 702
     nnoremap <Leader>rbb mo[{ma%mb`o:'a,'b s/\<<C-r><C-w>\>//gec<Left><Left><Left><Left>
     " replace in files listed in 'args'
     nnoremap <Leader>rra :argdo %s/\<<C-r><C-w>\>//gec \|up<Left><Left><Left><Left><Left><Left><Left><Left>
+    " replace in ALL files in tree (recursive), NOT whole word ("pattern")
+    map <silent> <Leader>rg <plug>EgMapReplaceCurrentWord_r
+    " WHOLE word ("\<pattern\>")
+    map <silent> <Leader>rG <plug>EgMapReplaceCurrentWord_R
 
     " ***********************************************
     " Target string is the visually selected area
@@ -2080,6 +2093,10 @@ if version >= 702
     vnoremap <Leader>rbb y<C-C>mo[{ma%mb`o:'a,'b s/<C-R>=escape(@",'\\/.*$^~[]')<CR>//gec<Left><Left><Left><Left>
     " replace in files listed in 'args'
     vnoremap <Leader>ra y:argdo %s/<C-R>=escape(@",'\\/.*$^~[]')<CR>//gec \|up<Left><Left><Left><Left><Left><Left><Left><Left>
+    " replace in ALL files in tree (recursive), NOT whole word ("pattern")
+    vmap <silent> <Leader>rg <plug>EgMapGrepSelection_v
+    " WHOLE word ("\<pattern\>")
+    vmap <silent> <Leader>rG <plug>EgMapGrepSelection_V
 
 
     " under_scores to CamelCase:
@@ -2159,13 +2176,55 @@ if version >= 702
   autocmd BufEnter *.play,*.edi,*.edi.log,*.edi.rep,*.rgr,*.gsv,*.gsr,*.gsv.log setf edifact
   
   " Automatic colorization of OTF log files
-  autocmd BufEnter *_otf_be_*,*_otf_fe_*,*_otf_cs*,mon*err*,*_sei_master_* setf tracer
+  autocmd BufEnter *_otf_be_*,*_otf_fe_*,*_otf_cs*,mon*err*,*_sei_master_*,*Svr*,*_Batch_*,*feAPE* setf tracer
   
   " Handle SConstruct and SConscript as python files
   autocmd BufNewFile,BufRead SConstruct* setf python
   autocmd BufNewFile,BufRead SConscript* setf python
 
   autocmd BufEnter .zsh* setf zsh
+
+
+  "-----------------------------------------------------------------------------
+  " Fix constant spelling mistakes
+  "-----------------------------------------------------------------------------
+
+  iab Acheive Achieve
+  iab acheive achieve
+  iab Alos Also
+  iab alos also
+  iab Aslo Also
+  iab aslo also
+  iab Becuase Because
+  iab becuase because
+  iab Bianries Binaries
+  iab bianries binaries
+  iab Bianry Binary
+  iab bianry binary
+  iab Charcter Character
+  iab charcter character
+  iab Charcters Characters
+  iab charcters characters
+  iab Exmaple Example
+  iab exmaple example
+  iab Exmaples Examples
+  iab exmaples examples
+  iab Fone Phone
+  iab fone phone
+  iab Lifecycle Life-cycle
+  iab lifecycle life-cycle
+  iab Lifecycles Life-cycles
+  iab lifecycles life-cycles
+  iab Seperate Separate
+  iab seperate separate
+  iab Seureth Suereth
+  iab seureth suereth
+  iab Shoudl Should
+  iab shoudl should
+  iab Taht That
+  iab taht that
+  iab Teh The
+  iab teh the
 
 " }}}
 

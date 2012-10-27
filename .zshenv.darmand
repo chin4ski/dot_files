@@ -1,22 +1,337 @@
-export CVSROOT=:pserver:NCEDOM+darmand@ncecvsgco:/cvsgco/ngiobe
+# Prompt at end of command line
+autoload colors
+colors
+
+export PS1="$(print '%{\e[0;36m%}%n%{\e[0;37m%}@%{\e[0;36m%}%m%{\e[0m%}'):$(print '%{\e[0;33m%}%~%{\e[0m%}')$ "
+
+export HISTFILE=~/.zsh_history
+export HISTSIZE=100000
+export SAVEHIST=100000
+
+autoload -U compinit compinit
+
+# consider words bash-style
+autoload -U select-word-style
+select-word-style bash
+
+# Vars used later on by zsh
+#export BROWSER=links
+export XTERM="aterm +sb -geometry 80x29 -fg black -bg lightgoldenrodyellow -fn -xos4-terminus-medium-*-normal-*-14-*-*-*-*-*-iso8859-15"
+
+setopt dotglob
+
+##################################################################
+# Stuff to make my life easier
+
+# allow approximate
+zstyle ':completion:*' completer _complete _match _approximate
+zstyle ':completion:*:match:*' original only
+#zstyle ':completion:*:approximate:*' max-errors 1 numeric
+
+# tab completion for PID :D
+zstyle ':completion:*:*:kill:*' menu yes select
+zstyle ':completion:*:kill:*' force-list always
+
+# cd not select parent dir. 
+#zstyle ':completion:*:cd:*' ignore-parents parent pwd
+
+##################################################################
+
+#typeset -g -A key
+#bindkey '^?' backward-delete-char
+#bindkey '^[[1~' beginning-of-line
+bindkey '^[[5~' up-line-or-history
+#bindkey '^[[3~' delete-char
+#bindkey '^[[4~' end-of-line
+bindkey '^[[6~' down-line-or-history
+bindkey '^[[A' up-line-or-search
+#bindkey '^[[D' backward-char
+bindkey '^[[B' down-line-or-search
+#bindkey '^[[C' forward-char 
+bindkey '[1;3C' forward-word
+bindkey '[1;3D' backward-word
+
+setopt SHARE_HISTORY
+setopt APPEND_HISTORY
+
+#bindkey -v               # vi key bindings
+# bindkey -m
+
+# type a directory's name to cd to it.
+# compctl -/ cd
+
+OS_NAME=`uname`
+
+export PAGER=less
+export DISPLAY=ncedarmand:0.0
+
+alias mv='nocorrect mv'
+# alias vim='nocorrect vim'
+# alias vim='nocorrect /data3/ngi/soft/vim-7.2/bin/vim'
+#alias vim='nocorrect ~/doc/vim/vim73/src/vim'
+alias tmux='nocorrect tmux -2'
+#alias t='nocorrect tmux -2'
+alias cp='nocorrect cp'
+alias mkdir='nocorrect mkdir'
+alias cvs='nocorrect cvs -w -q'
+# alias ls='nocorrect ls --color=always'
+alias la='ls -a'
+alias ll='ls -lh --color=always'
+alias grep='grep --exclude "*.os"'
+alias adminc='nocorrect adminc'
+alias view_as_state='~/doc/scripts/view_as_state.sh'
+
+if [[ "$HOST" == "ncegcolnx269" ]]
+then
+  alias vim='nocorrect $HOME/env/bin/vim -u ~/.vim/.vimrc'
+  alias v='vim'
+  alias vimdiff='nocorrect vim -c "windo set wrap" -d'
+  alias gvim='nocorrect gvim'
+elif [[ "$USER" != "darmand" ]] && [[ "$USER" != "apeoncal" ]]
+then
+  alias vim='nocorrect vim -u ~/.vim/.vimrc'
+  alias v='vim'
+  alias vimdiff='nocorrect vim -c "windo set wrap" -d'
+  alias gvim='nocorrect gvim'
+else
+  alias vim='nocorrect vim'
+  alias v='nocorrect vim'
+  alias vimdiff='nocorrect vim -c "windo set wrap" -d'
+  alias gvim='nocorrect gvim'
+fi
+
+alias view='vim -R'
+alias svim='nocorrect svim'
+alias vc='vim -c ":SessionOpen _LAST_SESSION_"'
+alias g='~/doc/scripts/g'
+alias gl='~/doc/scripts/gl'
+alias gv='~/doc/scripts/gv'
+alias dv='~/doc/scripts/cvs_diff_to_vim.sh'
+alias vd='~/doc/scripts/vimdiff_input_file.zsh'
+alias vdc='~/doc/scripts/vimdiff_modified_files.sh'
+alias vod='~/doc/scripts/open_modified_files.zsh'
+alias voc='~/doc/scripts/open_conflicting_files.sh'
+alias vd2='~/doc/scripts/vimdiff_between_to_dir.sh'
+
+if [[ "$USER" == "darmand" ]]
+then
+  export EDITOR="$HOME/env/bin/vim -u ~/.vim/.vimrc"
+else
+  export EDITOR="v -u ~/.vim/.vimrc"
+fi
+# export VIMRUNTIME=/remote/users2/darmand/.vim
+#export VIMRUNTIME=/remote/users2/darmand/doc/vim/vim73/runtime
+export CSCOPE_DB=""
+# export CSCOPE_DB=/remote/users2/darmand/doc/cscope.out
+
+
+alias cdr='cd ~/regression'
+alias cdreg='cd ~/regression'
+
+alias cdt='cd /gctmp/darmand/'
+
+alias cdaah='cd ~/ngi_1/src/aah'
+alias cdaam='cd ~/ngi_1/src/aam'
+alias cdacb='cd ~/ngi_1/src/acb'
+alias cdace='cd ~/ngi_1/src/ace'
+alias cdacm='cd ~/ngi_1/src/acm'
+alias cdacp='cd ~/ngi_1/src/acp'
+alias cdags='cd ~/ngi_1/src/ags'
+alias cdagw='cd ~/ngi_1/src/agw'
+alias cdbcg='cd ~/ngi_1/src/bcg'
+alias cdbrc='cd ~/ngi_1/src/brc'
+alias cdodc='cd ~/ngi_1/src/odc'
+alias cdegh='cd ~/ngi_1/src/egh'
+alias cdfsp='cd ~/ngi_1/src/fsp'
+alias cdfvp='cd ~/ngi_1/src/fvp'
+alias cdcom='cd ~/ngi_1/src/com'
+alias cdneg='cd ~/ngi_1/src/neg'
+alias cdgdm='cd ~/ngi_1/gdmpacks'
+alias cddb='cd ~/ngi_1/dbschema'
+alias cde='cd ~/ngi_1/etc'
+alias cds='cd ~/ngi_1/src'
+alias cdn='cd ~/ngi_1'
+
+#alias vim='/remote/users2/darmand/doc/vim/vim72/src/vim -g -font 6x13'
+alias ctags='/remote/users2/darmand/ctags_5.7/ctags-5.7/ctags'
+
+set background=light
+
+unset ENABLE_JOBMANAGER;
+unset BM_ACCOUNT;
+
+ulimit -c unlimited 
+
+# Disable <C-S> key, which freezes the terminal (you can use <C-Q> to unfreez>)
+stty -ixon
+
+export CVSREAD=0
+
+# export PAGER="vim -"
+# export MANPAGER="vim -c '%!col -b' -c 'set ft=man nomod nolist' -c 'set nomodifiable' -"
+
 
 # if [[ "$HOST" == "ncegcolnx152" ]]
 # then
-#   echo "Applying zshenv APE config ..."
-  source /projects/apedev/etc/zshenv.ape
+#   echo "Applying zshrc APE config ..."
+  alias apeConnect='~darmand/tools/shell/apeConnect'
+  alias golog='cd $HOME/ama/obe/REG/ape/com/log'
+  alias cdlog='cd $HOME/ama/obe/REG/ape/com/log'
+  alias cdcore='cd $HOME/ama/obe/SLS'
+  alias gocore='cd $HOME/ama/obe/SLS'
+  alias goabr='cd $HOME/ama/obe/REG/ape/com/data/abr'
+  alias start_otf='nocorrect start_otf'
+#   alias scons="scons appname=APE custom_builddir=/gctmp/$USERNAME/obj obedelpath=/gctmp/$USERNAME/obetar installpath=/gctmp/$USERNAME/deliveries"
+#alias scons='scons mwreppath=/gctmp/darmand/replicate ngireppath=/gctmp/darmand/replicate custom_builddir=/gctmp/darmand/'
+#alias scons='sh ~/scons_script.sh'
+# alias scons='scons'
+#alias scons='~/doc/scripts/scons.sh'
+  #alias scons="scons appname=APE custom_builddir=/gctmp/$USERNAME/obj installpath=/gctmp/$USERNAME/deliveries obedelpath=/gctmp/$USERNAME/obetar"
+  alias scons="scons appname=APE custom_builddir=/gctmp/$USERNAME/obj obedelpath=/gctmp/$USERNAME/obetar"
+  export ECLIPSE_HOME="/gcmtmp/darmand"
+  export PATH=$PATH:$HOME/doc/scripts
+  export PATH=$PATH:$HOME/curl/usr/local/bin
+  export PATH=$PATH:/data3/ngi/soft/git-1.7.1.1/bin
+
+  export BIN=$BIN:/projects/ngi/bin
+  export BIN=$BIN:$HOME/env/bin
+  #export BIN=$BIN:$HOME/doc/vim/vim73/src
+  #export BIN=$BIN:$HOME/doc/global-6.1/global
+  #export BIN=$BIN:$HOME/doc/global-6.1/gtags
+  #export BIN=$BIN:$HOME/doc/global-6.1/gtags-cscope
+  #export BIN=$BIN:$HOME/doc/global-6.1/gozilla
+  #export BIN=$BIN:$HOME/doc/global-6.1/htags
+  export PATH=$PATH:$BIN
+
+  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/env/lib
+  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib64/engines/
+
+
+  # tmux stuff
+
+  #function __set_title()
+  #{
+    #if [ ! -z $INSCREEN ] ; then
+      #echo -ne "\033k$t_prefix$@\033\\"
+    #fi
+  #}
+
+#if [[ -n "$SSH_CONNECTION" ]] && [[ "$TERM" =~ "screen" ]] && [[ -z "$TMUX" ]]; then
+    #export INSCREEN=yes
+    #dTITLE=$sHost
+    #t_prefix="$dTITLE: "
+    #__set_title
+#fi
+  #setopt PROMPT_SUBST
+  #RPROMPT=''
+
+  #case "$TERM" in
+    #screen*)
+      #precmd () {
+        #PROMPT_COMMAND="printf '\033k$(hostname -s)\033\\';"${PROMPT_COMMAND}
+        #print -Pn "printf '\033k$(hostname -s)\033\\';"
+      #}
+      #;;
+  #esac
+
+
+  # 2011-10-19: tmux shortcut for creating/attaching named sessions
+  t() {
+    [[ -z "$1" ]] && { echo "usage: t <session>" >&2; return 1; }
+    printf '\033]0;%s\007' $1 
+    tmux has -t $1 && tmux attach -t $1 || tmux new -s $1
+  }
+
+if [[ "$USER" == "darmand" ]]
+then
+  # 2011-10-19
+  # stolen from completion function _tmux
+  function __tmux-sessions() {
+  local expl
+  local -a sessions
+  sessions=( ${${(f)"$(command tmux list-sessions)"}/:[ $'\t']##/:} )
+  _describe -t sessions 'sessions' sessions "$@"
+  }
+  compdef __tmux-sessions t
+fi
+
 #else
-  #echo "Applying zshenv APL config ..."
-  #export USER_PACKAGE=inv
+  #echo "Applying zshrc APL config ..."
+  #export PATH=/data/ngi/ngidelde/bin:/opt/gcc-4.3.2/bin:/bin:/usr/X11R6/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/projects/ngi/bin:/projects/ngi/local/Linux/bin:/projects/onede/release/bin:.
+  #export PATH=$PATH:/usr/X11/bin
+  #export PATH=$PATH:/projects/ngi/bin
+  #export PATH=$PATH:$HOME/doc/scripts
+  #export PATH=$PATH:/projects/seidelde/sisup_env/tools
+  #export PATH=$PATH:/projects/seidelde/ConfigTools/ConfigTools
+  #export PATH=$PATH:/nastools/gqlplus/bin
+  ## export PATH=$PATH:/nastools/java/bin:/nastools/python64/bin
+  #export PATH=$PATH:/nastools/valgrind/bin
+  #export PATH=$PATH:/nastools/cscope/bin
+  #export PATH=$PATH:$HOME/bin
+  ## export PYTHONPATH=/projects/seidelde/ConfigTools:$PYTHONPATH
+
+  #alias cdlog='cd ~/ngi_1/com/log'
+
+  ## export LD_LIBRARY_PATH=/softs/oracle/9.2.0.7/lib:/softs/oracle/9.2.0.7/lib64:$LD_LIBRARY_PATH
+  #export LD_LIBRARY_PATH=~avlreg/PFX/current/lib:$LD_LIBRARY_PATH
+  #export LD_LIBRARY_PATH=$HOME/PFX_cache/lib/:$LD_LIBRARY_PATH
+  #export LD_LIBRARY_PATH=/data3/ngi/soft/lib64/:$LD_LIBRARY_PATH
+
+  ## export LD_LIBRARY_PATH=$ORACLE_HOME/lib64:$LD_LIBRARY_PATH
+
+  ## ABR cache
+  #export LD_LIBRARY_PATH=/remote/mw/msgdelde/ABRCache/10-4-4-0/lib/Linux2-6_64/MultiThread/Debug/g++_3_4_2/:$LD_LIBRARY_PATH
+  #export LD_LIBRARY_PATH=/remote/mw/msgdelde/ABRCache/10-4-5-0/lib/Linux2-6_64/MultiThread/Debug/g++_3_4_2/:$LD_LIBRARY_PATH
+  #export LD_LIBRARY_PATH=/remote/mw/msgdelde/ABRCache/10-4-6-0/lib/Linux2-6_64/MultiThread/Debug/g++_3_4_2/:$LD_LIBRARY_PATH
+  #export LD_LIBRARY_PATH=/projects/mwdeldev/MWPack/1-9-10-3/bin/Linux2-6_64/MultiThread/Release/g++_4_3_2/:$LD_LIBRARY_PATH
+
+  ##temp
+  ## export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/data/ngi/ngidelde/replicate/mwdeldev/Cache/2-9-4-0/lib/Linux2-6_64/MultiThread/Debug/g++_3_4_2
+  ## export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/data/ngi/ngidelde/replicate/mwdeldev/ABRClient/1-0-22-0/lib/Linux2-6_64/MultiThread/Release/g++_3_4_2
+  ## export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/projects/mwdeldev/ABRCache/10-1-3-0/lib/Linux2-6_64/MultiThread/Debug/g++_3_4_2
+
+  #export AMD_ROOT_DIR=/data/ngi/ngidelde/replicate/mwdeldev 
+  #export NGIPACK_BASE_DIR=/data/ngi/ngidelde
+
+  #export SCONSFLAGS="--site-dir=/data/ngi/ngidelde/NGIBuild/site_scons"
+  #export ECLIPSE_HOME="/gcmtmp/darmand"
+
+  ## GCC 4
+  #export ICECC_CXX=/opt/gcc-4.3.2/bin/g++
+  #export ICECC_CC=/opt/gcc-4.3.2/bin/gcc
+  #export PATH_FOR_BUILD=/opt/gcc-4.3.2/bin:$PATH
+
+  ## GCC 3
+  ## export ICECC_CXX=/opt/gcc-3.4.2/bin/g++
+  ## export ICECC_CC=/opt/gcc-3.4.2/bin/gcc
+  ## export PATH_FOR_BUILD=/opt/gcc-3.4.2/bin:$PATH
+  ## export ICECC_VERSION=/data/ngi/ngidelde/icecc/gcc-3.4.2.tar.gz
+  ## export LD_LIBRARY_PATH_FOR_BUILD=/opt/gcc-3.4.2/lib64:$LD_LIBRARY_PATH
+
+  ## export ICECC_VERSION=/projects/ngi/local/Linux/icecc/x86_64-3.4.2.tar.gz
+  ## export ICECC_VERSION=/data/ngi/ngidelde/icecc/x86_64-3.4.2.tar.gz
+  ## export ICECC_CC=/data/ngi/ngidelde/gcc-3.4.2/bin/gcc
+  ## export ICECC_CXX=/data/ngi/ngidelde/gcc-3.4.2/bin/g++
   ## export ICECC_CC=/opt/gcc-3.4.2/bin/gcc
   ## export ICECC_CXX=/opt/gcc-3.4.2/bin/g++
-  #export PATH=/data/ngi/ngidelde/bin:$PATH
-  #export ORACLE_SID=db07a10
-  #export TWO_TASK=db07a10ls
-#fi
 
-export BIN=$BIN:$HOME/doc/global-6.1/global
-export BIN=$BIN:$HOME/doc/global-6.1/gtags
-export BIN=$BIN:$HOME/doc/global-6.1/gtags-cscope
-export BIN=$BIN:$HOME/doc/global-6.1/gozilla
-export BIN=$BIN:$HOME/doc/global-6.1/htags
-export PATH=$PATH:$BIN
+  #unset LD_RUN_PATH
+  #unset BM_ACCOUNT
+  ## unset PYTHONHOME
+
+  ## Oracle
+  ## 9iR2-7
+  ## export ORACLE_HOME=/softs/oracle/9.2.0.7
+  #export PATH=${ORACLE_HOME}/bin:${PATH}
+  ## export LD_LIBRARY_PATH=${ORACLE_HOME}/lib:${LD_LIBRARY_PATH}
+  ## export ORALOGS=/softs/oracle/databases/oradata/920/NGI/ngilog/udump/
+  ## export TNS_ADMIN=/softs/oracle/etc
+  ## export TWO_TASK=NGIls
+  #export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ORACLE_HOME/lib
+
+  #alias osm='java -jar ~onede/release/java/osm.jar'
+
+  #export PATH=/data/ngi/ngidelde/bin:$PATH:/nastools/ddd/bin
+
+  #alias scons='/opt/scons-1.2.0/bin/scons'
+#fi 
