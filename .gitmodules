@@ -94,3 +94,6 @@
 [submodule ".vim/bundle/nerdcommenter"]
 	path = .vim/bundle/nerdcommenter
 	url = https://github.com/scrooloose/nerdcommenter
+[submodule ".vim/bundle/CVSconflict"]
+	path = .vim/bundle/CVSconflict
+	url = https://github.com/vim-scripts/CVSconflict.git
