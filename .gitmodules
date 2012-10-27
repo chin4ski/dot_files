@@ -97,3 +97,9 @@
 [submodule ".vim/bundle/CVSconflict"]
 	path = .vim/bundle/CVSconflict
 	url = https://github.com/vim-scripts/CVSconflict.git
+[submodule ".vim/bundle/DirDiff"]
+	path = .vim/bundle/DirDiff
+	url = https://github.com/vim-scripts/DirDiff.vim.git
+[submodule ".vim/bundle/DoxygenToolkit"]
+	path = .vim/bundle/DoxygenToolkit
+	url = https://github.com/vim-scripts/DoxygenToolkit.vim.git
