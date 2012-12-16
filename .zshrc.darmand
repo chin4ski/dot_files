@@ -87,7 +87,8 @@ else
   alias gvim='nocorrect gvim'
 fi
 
-export EDITOR="$HOME/env/bin/vim -u ~/.vim/.vimrc"
+#export EDITOR="$HOME/env/bin/vim -u ~/.vim/.vimrc"
+export EDITOR="vim"
 export CSCOPE_DB=""
 # export CSCOPE_DB=/remote/users2/darmand/doc/cscope.out
 
