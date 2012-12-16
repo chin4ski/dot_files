@@ -386,8 +386,7 @@ if version >= 702
   " Color settings, highlights, visual {{{
 
   colorscheme bandit
-  "colorscheme davide
-  set background=light
+  set background=dark
 
   " This makes Vim show invisible characters with the same characters that
   " TextMate uses. You might need to adjust your color scheme so they.re not
