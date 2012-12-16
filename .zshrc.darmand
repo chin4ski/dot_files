@@ -138,76 +138,45 @@ export CVSREAD=0
 # export MANPAGER="vim -c '%!col -b' -c 'set ft=man nomod nolist' -c 'set nomodifiable' -"
 
 
-# if [[ "$HOST" == "ncegcolnx152" ]]
-# then
-#   echo "Applying zshrc APE config ..."
-  alias apeConnect='~darmand/tools/shell/apeConnect'
-  alias golog='cd $HOME/ama/obe/REG/ape/com/log'
-  alias cdlog='cd $HOME/ama/obe/REG/ape/com/log'
-  alias cdcore='cd $HOME/ama/obe/SLS'
-  alias gocore='cd $HOME/ama/obe/SLS'
-  alias goabr='cd $HOME/ama/obe/REG/ape/com/data/abr'
-  alias start_otf='nocorrect start_otf'
+alias apeConnect='~darmand/tools/shell/apeConnect'
+alias golog='cd $HOME/ama/obe/REG/ape/com/log'
+alias cdlog='cd $HOME/ama/obe/REG/ape/com/log'
+alias cdcore='cd $HOME/ama/obe/SLS'
+alias gocore='cd $HOME/ama/obe/SLS'
+alias goabr='cd $HOME/ama/obe/REG/ape/com/data/abr'
+alias start_otf='nocorrect start_otf'
 #   alias scons="scons appname=APE custom_builddir=/gctmp/$USERNAME/obj obedelpath=/gctmp/$USERNAME/obetar installpath=/gctmp/$USERNAME/deliveries"
 #alias scons='scons mwreppath=/gctmp/darmand/replicate ngireppath=/gctmp/darmand/replicate custom_builddir=/gctmp/darmand/'
 #alias scons='sh ~/scons_script.sh'
 # alias scons='scons'
 #alias scons='~/doc/scripts/scons.sh'
-  #alias scons="scons appname=APE custom_builddir=/gctmp/$USERNAME/obj installpath=/gctmp/$USERNAME/deliveries obedelpath=/gctmp/$USERNAME/obetar"
-  alias scons="scons appname=APE custom_builddir=/gctmp/$USERNAME/obj obedelpath=/gctmp/$USERNAME/obetar"
-  export ECLIPSE_HOME="/gcmtmp/darmand"
-  export PATH=$PATH:$HOME/doc/scripts
-  export PATH=$PATH:$HOME/curl/usr/local/bin
-  export PATH=$PATH:/data3/ngi/soft/git-1.7.1.1/bin
+#alias scons="scons appname=APE custom_builddir=/gctmp/$USERNAME/obj installpath=/gctmp/$USERNAME/deliveries obedelpath=/gctmp/$USERNAME/obetar"
+alias scons="scons appname=APE custom_builddir=/gctmp/$USERNAME/obj obedelpath=/gctmp/$USERNAME/obetar"
+export ECLIPSE_HOME="/gcmtmp/darmand"
+export PATH=$PATH:$HOME/doc/scripts
+export PATH=$PATH:$HOME/curl/usr/local/bin
+export PATH=$PATH:/data3/ngi/soft/git-1.7.1.1/bin
 
-  export BIN=$BIN:/projects/ngi/bin
-  export BIN=$BIN:$HOME/env/bin
-  #export BIN=$BIN:$HOME/doc/vim/vim73/src
-  #export BIN=$BIN:$HOME/doc/global-6.1/global
-  #export BIN=$BIN:$HOME/doc/global-6.1/gtags
-  #export BIN=$BIN:$HOME/doc/global-6.1/gtags-cscope
-  #export BIN=$BIN:$HOME/doc/global-6.1/gozilla
-  #export BIN=$BIN:$HOME/doc/global-6.1/htags
-  export PATH=$PATH:$BIN
+export BIN=$BIN:/projects/ngi/bin
+export BIN=$BIN:$HOME/env/bin
+#export BIN=$BIN:$HOME/doc/vim/vim73/src
+#export BIN=$BIN:$HOME/doc/global-6.1/global
+#export BIN=$BIN:$HOME/doc/global-6.1/gtags
+#export BIN=$BIN:$HOME/doc/global-6.1/gtags-cscope
+#export BIN=$BIN:$HOME/doc/global-6.1/gozilla
+#export BIN=$BIN:$HOME/doc/global-6.1/htags
+export PATH=$PATH:$BIN
 
-  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/env/lib
-  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib64/engines/
-
-
-  # tmux stuff
-
-  #function __set_title()
-  #{
-    #if [ ! -z $INSCREEN ] ; then
-      #echo -ne "\033k$t_prefix$@\033\\"
-    #fi
-  #}
-
-#if [[ -n "$SSH_CONNECTION" ]] && [[ "$TERM" =~ "screen" ]] && [[ -z "$TMUX" ]]; then
-    #export INSCREEN=yes
-    #dTITLE=$sHost
-    #t_prefix="$dTITLE: "
-    #__set_title
-#fi
-  #setopt PROMPT_SUBST
-  #RPROMPT=''
-
-  #case "$TERM" in
-    #screen*)
-      #precmd () {
-        #PROMPT_COMMAND="printf '\033k$(hostname -s)\033\\';"${PROMPT_COMMAND}
-        #print -Pn "printf '\033k$(hostname -s)\033\\';"
-      #}
-      #;;
-  #esac
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/env/lib
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib64/engines/
 
 
-  # 2011-10-19: tmux shortcut for creating/attaching named sessions
-  t() {
-    [[ -z "$1" ]] && { echo "usage: t <session>" >&2; return 1; }
-    printf '\033]0;%s\007' $1 
-    tmux has -t $1 && tmux attach -t $1 || tmux new -s $1
-  }
+# 2011-10-19: tmux shortcut for creating/attaching named sessions
+t() {
+  [[ -z "$1" ]] && { echo "usage: t <session>" >&2; return 1; }
+  printf '\033]0;%s\007' $1 
+  tmux has -t $1 && tmux attach -t $1 || tmux new -s $1
+}
 
 if [[ "$USER" != "apeoncal" ]]; then
   # 2011-10-19
@@ -222,6 +191,6 @@ if [[ "$USER" != "apeoncal" ]]; then
 fi
 
 
-if [[ -f /.zshrc.home ]]; then
+if [[ -f ~/.zshrc.home ]]; then
   source ~/.zshrc.home
 fi
