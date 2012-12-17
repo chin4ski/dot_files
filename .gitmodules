@@ -37,9 +37,6 @@
 [submodule ".vim/bundle/neocomplcache"]
 	path = .vim/bundle/neocomplcache
 	url = https://github.com/Shougo/neocomplcache
-[submodule ".vim/bundle/neocomplcache-snippets-complete"]
-	path = .vim/bundle/neocomplcache-snippets-complete
-	url = https://github.com/Shougo/neocomplcache-snippets-complete
 [submodule ".vim/bundle/vimproc"]
 	path = .vim/bundle/vimproc
 	url = https://github.com/Shougo/vimproc
@@ -130,3 +127,6 @@
 [submodule ".vim/bundle/aftersyntaxc"]
 	path = .vim/bundle/aftersyntaxc
 	url = https://github.com/vim-scripts/aftersyntaxc.vim.git
+[submodule ".vim/bundle/neosnippet"]
+	path = .vim/bundle/neosnippet
+	url = https://github.com/Shougo/neosnippet.git
