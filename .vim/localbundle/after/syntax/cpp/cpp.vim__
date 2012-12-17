@@ -1,4 +1,0 @@
-" davide
-syntax match cppFuncDef "::\~\?\zs\h\w*\ze([^)]*\()\s*\(const\)\?\)\?"
-"syntax match cppFuncDef "CmdProcessNEGFlightSelection"
-hi cppFuncDef ctermfg=146 cterm=Underline
