@@ -54,11 +54,9 @@ if version >= 702
   Bundle 'a'
   Bundle 'taghighlight'
   Bundle 'aftersyntax'
-  Bundle 'aftersyntaxc.vim'
   Bundle 'ape_syntax'
-  Bundle 'asyncfinder.vim'
   Bundle 'bandit'
-  Bundle 'coderifous-textobj-word-column.vim-69c30da'
+  Bundle 'textobj-word-column'
   Bundle 'cpp_stuff'
   Bundle 'current-func-info'
   Bundle 'enter-indent'
@@ -67,7 +65,7 @@ if version >= 702
   Bundle 'grep'
   Bundle 'gtags'
   Bundle 'undotree'
-  Bundle 'ctrlp.vim'
+  Bundle 'ctrlp'
   Bundle 'mark'
   Bundle 'marvim'
   Bundle 'matchit'
@@ -83,18 +81,18 @@ if version >= 702
   Bundle 'tabbar'
   Bundle 'themes'
   Bundle 'tpope-vim-surround-1a73f60'
-  Bundle 'vcscommand.vim'
+  Bundle 'vcscommand'
   Bundle 'vimball'
   Bundle 'vimproc'
   Bundle 'xml'
   Bundle 'xterm-color-table'
   Bundle 'yankring_140'
   Bundle 'vim-orgmode'
-  Bundle 'errormarker.vim'
+  Bundle 'errormarker'
   Bundle 'EasyGrep'
   Bundle 'vim-repeat'
 
-  Bundle 'localbundle.vim'
+  Bundle 'localbundle'
   call localbundle#init()
 
   if !isdirectory(g:dot_vim_dir.'/localbundle')
@@ -137,52 +135,6 @@ if version >= 702
   "call neobundle#rc(expand('/remote/users2/$USER/.vim/bundle/'))
 
   "NeoBundle 'CVSconflict'
-  "NeoBundle 'C_Syntax_Extensions'
-  "NeoBundle 'ColorSamplerPack'
-  "NeoBundle 'DirDiff'
-  "NeoBundle 'DoxygenToolkit'
-  "NeoBundle 'IndexedSearch'
-  "NeoBundle 'MatchTag'
-  "NeoBundle 'Shougo-neobundle.vim-91b483e'
-  "NeoBundle 'Shougo-neocomplcache-0f8c31b'
-  "NeoBundle 'Shougo-neocomplcache-snippets-complete-35a112d'
-  "NeoBundle 'Shougo-vimproc-f6e6484'
-  "NeoBundle 'SwapExistsDiff'
-  "NeoBundle 'a'
-  "NeoBundle 'abudden-taghighlight-f58e4fd24d1e'
-  "NeoBundle 'aftersyntax'
-  "NeoBundle 'ape_syntax'
-  "NeoBundle 'asyncfinder.vim'
-  "NeoBundle 'bandit'
-  "NeoBundle 'coderifous-textobj-word-column.vim-69c30da'
-  "NeoBundle 'cpp_stuff'
-  "NeoBundle 'current-func-info'
-  "NeoBundle 'enter-indent'
-  "NeoBundle 'exjumplist'
-  "NeoBundle 'file_line'
-  "NeoBundle 'grep'
-  "NeoBundle 'gtags'
-  "NeoBundle 'gundo'
-  "NeoBundle 'kien-ctrlp.vim-8820dec'
-  "NeoBundle 'mark'
-  "NeoBundle 'marvim'
-  "NeoBundle 'matchit'
-  "NeoBundle 'nathanaelkane-vim-indent-guides-5bc809d'
-  "NeoBundle 'nerdcommenter'
-  "NeoBundle 'powerline'
-  "NeoBundle 'quickfixsigns'
-  "NeoBundle 'rename'
-  "NeoBundle 'scratch'
-  "NeoBundle 'sessionman'
-  "NeoBundle 'swap_word'
-  "NeoBundle 'tabbar'
-  "NeoBundle 'themes'
-  "NeoBundle 'tpope-vim-surround-1a73f60'
-  "NeoBundle 'vcscommand'
-  "NeoBundle 'vimball'
-  "NeoBundle 'xml'
-  "NeoBundle 'xterm-color-table'
-  "NeoBundle 'yankring_140'
 
   "filetype plugin indent on     " Required!
 
@@ -787,19 +739,19 @@ if version >= 702
 "    let g:DoxygenToolkit_paramTag_pre="\param " 
 "    let g:DoxygenToolkit_returnTag="\returns   "
 
-    " grep.vim
+    " grep
     let Grep_Skip_Dirs = 'RCS CVS SCCS objLinux64Rel objLinux64Dbg L64D342 L64R342 deliveries'
     let Grep_Skip_Files = '*~ *,v s.* *.os .*.swp core.* .#* vim.err build.log'
 
-    " sessionma.vim
+    " sessionma
     let sessionman_save_on_exit = 1
 
-    " a.vim (switch between hpp and cpp)
+    " 'a' ('alternate') plugin (switch between hpp and cpp)
     let g:alternateNoDefaultAlternate = 1
     let g:alternateSearchPath = 'reg:|src/\([^/]*\)/.*|src/\1/include/\1||,reg:|src/\([^/]*\)/.*|src/\1/entry||,reg:|src/\([^/]*\)/.*|src/\1/command||,reg:|src/\([^/]*\)/.*|src/\1/basic||,reg:|src/\([^/]*\)/.*|src/\1/field||,reg:|src/\([^/]*\)/.*|src/\1/gdminterface||,reg:|src/\([^/]*\)/.*|src/\1/msgencoder||,reg:|src/\([^/]*\)/.*|src/\1/msginterface||,reg:|src/\([^/]*\)/.*|src/\1/test||,reg:|src/\([^/]*\)/.*|src/\1/server||,reg:|src/\([^/]*\)/.*|src/\1/proxy_core||,reg:|src/\([^/]*\)/.*|src/\1/common||,reg:|src/\([^/]*\)/.*|src/\1/dbadaptor||,reg:|src/\([^/]*\)/.*|src/\1/dbrequest||,reg:|src/\([^/]*\)/.*|src/\1/bointerface||,reg:|src/\([^/]*\)/.*|src/\1/factory||,reg:|src/\([^/]*\)/.*|src/\1/bom||'
 
 
-    " neocomplcache.vim"{{{
+    " neocomplcache"{{{
 
         " Use neocomplcache.
         let g:neocomplcache_enable_at_startup = 1
@@ -980,7 +932,7 @@ if version >= 702
     " than to dd and cc (which is already done by yy):
 
 
-    " Mark : moved to mark.vim
+    " Mark : moved to mark
     "hi MarkWord1  ctermbg=Green       ctermfg=White
     "hi MarkWord2  ctermbg=darkcyan    ctermfg=white
     "hi MarkWord3  ctermbg=brown       ctermfg=white
@@ -1000,7 +952,7 @@ if version >= 702
     "let g:EnhCommentifyUserBindings = 'no'
     "let g:EnhCommentifyUserMode = 'yes'
     
-    " xml.vim
+    " xml
     let g:xml_syntax_folding = 1
     "au FileType xml setlocal foldmethod=syntax
     "set foldmethod=syntax
@@ -1526,7 +1478,7 @@ if version >= 702
           \ }
 
     " matcher for ctrlP 
-    let g:path_to_matcher = g:dot_vim_dir.'/bundle/ctrlp.vim/matcher'
+    let g:path_to_matcher = g:dot_vim_dir.'/bundle/ctrlp/matcher'
 
     "let g:ctrlp_user_command = {
           "\ 'types': {
@@ -1559,10 +1511,6 @@ if version >= 702
 
     endfunction
     let g:ctrlp_match_func = { 'match': 'g:GoodMatch' }
-
-    " tplugin
-    "TPlugin kien-ctrlp.vim-8820dec
-
 
     " Correct typos..
     command! -bang E e<bang>
