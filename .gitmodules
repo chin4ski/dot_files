@@ -130,3 +130,6 @@
 [submodule ".vim/bundle/neosnippet"]
 	path = .vim/bundle/neosnippet
 	url = https://github.com/Shougo/neosnippet.git
+[submodule ".vim/bundle/vcscommand"]
+	path = .vim/bundle/vcscommand
+	url = git://repo.or.cz/vcscommand.git
