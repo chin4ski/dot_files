@@ -7,21 +7,9 @@
 [submodule ".vim/bundle/IndexedSearch"]
 	path = .vim/bundle/IndexedSearch
 	url = https://github.com/vim-scripts/IndexedSearch
-[submodule ".vim/bundle/bandit.vim"]
-	path = .vim/bundle/bandit.vim
-	url = https://github.com/vim-scripts/bandit.vim
-[submodule ".vim/bundle/a.vim"]
-	path = .vim/bundle/a.vim
-	url = https://github.com/vim-scripts/a.vim
 [submodule ".vim/bundle/Enter-Indent"]
 	path = .vim/bundle/Enter-Indent
 	url = https://github.com/vim-scripts/Enter-Indent
-[submodule ".vim/bundle/grep.vim"]
-	path = .vim/bundle/grep.vim
-	url = https://github.com/vim-scripts/grep.vim
-[submodule ".vim/bundle/gtags.vim"]
-	path = .vim/bundle/gtags.vim
-	url = https://github.com/vim-scripts/gtags.vim
 [submodule ".vim/bundle/marvim"]
 	path = .vim/bundle/marvim
 	url = https://github.com/vim-scripts/marvim
@@ -31,9 +19,6 @@
 [submodule ".vim/bundle/Rename2"]
 	path = .vim/bundle/Rename2
 	url = https://github.com/vim-scripts/Rename2
-[submodule ".vim/bundle/sessionman.vim"]
-	path = .vim/bundle/sessionman.vim
-	url = https://github.com/vim-scripts/sessionman.vim
 [submodule ".vim/bundle/TabBar"]
 	path = .vim/bundle/TabBar
 	url = https://github.com/vim-scripts/TabBar
@@ -43,24 +28,9 @@
 [submodule ".vim/bundle/MatchTag"]
 	path = .vim/bundle/MatchTag
 	url = https://github.com/gregsexton/MatchTag
-[submodule ".vim/bundle/textobj-word-column.vim"]
-	path = .vim/bundle/textobj-word-column.vim
-	url = https://github.com/coderifous/textobj-word-column.vim
-[submodule ".vim/bundle/current-func-info.vim"]
-	path = .vim/bundle/current-func-info.vim
-	url = https://github.com/tyru/current-func-info.vim
 [submodule ".vim/bundle/file-line"]
 	path = .vim/bundle/file-line
 	url = https://github.com/bogado/file-line
-[submodule ".vim/bundle/gundo.vim"]
-	path = .vim/bundle/gundo.vim
-	url = https://github.com/sjl/gundo.vim
-[submodule ".vim/bundle/ctrlp.vim"]
-	path = .vim/bundle/ctrlp.vim
-	url = https://github.com/kien/ctrlp.vim
-[submodule ".vim/bundle/localbundle.vim"]
-	path = .vim/bundle/localbundle.vim
-	url = https://github.com/Rykka/localbundle.vim
 [submodule ".vim/bundle/vim-indent-guides"]
 	path = .vim/bundle/vim-indent-guides
 	url = https://github.com/nathanaelkane/vim-indent-guides
@@ -115,18 +85,45 @@
 [submodule ".vim/bundle/undotree"]
 	path = .vim/bundle/undotree
 	url = https://github.com/mbbill/undotree.git
-[submodule ".vim/bundle/vcscommand"]
-	path = .vim/bundle/vcscommand
-	url = git://repo.or.cz/vcscommand
 [submodule ".vim/bundle/vim-repeat"]
 	path = .vim/bundle/vim-repeat
 	url = https://github.com/tpope/vim-repeat.git
-[submodule ".vim/bundle/xml.vim"]
-	path = .vim/bundle/xml.vim
-	url = https://github.com/othree/xml.vim.git
-[submodule ".vim/bundle/xterm-color-table.vim"]
-	path = .vim/bundle/xterm-color-table.vim
-	url = https://github.com/guns/xterm-color-table.vim.git
 [submodule ".vim/bundle/vim-yankstack"]
 	path = .vim/bundle/vim-yankstack
 	url = https://github.com/maxbrunsfeld/vim-yankstack.git
+[submodule ".vim/bundle/grep"]
+	path = .vim/bundle/grep
+	url = https://github.com/vim-scripts/grep.vim.git
+[submodule ".vim/bundle/gtags"]
+	path = .vim/bundle/gtags
+	url = https://github.com/vim-scripts/gtags.vim.git
+[submodule ".vim/bundle/matchit"]
+	path = .vim/bundle/matchit
+	url = https://github.com/vim-scripts/matchit.zip.git
+[submodule ".vim/bundle/sessionman"]
+	path = .vim/bundle/sessionman
+	url = https://github.com/vim-scripts/sessionman.vim.git
+[submodule ".vim/bundle/textobj-word-column"]
+	path = .vim/bundle/textobj-word-column
+	url = https://github.com/coderifous/textobj-word-column.vim.git
+[submodule ".vim/bundle/current-func-info"]
+	path = .vim/bundle/current-func-info
+	url = https://github.com/tyru/current-func-info.vim.git
+[submodule ".vim/bundle/gundo"]
+	path = .vim/bundle/gundo
+	url = https://github.com/sjl/gundo.vim.git
+[submodule ".vim/bundle/ctrlp"]
+	path = .vim/bundle/ctrlp
+	url = https://github.com/kien/ctrlp.vim.git
+[submodule ".vim/bundle/localbundle"]
+	path = .vim/bundle/localbundle
+	url = https://github.com/Rykka/localbundle.vim.git
+[submodule ".vim/bundle/xml"]
+	path = .vim/bundle/xml
+	url = https://github.com/othree/xml.vim.git
+[submodule ".vim/bundle/xterm-color-table"]
+	path = .vim/bundle/xterm-color-table
+	url = https://github.com/guns/xterm-color-table.vim.git
+[submodule ".vim/bundle/a"]
+	path = .vim/bundle/a
+	url = https://github.com/vim-scripts/a.vim.git
