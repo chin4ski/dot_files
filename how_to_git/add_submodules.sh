@@ -23,6 +23,7 @@ eval $CMD_EXEC
 echo
 
 ## All submodules:
+
 #git submodule add https://github.com/gmarik/vundle.git .vim/bundle/vundle
 #git submodule add https://github.com/vim-scripts/Color-Sampler-Pack.git .vim/bundle/Color-Sampler-Pack
 #git submodule add https://github.com/vim-scripts/IndexedSearch.git .vim/bundle/IndexedSearch

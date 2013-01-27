@@ -17,6 +17,9 @@ else
   let g:dot_vim_dir = $HOME.'/.vim.darmand'
 endif
 
+let g:bundle_dir = g:dot_vim_dir.'/bundle'
+let g:local_bundle_dir = g:dot_vim_dir.'/localbundle'
+
 if version >= 702
 
   " Remove ALL auto-commands.  This avoids having the
@@ -29,11 +32,11 @@ if version >= 702
   filetype off                   " required!
 
   " add vundle plugin path
-  let &rtp = &rtp . ',' . g:dot_vim_dir.'/bundle/vundle'
+  let &rtp = &rtp . ',' . g:bundle_dir . '/vundle'
 
-  if isdirectory(g:dot_vim_dir.'/localbundle')
+  if isdirectory(g:local_bundle_dir)
     " add localbundle target dir
-    let &runtimepath = g:dot_vim_dir.','.g:dot_vim_dir.'/localbundle,'.g:dot_vim_dir.'/localbundle/after'
+    let &runtimepath = g:dot_vim_dir.','.g:local_bundle_dir.','.g:local_bundle_dir.'/after'
   endif
 
   call vundle#rc()
@@ -83,7 +86,7 @@ if version >= 702
   Bundle 'undotree'
   Bundle 'vim-exjumplist'
   Bundle 'vim-indent-guides'
-  Bundle 'vim-powerline'
+  Bundle 'powerline'
   Bundle 'vim-repeat'
   Bundle 'vim-scratch'
   Bundle 'vim-surround'
@@ -96,7 +99,7 @@ if version >= 702
   Bundle 'localbundle'
   call localbundle#init()
 
-  if !isdirectory(g:dot_vim_dir.'/localbundle')
+  if !isdirectory(g:local_bundle_dir)
     LocalBundle
   endif
 
@@ -1016,12 +1019,16 @@ if version >= 702
     "let g:quickfixsigns_events = ['BufRead']
     let g:quickfixsigns_events = ['BufWritePost']
 
-    " Powerline
+    " vim-powerline (old)
     call EnsureDirExists($TMPDIR.'/'.$USER.'/_VIM/Powerline_cache')
     let Powerline_cache_file = $TMPDIR.'/'.$USER.'/_VIM/Powerline_cache/Powerline.cache'
     let Powerline_cache_enabled = 1
     "let Powerline_symbols="unicode"
     "TPlugin powerline
+
+    " powerline (new)
+    "source g:dot_vim_dir.'/localbundle'.'/powerline/bindings/vim/plugin/source_plugin.vim'
+    exec 'source ' . g:bundle_dir . '/powerline/powerline/bindings/vim/plugin/source_plugin.vim'
 
     " TagHighlight
     if ! exists('g:TagHighlightSettings')          
