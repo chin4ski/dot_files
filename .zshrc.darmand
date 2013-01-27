@@ -46,7 +46,40 @@ OS_NAME=`uname`
 
 export PAGER=less
 
-export DISPLAY=nce${USER}:0.0
+if [[ "$USER" == "darmand" ]]; then
+  export DISPLAY=nce${USER}:0.0
+fi
+
+# 2011-10-19: tmux shortcut for creating/attaching named sessions
+t() {
+  [[ -z "$1" ]] && { echo "usage: t <session>" >&2; return 1; }
+  printf '\033]0;%s\007' $1 
+  tmux has -t $1 && tmux attach -t $1 || tmux new -s $1
+}
+
+if [[ "$USER" != "apeoncal" ]]; then
+  # 2011-10-19
+  # stolen from completion function _tmux
+  function __tmux-sessions() {
+    local expl
+    local -a sessions
+    sessions=( ${${(f)"$(command tmux list-sessions)"}/:[ $'\t']##/:} )
+    _describe -t sessions 'sessions' sessions "$@"
+  }
+  compdef __tmux-sessions t
+fi
+
+LATEST_TMUX_SESSION_NB=$(tmux list-sessions | tail -n 1 | cut -d ":" -f 1)
+EARLIEST_UNATTACHED_TMUX_SESSION_NB=$(tmux list-sessions | grep -v "attached" |  head -n 1 | cut -d ":" -f 1)
+
+if [[ "$EARLIEST_UNATTACHED_TMUX_SESSION_NB" != "" ]]; then
+  TARGET_TMUX_SESSION_NB=$EARLIEST_UNATTACHED_TMUX_SESSION_NB
+else
+  TARGET_TMUX_SESSION_NB=$((LATEST_TMUX_SESSION_NB + 1))
+fi
+
+alias tmux_new_inc_session='nocorrect t $TARGET_TMUX_SESSION_NB'
+[[ $TERM != "screen-256color" ]] && tmux_new_inc_session && exit
 
 setopt completealiases
 alias mv='nocorrect mv'
@@ -87,8 +120,7 @@ else
   alias gvim='nocorrect gvim'
 fi
 
-#export EDITOR="$HOME/env/bin/vim -u ~/.vim/.vimrc"
-export EDITOR="vim"
+export EDITOR="$HOME/env/bin/vim -u ~/.vim/.vimrc"
 export CSCOPE_DB=""
 # export CSCOPE_DB=/remote/users2/darmand/doc/cscope.out
 
@@ -172,24 +204,6 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/env/lib
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib64/engines/
 
 
-# 2011-10-19: tmux shortcut for creating/attaching named sessions
-t() {
-  [[ -z "$1" ]] && { echo "usage: t <session>" >&2; return 1; }
-  printf '\033]0;%s\007' $1 
-  tmux has -t $1 && tmux attach -t $1 || tmux new -s $1
-}
-
-if [[ "$USER" != "apeoncal" ]]; then
-  # 2011-10-19
-  # stolen from completion function _tmux
-  function __tmux-sessions() {
-    local expl
-    local -a sessions
-    sessions=( ${${(f)"$(command tmux list-sessions)"}/:[ $'\t']##/:} )
-    _describe -t sessions 'sessions' sessions "$@"
-  }
-  compdef __tmux-sessions t
-fi
 
 
 if [[ -f ~/.zshrc.home ]]; then

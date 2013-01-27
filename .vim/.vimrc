@@ -31,7 +31,6 @@ if version >= 702
   " add vundle plugin path
   let &rtp = &rtp . ',' . g:dot_vim_dir.'/bundle/vundle'
 
-
   if isdirectory(g:dot_vim_dir.'/localbundle')
     " add localbundle target dir
     let &runtimepath = g:dot_vim_dir.','.g:dot_vim_dir.'/localbundle,'.g:dot_vim_dir.'/localbundle/after'
@@ -1249,6 +1248,7 @@ if version >= 702
     nmap <leader>v :vsplit<CR><C-w><C-w>:Tbbl<CR>zz<C-w><C-w><C-w><C-w>zz
     "nmap <leader>v :vertical wincmd ^<CR>:wincmd w<CR>
     nmap <leader>h :split<CR><C-w><C-w>:Tbbl<CR>zz<C-w><C-w><C-w><C-w>zz
+    nmap <C-W>h <C-W>s
     "nmap <leader>v :vsplit<CR><C-w><C-w><Plug>(exjumplist-previous-buffer)<Plug>(exjumplist-previous-buffer)<Plug>(exjumplist-previous-buffer)zz<C-w><C-w><C-w><C-w>zz
     "nmap <leader>h :split<CR><C-w><C-w><Plug>(exjumplist-previous-buffer)<Plug>(exjumplist-previous-buffer)<Plug>(exjumplist-previous-buffer)zz<C-w><C-w><C-w><C-w>zz
 
@@ -1437,6 +1437,7 @@ if version >= 702
     let g:ctrlp_working_path_mode = 0
     let g:ctrlp_lazy_update = 1
     let g:ctrlp_open_multiple_files = '1vr'
+    let g:ctrlp_show_hidden = 1
 
     let g:ctrlp_extensions = [ 'quickfix', 'undo', 'line', 'changes', 'mixed', 'bookmarkdir']
 
@@ -1567,6 +1568,10 @@ if version >= 702
     cnoremap <C-A> <Home>
     cnoremap <C-E> <End>
     cnoremap <C-K> <C-U>
+
+    cnoremap <Esc>b <S-Left>
+    cnoremap <Esc>f <S-Right>
+
 
     " Jump back to previous cursor location in jumps history 
     nmap <S-Z> <Plug>(exjumplist-previous-buffer)
