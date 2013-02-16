@@ -1,0 +1,65 @@
+# Env variables:
+export EDITOR="vim -u ~/.vim/.vimrc"
+
+export PATH="/usr/share/perl5/vendor_perl/auto/share/dist/Cope:$PATH"
+
+# Bindings:
+bindkey '^r' history-incremental-search-backward
+bindkey '^a' beginning-of-line
+bindkey '^e' end-of-line
+bindkey '^h' backward-delete-char 
+bindkey '[3~' delete-char 
+
+# Sourcings:
+source /usr/share/doc/pkgfile/command-not-found.zsh
+
+# Aliases:
+alias vim='nocorrect vim -u ~/.vim/.vimrc'
+alias p='pacman-color'
+alias pacman='pacman-color'
+
+alias y='yaourt'
+# Allow tab completion with the alias
+compdef _yaourt y
+
+alias a='sudo aura'
+
+# Pacman alias examples
+# Synchronize with repositories before upgrading packages that are out of date on the local system.
+alias pacupg='sudo pacman -Syu'
+
+# Install specific package(s) from the repositories
+alias pacin='sudo pacman -S'
+
+# Install specific package not from the repositories but from a file 
+alias pacins='sudo pacman -U'
+
+# Remove the specified package(s), retaining its configuration(s) and required dependencies
+alias pacre='sudo pacman -R'
+
+# Remove the specified package(s), its configuration(s) and unneeded dependencies
+alias pacrem='sudo pacman -Rns'
+
+# Display information about a given package in the repositories
+alias pacrep='pacman -Si'
+
+# Search for package(s) in the repositories
+alias pacreps='pacman -Ss'
+
+# Display information about a given package in the local database
+alias pacloc='pacman -Qi'
+
+# Search for package(s) in the local database
+alias paclocs='pacman -Qs'
+
+### Additional pacman alias examples
+# Update and refresh the local package and ABS databases against repositories
+alias pacupd='sudo pacman -Sy && sudo abs'
+
+# Install given package(s) as dependencies of another package
+alias pacinsd='sudo pacman -S --asdeps'
+
+# Force refresh of all package lists after updating /etc/pacman.d/mirrorlist
+alias pacmir='sudo pacman -Syy'
+
+source /usr/share/zsh/plugins/zsh-syntax-highlight/zsh-syntax-highlighting.zsh
