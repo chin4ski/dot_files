@@ -135,7 +135,7 @@ alias grep='grep --exclude "*.os"'
 alias adminc='nocorrect adminc'
 alias view_as_state='~/doc/scripts/view_as_state.sh'
 
-if [[ "$HOST" == "ncegcolnx269" ]]
+if [[ "$USER" == "darmand" ]]
 then
   alias vim='nocorrect $HOME/env/bin/vim -u ~/.vim/.vimrc'
   alias v='vim'
