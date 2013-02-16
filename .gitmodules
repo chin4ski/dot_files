@@ -4,9 +4,6 @@
 [submodule ".vim/bundle/Color-Sampler-Pack"]
 	path = .vim/bundle/Color-Sampler-Pack
 	url = https://github.com/vim-scripts/Color-Sampler-Pack
-[submodule ".vim/bundle/IndexedSearch"]
-	path = .vim/bundle/IndexedSearch
-	url = https://github.com/vim-scripts/IndexedSearch
 [submodule ".vim/bundle/Enter-Indent"]
 	path = .vim/bundle/Enter-Indent
 	url = https://github.com/vim-scripts/Enter-Indent
