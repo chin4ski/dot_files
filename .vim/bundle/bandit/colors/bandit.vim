@@ -18,27 +18,29 @@ let ColourAssignment = {}
 " terminals is essential
 
 " By default, assume the background colour is dark (changes for light backgrounds are handled later)
-let ColourAssignment['Normal']          = {"ctermfg": 'White',       "CTERMBG":  '236', "TERM": 'None'}
+let ColourAssignment['Normal']          = {"CTERMFG": '255',       "CTERMBG":  '236'}
 
 let ColourAssignment['Comment']         = {"CTERMFG": '145',     "TERM":   'Bold'}
 
 " let ColourAssignment['Search']         = {"CTERMFG": '255',    "CTERMBG": '27'}
-let ColourAssignment['Search']         = {"CTERMFG": '235',    "CTERMBG": '185', "TERM": 'None'}
+let ColourAssignment['Search']         = {"CTERMFG": '235',    "CTERMBG": '220', "TERM": 'None'}
 let ColourAssignment['IncSearch']         = {"CTERMFG": '255',    "CTERMBG": '63'}
-let ColourAssignment['CursorLine']         = {"CTERMBG": '238'}
-let ColourAssignment['CursorColumn']         = {"CTERMBG": '237'}
 
 " Diff
 let ColourAssignment['DiffAdd']         = {"CTERMFG": '255',    "CTERMBG": '28'}
 let ColourAssignment['DiffChange']         = {"CTERMFG": '255',    "CTERMBG": '26'}
-let ColourAssignment['DiffText']         = {"CTERMFG": '255',    "CTERMBG": '67'}
-let ColourAssignment['DiffDelete']         = {"ctermfg": '255',    "CTERMBG": '124'}
+let ColourAssignment['DiffText']         = {"CTERMFG": '255',    "CTERMBG": '130'}
+let ColourAssignment['DiffDelete']         = {"CTERMFG": '255',    "CTERMBG": '124'}
+"let ColourAssignment['DiffAdd']         = {"CTERMFG": '232',    "CTERMBG": '119'}
+"let ColourAssignment['DiffChange']         = {"CTERMFG": '232',    "CTERMBG": '117'}
+"let ColourAssignment['DiffText']         = {"CTERMFG": '232',    "CTERMBG": '227'}
+"let ColourAssignment['DiffDelete']         = {"CTERMFG": '232',    "CTERMBG": '209'}
 
 " Tabbar
 let ColourAssignment['Tb_Normal']         = {"CTERMFG": '253',    "CTERMBG": '241'}
 let ColourAssignment['Tb_Changed']         = {"CTERMFG": '216',    "CTERMBG": '241'}
-let ColourAssignment['Tb_VisibleNormal']         = {"CTERMFG": '232',    "CTERMBG": '251'}
-let ColourAssignment['Tb_VisibleChanged']         = {"CTERMFG": '124',    "CTERMBG": '251'}
+let ColourAssignment['Tb_VisibleNormal']         = {"CTERMFG": '232',    "CTERMBG": '250'}
+let ColourAssignment['Tb_VisibleChanged']         = {"CTERMFG": '124',    "CTERMBG": '250'}
 let ColourAssignment['VisualNOS']         = {"CTERMFG": '232',    "CTERMBG": '255', "TERM": 'None'}
 let ColourAssignment['CursorIM']         = {"CTERMFG": '124',    "CTERMBG": '255', "TERM": 'None'}
 
@@ -56,10 +58,10 @@ let ColourAssignment['WildMenu']         = {"CTERMBG": '27', "CTERMFG": '255'}
 
 
 " spelling
-let ColourAssignment['SpellBad']         = {"ctermfg": '255',    "CTERMBG": '124',     "TERM":  'None'}
-let ColourAssignment['SpellCap']         = {"CTERMBG": '167', "CTERMFG": '255'}
-let ColourAssignment['SpellLocal']         = {"CTERMBG": '94', "CTERMFG": '255'}
-let ColourAssignment['SpellRare']         = {"CTERMBG": '24', "CTERMFG": '255'}
+let ColourAssignment['SpellBad']         = {"ctermfg": '255',    "CTERMBG": '124',     "CTERM":  'Underline'}
+let ColourAssignment['SpellCap']         = {"CTERMBG": '167', "CTERMFG": '255',     "CTERM":  'Underline'}
+let ColourAssignment['SpellLocal']         = {"CTERMBG": '94', "CTERMFG": '255',     "CTERM":  'Underline'}
+let ColourAssignment['SpellRare']         = {"CTERMBG": '24', "CTERMFG": '255',     "CTERM":  'Underline'}
 
 " StlShowFunc plugin
 "let ColourAssignment['User1']         = {"CTERMBG": '23', "CTERMFG": '255'}
@@ -138,16 +140,16 @@ let ColourAssignment['Structure']       = {"GUIFG": '225', "GUI":  'Bold'} " str
 " Special Stuff
 let ColourAssignment['Special']         = {"GUIFG": '151',         "TERM":    'None'}
 let ColourAssignment['SpecialChar']     = {"GUIFG": '151'}     " special character in a constant
-let ColourAssignment['SpecialKey']      = {"GUIFG": '240'}     " special highlighting for 'listchars' etc
+let ColourAssignment['SpecialKey']      = {"GUIFG": '244'}     " special highlighting for 'listchars' etc
 let ColourAssignment['NonText']         = {"GUIFG": '250'}     " special highlighting for 'listchars' etc
-let ColourAssignment['MatchParen']      = {"GUI":   'Underline',   "GUIFG": '255', "GUIBG": '165'}   " Highlighting of matching parentheses
+let ColourAssignment['MatchParen']      = {"GUI":   'Underline',   "GUIFG": '255', "GUIBG": '9'}   " Highlighting of matching parentheses
 
 " Errors
-let ColourAssignment['Error']           = {"GUIFG": 'White',       "GUIBG":   'Red',       "TERM":  'Reverse'}
-let ColourAssignment['NonIndentTabError']={"GUIFG": '255',        "GUIBG":   '124', "GUI":   'undercurl',    "TERM":  'Standout'}
+let ColourAssignment['Error']           = {"GUIFG": 'White',       "GUIBG":   '160'}
+let ColourAssignment['NonIndentTabError']={"GUIFG": '255',        "GUIBG":   '166', "GUI":   'undercurl',    "TERM":  'Standout'}
 
 " Stuff needing doing
-let ColourAssignment['Todo']            = {"GUIFG": '255',        "GUIBG":   '124',    "TERM":  'Standout'}
+let ColourAssignment['Todo']            = {"GUIFG": '255',        "GUIBG":   '1',    "CTERM":  'Underline'}
 
 " Folding
 let ColourAssignment['FoldColumn']      = {"GUIFG": '227',    "GUIBG":   '244'}
@@ -196,6 +198,22 @@ let ColourAssignment['Delimiter']       = {"GUIFG": 'DarkCyan'}
 " let ColourAssignment['hlLevel9']        = {"GUIFG": '#698b22',     "CTERMFG": 'DarkCyan'}
 " " Stop rainbow.vim from overwriting these colours (requires modifications to rainbow.vim v2a
 " let g:rainbow_delimiter_colours_defined = 1
+
+" Marks plugin
+let ColourAssignment['MarkWord1']          = {"CTERMFG": '232', "CTERMBG": '117'}
+let ColourAssignment['MarkWord2']          = {"CTERMFG": '232', "CTERMBG": '119'}
+let ColourAssignment['MarkWord3']          = {"CTERMFG": '232', "CTERMBG": '227'}
+let ColourAssignment['MarkWord4']          = {"CTERMFG": '232', "CTERMBG": '209'}
+let ColourAssignment['MarkWord5']          = {"CTERMFG": '232', "CTERMBG": '219'}
+let ColourAssignment['MarkWord6']          = {"CTERMFG": '254', "CTERMBG": '27'}
+let ColourAssignment['MarkWord7']          = {"CTERMFG": '254', "CTERMBG": '28'}
+let ColourAssignment['MarkWord8']          = {"CTERMFG": '232', "CTERMBG": '214'}
+let ColourAssignment['MarkWord9']          = {"CTERMFG": '254', "CTERMBG": '124'}
+let ColourAssignment['MarkWord10']          = {"CTERMFG": '254', "CTERMBG": '128'}
+
+let ColourAssignment['CursorLine']         = {"CTERMBG": '238'}
+"let ColourAssignment['CursorLine']         = {"CTERM":  'Reverse'}
+let ColourAssignment['CursorColumn']         = {"CTERMBG": '237'}
 
 " ========================================================================
 " Other available highlighting groups are listed at the bottom of the file

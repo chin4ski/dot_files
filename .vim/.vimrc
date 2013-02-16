@@ -76,7 +76,7 @@ if version >= 702
   Bundle 'marvim'
   Bundle 'matchit'
   Bundle 'matchit.zip'
-  "Bundle 'neocomplcache'
+  Bundle 'neocomplcache'
   Bundle 'neosnippet'
   Bundle 'nerdcommenter'
   Bundle 'quickfixsigns_vim'
@@ -245,7 +245,21 @@ if version >= 702
   set history=10000
 
   " Spell check
-  nnoremap <silent> [14~ :setlocal invspell spell? spelllang=en_us<CR>
+  " <F4>
+  "nnoremap <silent> [14~ :setlocal invspell spell? spelllang=en_us<CR>
+  nnoremap <silent> OS :setlocal invspell spell? spelllang=en_us<CR>
+
+
+  " Yankstack
+  let g:yankstack_map_keys = 0
+  " The following needs to be called before any mapping redefining yank
+  " actions (e.g. 'nmap Y y$' )
+  call yankstack#setup()
+  nmap <TAB> <Plug>yankstack_substitute_older_paste
+  nmap <S-TAB> <Plug>yankstack_substitute_newer_paste
+  " <F3>
+  nnoremap <silent> OR :Yanks<CR>
+
 
 
   """""""""""""""""""""""""""""""""
@@ -273,7 +287,7 @@ if version >= 702
     vnoremap < <gv
     vnoremap > >gv
 
-    vnoremap = =gv
+    "vnoremap = =gv
 
     " select the last changed text (or the text that was just pasted)
     nnoremap <expr> gV "`[".getregtype(v:register)[0]."`]"
@@ -343,8 +357,10 @@ if version >= 702
   """""""""""""""""""""""""""""""""
   " Color settings, highlights, visual {{{
 
-  colorscheme bandit
   set background=dark
+  colorscheme bandit
+  "colorscheme davide
+  "set background=light
 
   " This makes Vim show invisible characters with the same characters that
   " TextMate uses. You might need to adjust your color scheme so they.re not
@@ -431,14 +447,15 @@ if version >= 702
     "hi def link User2 DiffDelete
     "set stl=%!STL()
 
-    "set cursorline
-    " Highlight the current line (see Highlight current line ),
-    " which might be more visible.
-    " Mode Indication -Prominent!
-    au BufEnter * set cursorline
-    au WinEnter * set cursorline
+    " Highlight the current line, except for TabBar win
+    au WinEnter,BufEnter * call SetCursorline()
     au WinLeave * set nocursorline
-    "au BufEnter -TabBar- set nocursorline
+
+    function SetCursorline()
+      if(bufname('%') != '-TabBar-')
+        set cursorline
+      endif
+    endfunction
 
     " For the most accurate but slowest result, set the syntax synchronization method to fromstart. This can be done with an autocmd in your vimrc:
     "autocmd BufEnter * :syntax sync fromstart
@@ -682,19 +699,18 @@ if version >= 702
 
     filetype plugin on
 
+    " Alternate plugin: switch cpp <--> hpp, edi <--> gsv, ...
+    map a :A<CR>
+    vmap a <C-C>:A<CR>gv
+    imap a <C-C>:A<CR>i
+
+
     " TABBAR
-    "
-    "if &diff
-      "let g:Tb_AutoUpdt = 0
-    "else
-      "let g:Tb_AutoUpdt = 1
-    "endif
     let g:Tb_TabWrap = 1
     " Limit number of line displaying tabs in the tabs window
     let g:Tb_MaxSize = 0
     " 1 mouse click to change tab
     let g:Tb_UseSingleClick = 1
-"    let g:Tb_ForceSyntaxEnable = 1
     " Only show TabBar if we have a real buffer
     let g:Tb_MoreThanOne = 0
     "let g:Tb_ModSelTarget = 1
@@ -745,19 +761,19 @@ if version >= 702
 "    let g:DoxygenToolkit_paramTag_pre="\param " 
 "    let g:DoxygenToolkit_returnTag="\returns   "
 
-    " grep
+    " grep.vim
     let Grep_Skip_Dirs = 'RCS CVS SCCS objLinux64Rel objLinux64Dbg L64D342 L64R342 deliveries'
     let Grep_Skip_Files = '*~ *,v s.* *.os .*.swp core.* .#* vim.err build.log'
 
-    " sessionma
+    " sessionma.vim
     let sessionman_save_on_exit = 1
 
-    " 'a' ('alternate') plugin (switch between hpp and cpp)
+    " a.vim (switch between hpp and cpp)
     let g:alternateNoDefaultAlternate = 1
     let g:alternateSearchPath = 'reg:|src/\([^/]*\)/.*|src/\1/include/\1||,reg:|src/\([^/]*\)/.*|src/\1/entry||,reg:|src/\([^/]*\)/.*|src/\1/command||,reg:|src/\([^/]*\)/.*|src/\1/basic||,reg:|src/\([^/]*\)/.*|src/\1/field||,reg:|src/\([^/]*\)/.*|src/\1/gdminterface||,reg:|src/\([^/]*\)/.*|src/\1/msgencoder||,reg:|src/\([^/]*\)/.*|src/\1/msginterface||,reg:|src/\([^/]*\)/.*|src/\1/test||,reg:|src/\([^/]*\)/.*|src/\1/server||,reg:|src/\([^/]*\)/.*|src/\1/proxy_core||,reg:|src/\([^/]*\)/.*|src/\1/common||,reg:|src/\([^/]*\)/.*|src/\1/dbadaptor||,reg:|src/\([^/]*\)/.*|src/\1/dbrequest||,reg:|src/\([^/]*\)/.*|src/\1/bointerface||,reg:|src/\([^/]*\)/.*|src/\1/factory||,reg:|src/\([^/]*\)/.*|src/\1/bom||'
 
 
-    " neocomplcache"{{{
+    " neocomplcache.vim"{{{
 
         " Use neocomplcache.
         let g:neocomplcache_enable_at_startup = 1
@@ -797,6 +813,8 @@ if version >= 702
         let g:neocomplcache_keyword_patterns['default'] = '\v\h\w*'
 
         "imap <C-E>     g:neocomplcache_snippets_expand
+        imap <expr><C-l> neocomplcache#sources#snippets_complete#expandable() ?
+              \ "\<Plug>(neocomplcache_snippets_expand)" : "\<C-n>"
 
         " Using omni-completion:
         function! SuperCleverTab()             
@@ -918,33 +936,28 @@ if version >= 702
     "nnoremap Y y$
 
     " Yankring
-    let g:yankring_n_keys = 'Y D x K'
-    function! YRRunAfterMaps()
-        nnoremap Y   :<C-U>YRYankCount 'y$'<CR>
-    endfunction
-    " <F3>
-    nnoremap <silent> [13~ :YRShow<CR>
-    "let g:yankring_n_keys = 'Y D s S'
-    let g:yankring_replace_n_pkey = '<Tab>'
-    let g:yankring_replace_n_nkey = '<S-Tab>'
+    "let g:yankring_n_keys = 'Y D x K'
+    "function! YRRunAfterMaps()
+        "nnoremap Y   :<C-U>YRYankCount 'y$'<CR>
+    "endfunction
+    "" <F3>
+    "nnoremap <silent> [13~ :YRShow<CR>
+    ""let g:yankring_n_keys = 'Y D s S'
+    "let g:yankring_replace_n_pkey = '<Tab>'
+    "let g:yankring_replace_n_nkey = '<S-Tab>'
 
     " Yankstack
-    "let g:yankstack_map_keys = 0
-    "call yankstack#setup()
-    "nmap <TAB> <Plug>yankstack_substitute_older_paste
-    "nmap <S-TAB> <Plug>yankstack_substitute_newer_paste
-    "nnoremap <silent> <F3> :Yanks<CR>
+    let g:yankstack_map_keys = 0
+    call yankstack#setup()
+    nmap <TAB> <Plug>yankstack_substitute_older_paste
+    nmap <S-TAB> <Plug>yankstack_substitute_newer_paste
+    nnoremap <silent> <F3> :Yanks<CR>
     " have Y behave analogously to D and C rather 
     " than to dd and cc (which is already done by yy):
 
 
-    " Mark : moved to mark
-    "hi MarkWord1  ctermbg=Green       ctermfg=White
-    "hi MarkWord2  ctermbg=darkcyan    ctermfg=white
-    "hi MarkWord3  ctermbg=brown       ctermfg=white
-    "hi MarkWord4  ctermbg=darkmagenta ctermfg=white
-    "hi MarkWord5  ctermbg=magenta     ctermfg=white
-    "hi MarkWord6  ctermbg=darkblue    ctermfg=white
+    " Mark : moved to mark.vim
+    let g:mwDefaultHighlightingPalette = 'maximum'
 
     "" gundo
     "nnoremap <silent> [19~ :GundoToggle<CR>
@@ -958,7 +971,7 @@ if version >= 702
     "let g:EnhCommentifyUserBindings = 'no'
     "let g:EnhCommentifyUserMode = 'yes'
     
-    " xml
+    " xml.vim
     let g:xml_syntax_folding = 1
     "au FileType xml setlocal foldmethod=syntax
     "set foldmethod=syntax
@@ -1021,7 +1034,7 @@ if version >= 702
     "let g:quickfixsigns_events = ['BufRead']
     let g:quickfixsigns_events = ['BufWritePost']
 
-    " vim-powerline (old)
+    " Powerline
     call EnsureDirExists($TMPDIR.'/'.$USER.'/_VIM/Powerline_cache')
     let Powerline_cache_file = $TMPDIR.'/'.$USER.'/_VIM/Powerline_cache/Powerline.cache'
     let Powerline_cache_enabled = 1
@@ -1072,7 +1085,9 @@ if version >= 702
     "let g:easytags_by_filetype = 1
     "let g:easytags_python_enabled = 1
 
-    " Mark (simultaneous multiple highlights)
+    " Marks (simultaneous multiple highlights)
+    let g:mwAutoSaveMarks = 1
+    let g:mwAutoLoadMarks = 1
     " I already use <Leader>r to repalce words..
     nmap <silent> <Leader>R <Plug>MarkRegex
     xmap <silent> <Leader>R <Plug>MarkRegex
@@ -1082,9 +1097,24 @@ if version >= 702
     " Clear all marks
     nmap <silent> - <Plug>ClearLastMark
     xmap <silent> - <Plug>ClearLastMark
+    "To remove the default overriding of * and #, use:
+    nmap <Plug>IgnoreMarkSearchNext <Plug>MarkSearchNext
+    nmap <Plug>IgnoreMarkSearchPrev <Plug>MarkSearchPrev
+
+    " Marks #colors
+    " (moded to ~/.vim/bundle/bandit/colors/bandit.vim)
+    "highlight MarkWord1 ctermbg=117 ctermfg=black
+    "highlight MarkWord2 ctermbg=119 ctermfg=black
+    "highlight MarkWord3 ctermbg=220 ctermfg=black
 
     nnoremap <silent>  :nohlsearch<CR>
     nnoremap <silent>  :nohlsearch<CR>
+
+    "nnoremap <C-]> +g<C-]>zvzz
+    "nnoremap g<C-]> +g<C-]>zvzz
+
+    nnoremap <C-]> g<C-]>zvzz
+    nnoremap g<C-]> g<C-]>zvzz
 
     vnoremap <silent> * :<C-U>
       \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
@@ -1197,6 +1227,17 @@ if version >= 702
     " 1 - location list
     let EasyGrepWindow = 0
 
+    " VimOrganizer
+    let g:org_todo_setup='TODO WAITING ON-GOING COMMITTED REQ_LOAD_TST LOADED_IN_TST REQ_LOAD_PRD | DONE'
+    "let g:org_todo_custom_highlights =
+    "      \ {
+    "      \   'TODO': {'guifg':'white', 'guibg':'blue'},
+    "      \   'WAITING': { 'ctermfg':'white', 'ctermbg':'red' },
+    "      \   'ON-GOING': { 'ctermfg':'white', 'ctermbg':'blue' },
+    "      \   'DONE': { 'ctermfg':'white', 'ctermbg':'green' }
+    "      \ }
+
+
   " }}} Plugins/Scripts end
 
   """""""""""""""""""""""""""""""""
@@ -1208,13 +1249,16 @@ if version >= 702
   " Mappings {{{
 
     " Edit/source dot files
-    nmap <silent> <Leader>ev :execute "e ".g:dot_vim_dir."/.vimrc"<CR>
+    nmap <silent> <Leader>ev :cd ~/.vim/bundle<CR>:execute "e ".g:dot_vim_dir."/.vimrc"<CR>
     nmap <silent> <Leader>sv :execute "source ".g:dot_vim_dir."/.vimrc"<CR>
-    nmap <silent> <Leader>ez :execute "e ~/.zshrc.".$USER<CR>
+    nmap <silent> <Leader>ez :cd ~/.oh-my-zsh<CR>:execute "e ~/.zshrc.".$USER<CR>
+    nmap <silent> <Leader>et :execute "e ~/.tmux.conf"<CR>
+    nmap <silent> <Leader>eto :execute "e ~/doc/TODO_LIST.org"<CR>:let g:quickfixsigns#marks#marks = []<CR>:let g:quickfixsigns_class_vcsdiff = {}<CR>
+
 
     " Edit TTS files
-    nmap <silent> <Leader>el :e %.log<CR>
-    nmap <silent> <Leader>er :e NONREG_RESULTS-STDOUT.txt<CR>
+    nmap <silent> <Leader>tl :e %.log<CR>
+    nmap <silent> <Leader>tr :e NONREG_RESULTS-STDOUT.txt<CR>
 
     " Wrap on/off
     nmap <silent> <Leader>w :set invwrap<CR>:set wrap?<CR>
@@ -1243,9 +1287,6 @@ if version >= 702
     "nmap g* g*zvzz 
     "nmap g# g#zvzz
 
-    nnoremap <C-]> g<C-]>zvzz
-    nnoremap g<C-]> g<C-]>zvzz
-
     " Reformat a paragraph:
     vnoremap Q gq
     nnoremap Q gqap
@@ -1257,98 +1298,136 @@ if version >= 702
     nmap <leader>v :vsplit<CR><C-w><C-w>:Tbbl<CR>zz<C-w><C-w><C-w><C-w>zz
     "nmap <leader>v :vertical wincmd ^<CR>:wincmd w<CR>
     nmap <leader>h :split<CR><C-w><C-w>:Tbbl<CR>zz<C-w><C-w><C-w><C-w>zz
-    nmap <C-W>h <C-W>s
     "nmap <leader>v :vsplit<CR><C-w><C-w><Plug>(exjumplist-previous-buffer)<Plug>(exjumplist-previous-buffer)<Plug>(exjumplist-previous-buffer)zz<C-w><C-w><C-w><C-w>zz
     "nmap <leader>h :split<CR><C-w><C-w><Plug>(exjumplist-previous-buffer)<Plug>(exjumplist-previous-buffer)<Plug>(exjumplist-previous-buffer)zz<C-w><C-w><C-w><C-w>zz
 
+    "Move split window:
+    " up
+    nmap <C-W>OA <C-W>K
+    " down
+    nmap <C-W>OB <C-W>J
+    "left
+    nmap <C-W>OD <C-W>H
+    " right
+    nmap <C-W>OC <C-W>L
+
+
+    " ====================================
     function! MoveSplitSeparatorToUp()
-      let currentWinNb = winnr()
+
+      let origWinNb = winnr()
       wincmd j
-      let downWinNb = winnr()
-      if(currentWinNb == downWinNb)
+
+      if(bufname('%') == '-TabBar-')
+        let downWinNb = origWinNb
+      else
+        let downWinNb = winnr()
+      endif
+      execute origWinNb . " wincmd w"
+
+      if(origWinNb == downWinNb)
         " We are in the down side window
         5wincmd +
       else
         " We are in the up side window
-        wincmd p
         5wincmd -
       endif
+
     endfunction
 
+    " ====================================
     function! MoveSplitSeparatorToDown()
-      let currentWinNb = winnr()
+
+      let origWinNb = winnr()
       wincmd k
+
       if(bufname('%') == '-TabBar-')
-        wincmd p
+        let upWinNb = origWinNb
+      else
+        let upWinNb = winnr()
       endif
-      let upWinNb = winnr()
-      if(currentWinNb == upWinNb)
-        " We are in the up side window
+      execute origWinNb . " wincmd w"
+
+      if(origWinNb == upWinNb)
+        " We are in the down side window
         5wincmd +
       else
         " We are in the up side window
-        wincmd p
         5wincmd -
       endif
+
     endfunction
 
+    " ====================================
     function! MoveSplitSeparatorToRight()
-      let currentWinNb = winnr()
-      wincmd h
-      let leftWinNb = winnr()
-      if(currentWinNb == leftWinNb)
-        " We are in the left side window
+
+      let origWinNb = winnr()
+      wincmd k
+
+      if(bufname('%') == '-TabBar-')
+        let leftWinNb = origWinNb
+      else
+        let leftWinNb = winnr()
+      endif
+      execute origWinNb . " wincmd w"
+
+      if(origWinNb == leftWinNb)
+        " We are in the down side window
         5wincmd >
       else
-        " We are in the right side window
-        wincmd p
+        " We are in the up side window
         5wincmd <
       endif
+
     endfunction
 
+   " ====================================
     function! MoveSplitSeparatorToLeft()
-      let currentWinNb = winnr()
-      wincmd l
-      let rightWinNb = winnr()
-      if(currentWinNb == rightWinNb)
-        " We are in the right side window
-        5wincmd >
+
+      let origWinNb = winnr()
+      wincmd k
+
+      if(bufname('%') == '-TabBar-')
+        let rightWinNb = origWinNb
       else
-        " We are in the right side window
-        wincmd p
-        5wincmd <
+        let rightWinNb = winnr()
       endif
+      execute origWinNb . " wincmd w"
+
+      if(origWinNb == rightWinNb)
+        " We are in the down side window
+        5wincmd <
+      else
+        " We are in the up side window
+        5wincmd >
+      endif
+
     endfunction
 
-    " window splits resizing maps
-    " height:
-    "nmap [1;3B 5<C-w>-
-    "nmap [1;3A 5<C-w>+
+    " Window splits resizing maps
+
+    " Height:
+    " ALT-DOWN
     nmap <silent> [1;3B :silent call MoveSplitSeparatorToDown()<CR>
-    nmap <silent> [1;3A :silent call MoveSplitSeparatorToUp()<CR>
-    " width:
-    "nmap [1;3C 5<C-w>>
-    "nmap [1;3D 5<C-w><
+    " ALT-UP
+    nmap <silent> [1;3A :call MoveSplitSeparatorToUp()<CR>
+
+    " Width:
     " ALT-RIGHT
     nmap <silent> [1;3C :silent call MoveSplitSeparatorToRight()<CR>
     " ALT-LEFT
     nmap <silent> [1;3D :silent call MoveSplitSeparatorToLeft()<CR>
+
     " all windows same size:
     nmap = <C-w>=
-
-    " switch cpp <--> hpp
-    map a :A<CR>
-    vmap a <C-C>:A<CR>gv
-    imap a <C-C>:A<CR>i
-    "map <S-Tab> :A<CR>
-    "vmap <S-Tab> <C-C>:A<CR>gv
-    "imap <S-Tab> <C-C>:A<CR>i
 
     function! CloseBuffer()
       if &buftype == '-TabBar-'
         return
       elseif &buftype == 'quickfix'
         exec "silent :cclose"
+      elseif bufname('%') == '[Command Line]'
+        quit
       else
         let last_buffer = bufnr('%')
         "set nobuflisted
@@ -1364,12 +1443,15 @@ if version >= 702
         return
       elseif &buftype == 'quickfix'
         exec "silent :cclose"
+      elseif bufname('%') == '[Command Line]'
+        quit
       else
         let last_buffer = bufnr('%')
         "set nobuflisted
         quit
         "exec "silent bwipeout ".last_buffer
         exec "silent bdelete ".last_buffer
+        diffoff
       endif
     endfunction
     command! CloseBufferAndSplit call CloseBufferAndSplit()
@@ -1426,11 +1508,9 @@ if version >= 702
     noremap '' ``zz
 
     " ctrlp
-    let g:ctrlp_match_window_bottom = 1
-    "let g:ctrlp_map = 's'
     let g:ctrlp_map = '<Space>'
-    let g:ctrlp_cmd = 'CtrlPMixed'
-    let g:ctrlp_max_height = 70
+    let g:ctrlp_match_window_bottom = 1
+    let g:ctrlp_max_height = 60
     let g:ctrlp_persistent_input = 0
     let g:ctrlp_clear_cache_on_exit = 0
     call EnsureDirExists($TMPDIR.'/'.$USER.'/_VIM/ctrlp_cache')
@@ -1438,19 +1518,19 @@ if version >= 702
     let g:ctrlp_dotfiles = 0
     let g:ctrlp_max_files = 0
     let g:ctrlp_split_window = 0
-    "let g:ctrlp_open_multi = 2
-    hi CtrlpHighlightMatch ctermfg=Yellow
+    hi CtrlpHighlightMatch cterm=Underline ctermfg=Yellow
     let g:ctrlp_highlight_match = [1, 'CtrlpHighlightMatch']
+    let g:ctrlp_regexp = 0
     let g:ctrlp_by_filename = 0
     let g:ctrlp_follow_symlinks = 2
     let g:ctrlp_working_path_mode = 0
-    let g:ctrlp_lazy_update = 1
+    let g:ctrlp_lazy_update = 0
     let g:ctrlp_open_multiple_files = '1vr'
-    let g:ctrlp_show_hidden = 1
+    let g:ctrlp_mruf_default_order = 0
+    let g:ctrlp_mruf_save_on_update = 1
+    let g:ctrlp_mruf_relative = 0
 
-    let g:ctrlp_extensions = [ 'quickfix', 'undo', 'line', 'changes', 'mixed', 'bookmarkdir']
-
-
+    let g:ctrlp_extensions = [ 'quickfix', 'undo', 'changes' ]
 
     let g:ctrlp_prompt_mappings = {
           \ 'PrtBS()':              ['<bs>'. '', ''],
@@ -1489,40 +1569,37 @@ if version >= 702
           \ 'PrtExit()':            ['<esc>', '<c-c>', '<c-g>'],
           \ }
 
-    " matcher for ctrlP 
-    let g:path_to_matcher = g:dot_vim_dir.'/bundle/ctrlp/matcher'
+    "" matcher for ctrlP 
+    "let g:path_to_matcher = g:dot_vim_dir.'/bundle/ctrlp.vim/matcher'
 
-    "let g:ctrlp_user_command = {
-          "\ 'types': {
-          "\ 1: ['.git/', 'cd %s && git ls-files'],
-          "\ },
-          "\ 'fallback': 'find %s -type f'
-          "\ }
+    "function! g:GoodMatch(items, str, limit, mmode, ispath, crfile, regex)
+    "  " the Command-T matcher doesn't do regex. Return now if that was requested.
+    "  if a:regex == 1
+    "    let [lines, id] = [[], 0]
+    "    for item in a:items
+    "      let id += 1
+    "      try | if !( a:ispath && item == a:crfile ) && (match(item, a:str) >= 0)
+    "        cal add(lines, item)
+    "      en | cat | brea | endt
+    "    endfo
+    "    return lines
+    "  end
 
-    function! g:GoodMatch(items, str, limit, mmode, ispath, crfile, regex)
-      " the Command-T matcher doesn't do regex. Return now if that was requested.
-      if a:regex == 1
-        let [lines, id] = [[], 0]
-        for item in a:items
-          let id += 1
-          try | if !( a:ispath && item == a:crfile ) && (match(item, a:str) >= 0)
-            cal add(lines, item)
-          en | cat | brea | endt
-        endfo
-        return lines
-      end
+    "  " a:mmode is currently ignored. In the future, we should probably do
+    "  " something about that. the matcher behaves like "full-line".
+    "  let cmd = g:path_to_matcher . " --limit " . a:limit . " --manifest " . ctrlp#utils#cachefile() . " "
+    "  if ! g:ctrlp_dotfiles
+    "    let cmd = cmd . "--no-dotfiles "
+    "  endif
+    "  let cmd = cmd . a:str
+    "  return split(system(cmd))
 
-      " a:mmode is currently ignored. In the future, we should probably do
-      " something about that. the matcher behaves like "full-line".
-      let cmd = g:path_to_matcher . " --limit " . a:limit . " --manifest " . ctrlp#utils#cachefile() . " "
-      if ! g:ctrlp_dotfiles
-        let cmd = cmd . "--no-dotfiles "
-      endif
-      let cmd = cmd . a:str
-      return split(system(cmd))
+    "endfunction
+    "let g:ctrlp_match_func = { 'match': 'g:GoodMatch' }
 
-    endfunction
-    let g:ctrlp_match_func = { 'match': 'g:GoodMatch' }
+    " tplugin
+    "TPlugin kien-ctrlp.vim-8820dec
+
 
     " Correct typos..
     command! -bang E e<bang>
@@ -1578,14 +1655,15 @@ if version >= 702
     cnoremap <C-E> <End>
     cnoremap <C-K> <C-U>
 
-    cnoremap <Esc>b <S-Left>
-    cnoremap <Esc>f <S-Right>
-
-
-    " Jump back to previous cursor location in jumps history 
+    " Jump back to mru file
     nmap <S-Z> <Plug>(exjumplist-previous-buffer)
-    " Jump forward to next cursor location in jumps history
+    " Same, but forward
     nmap <S-X> <Plug>(exjumplist-next-buffer)
+
+    " Jump back to previous cursor location in jumps history
+    "nmap z <C-O>
+    " Same, but forward
+    "nmap x <C-I>
 
     " Move to next/previous method
     nmap ] ]m
@@ -1594,6 +1672,10 @@ if version >= 702
     " NERD commenter
     map <Leader>x <plug>NERDCommenterInvert
     map <Leader>x <plug>NERDCommenterInvert
+    map <Leader>cb <plug>NERDCommenterComment
+    vmap <Leader>cb <plug>NERDCommenterComment
+    map <Leader>cc <plug>NERDCommenterAlignBoth
+    vmap <Leader>cc <plug>NERDCommenterAlignBoth
     let g:NERDCustomDelimiters = {
         \ 'edifact': { 'left': ''' ' }
     \ }
@@ -1638,20 +1720,20 @@ if version >= 702
 
     " stlrefvim
     " <F6>
-    autocmd bufenter *.c,*.h,*.cpp,*.hpp vmap <silent> <Leader>[11 <Plug>StlRefVimVisual
+    autocmd bufenter *.c,*.h,*.cpp,*.hpp vmap <Leader>[11 <Plug>StlRefVimVisual
     " <F1>
-    autocmd bufenter *.c,*.h,*.cpp,*.hpp nmap <silent> <Leader>[11 <Plug>StlRefVimNormal
-                                            
+    autocmd bufenter *.c,*.h,*.cpp,*.hpp nmap <Leader>OP <Plug>StlRefVimNormal
+
     " crefvim
     " <F1>
-    autocmd bufenter *.c,*.h,*.cpp,*.hpp vmap <silent> [11 <Plug>CRV_CRefVimVisual
-    autocmd bufenter *.c,*.h,*.cpp,*.hpp nmap <silent> [11 <Plug>CRV_CRefVimNormal
+    autocmd bufenter *.c,*.h,*.cpp,*.hpp vmap OP <Plug>CRV_CRefVimVisual
+    autocmd bufenter *.c,*.h,*.cpp,*.hpp nmap OP <Plug>CRV_CRefVimNormal
 
     function! MergeLeftToRight()
-      let currentWinNb = winnr()
+      let origWinNb = winnr()
       wincmd h
       let leftWinNb = winnr()
-      if(currentWinNb == leftWinNb)
+      if(origWinNb == leftWinNb)
         " We are in the left side window
         "echo "diffput!"
         normal dp]czz
@@ -1664,10 +1746,10 @@ if version >= 702
     endfunction
 
     function! MergeRightToLeft()
-      let currentWinNb = winnr()
+      let origWinNb = winnr()
       wincmd l
       let rightWinNb = winnr()
-      if(currentWinNb == rightWinNb)
+      if(origWinNb == rightWinNb)
         " We are in the right side window
         "echo "diffput!"
         normal dp]czz
@@ -1687,7 +1769,7 @@ if version >= 702
     "noremap [17~ dp]czz
     "ALT-<
     noremap <silent> , :silent call MergeRightToLeft()<CR>
-    
+
     " if it's a diff
     if &diff
       noremap z [czz
@@ -1736,11 +1818,19 @@ if version >= 702
     command! -complete=shellcmd -nargs=* R belowright 15new | r ! <args>
 
     " Keybinds to make the global register less annoying
-    noremap <Leader>p :silent set paste<CR>"+]p:set nopaste<CR>
-    noremap <C-P> :silent set paste<CR>"+]p:set nopaste<CR>
-    noremap <Leader>P :silent set paste<CR>"+]P:set nopaste<CR>
-    noremap <Leader>y "+y
-    noremap <Leader>Y "+Y
+    noremap <Leader>p :silent set paste<CR>"*]p:set nopaste<CR>
+    "noremap <C-P> :silent set paste<CR>"+]p:set nopaste<CR>
+    noremap <Leader>P :silent set paste<CR>"*]P:set nopaste<CR>
+    noremap <Leader>y "*y
+    noremap <Leader>Y "*Y
+
+    vnoremap <Leader>p <C-C>:silent set paste<CR>gv"*]p:set nopaste<CR>
+    vnoremap <Leader>P <C-C>:silent set paste<CR>gv"*]P:set nopaste<CR>
+    vnoremap <Leader>y "+y
+    "vnoremap <Leader>y "*ygv:!xclip -d ncedarmand:0.0 -o -selection clipboard<CR>
+    "vnoremap <Leader>y :!xclip -d ncedarmand:0.0 -o -selection clipboard<CR>
+    vnoremap <Leader>Y "*Y
+
 
     " Paste over visually selected text without copying back in the default
     " register the visually selected text that is overwritten
@@ -1752,11 +1842,19 @@ if version >= 702
 
     " Swap two words
     "nmap <silent> Xp :s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR>`':nohlsearch<CR>
-    nmap <silent> Xp dawwP
+    "nmap <silent> Xp dawwP
 
     " Underline the current line with '=' or '-'
     nmap <silent> <Leader>u= :t.\|s/./=/g\|:nohls<cr>
     nmap <silent> <Leader>u- :t.\|s/./-/g\|:nohls<cr>
+
+    " Identify the syntax highlighting group used at the cursor
+    map [1;3P :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+
+    " CtrlP
+    nmap m :CtrlPMRU<CR>
+    nmap u :CtrlPUndo<CR>
+    nmap . :CtrlPChange<CR>
 
   " }}} Mappings end
 
@@ -1774,7 +1872,7 @@ if version >= 702
   """""""""""""""""""""""""""""""""""
   " gtags
   "map <C-[> :Gtags<CR><CR>
-  map <C-\> :Gtags -r<CR><CR>
+  map <C-\> +:Gtags -r<CR><CR>
 
   " Functions {{{
 
@@ -1907,9 +2005,12 @@ if version >= 702
 
     " Use CTRL-S for saving, also in Insert mode
     "<F2>
-    noremap [12~ :w<CR>
-    vnoremap [12~ <C-C>:w<CR>gv
-    inoremap [12~ <C-O>:w<CR>
+    "noremap [12~ :w<CR>
+    "vnoremap [12~ <C-C>:w<CR>gv
+    "inoremap [12~ <C-O>:w<CR>
+    noremap OQ :w<CR>
+    vnoremap OQ <C-C>:w<CR>gv
+    inoremap OQ <C-O>:w<CR>
 
     " save to new file and open it
     "    nnoremap :we :WriteAndEdit 
@@ -2050,8 +2151,8 @@ if version >= 702
     " replace in current file
     vnoremap <Leader>rr y:%s/<C-R>=escape(@",'\\/.*$^~[]')<CR>//gec<Left><Left><Left><Left>
     " replace in all open files
-    vnoremap <Leader>rb y:bufdo %s/<C-R>=escape(@",'\\/.*$^~[]')<CR>//gec<Left> \|up<Left><Left><Left><Left><Left><Left><Left>
-    vnoremap <Leader>rrb y:bufdo %s/<C-R>=escape(@",'\\/.*$^~[]')<CR>//gec<Left> \|up<Left><Left><Left><Left><Left><Left><Left>
+    vnoremap <Leader>rb y:bufdo %s/<C-R>=escape(@",'\\/.*$^~[]')<CR>//gec \|up<Left><Left><Left><Left><Left><Left><Left>
+    vnoremap <Leader>rrb y:bufdo %s/<C-R>=escape(@",'\\/.*$^~[]')<CR>//gec \|up<Left><Left><Left><Left><Left><Left><Left>
     " replace in local block code {...}
     vnoremap <Leader>rbb y<C-C>mo[{ma%mb`o:'a,'b s/<C-R>=escape(@",'\\/.*$^~[]')<CR>//gec<Left><Left><Left><Left>
     " replace in files listed in 'args'
@@ -2098,8 +2199,8 @@ if version >= 702
 
     " Get help for word under cursor
     " <F1>
-    autocmd bufenter *.vim,.vimrc nnoremap <silent> [11~ :h <C-R><C-W><CR>
-    autocmd bufenter *.vim,.vimrc vnoremap <silent> [11~ y:h <C-R>=escape(@",'\\/.*$^~[]')<CR><CR>
+    autocmd bufenter *.vim,.vimrc nnoremap OP :h <C-R><C-W><CR>
+    autocmd bufenter *.vim,.vimrc vnoremap OP y:h <C-R>=escape(@",'\\/.*$^~[]')<CR><CR>
 
     " Retrofitting: to convert from webpage to cvs up -j.. -j..
 "    noremap \wr Icvs up wdw.....WDBPa ^wwdw.i-jWdwi-j^€kd 
@@ -2122,13 +2223,29 @@ if version >= 702
 
     " Warn when opening a file generated during compilation
     "autocmd BufEnter */replicate/*,*/deliveries/* echohl WarningMsg | echo "W A R N I N G !    Editing a file generated during compilation!" | echohl None
-    autocmd BufEnter */replicate/*,*/deliveries/* set readonly
+    autocmd BufEnter */replicate/*,*/deliveries/* setlocal readonly
+    "Same for tts log files:
+    autocmd BufEnter *.edi.log,*.gsv.log,*.play.log,*.sh.log setlocal readonly
 
     " Edit a macros in place:
     " - qp ==> paste the macro from the q register into the current buffer
     " - qd ==> copy back the modified macro to the q register
     noremap qp mqo"qp
     noremap qd 0"qdd`q
+
+    " Reformat edi message
+    vnoremap <Leader>te :s/'/&\&\r/g<CR>:call histdel("search", -1)<CR>:let @/ = histget("search", -1)<CR>
+    map <Leader>te :s/'/&\&\r/g<CR>:call histdel("search", -1)<CR>:let @/ = histget("search", -1)<CR>
+
+    " Reformat boi/bom log
+    vnoremap <Leader>tb :!~/doc/scripts/display_boi<CR>
+    map <Leader>tb :!~/doc/scripts/display_boi<CR>
+
+    "Interpret file as latin1 or ebcdic:
+    "latin1 --> ebcdic :
+    ":e ++enc=ebcdic-us
+    "ebcdic --> latin1 :
+    ":e ++enc=latin1
 
   " }}}
 
@@ -2137,9 +2254,14 @@ if version >= 702
 
   " Automatic colorization of edifact
   autocmd BufEnter *.play,*.edi,*.edi.log,*.edi.rep,*.rgr,*.gsv,*.gsr,*.gsv.log setf edifact
+  " Special mapping for edifact files
+  autocmd BufEnter *.play,*.edi,*.gsv,*.gsr nmap <Leader>gl :e %.log<CR>
+  autocmd BufEnter *.play,*.edi,*.gsv nmap <Leader>gl :e %.log<CR>
+  autocmd BufEnter *.gsv nmap <Leader>gr :e %.gsr<CR>
   
-  " Automatic colorization of OTF log files
-  autocmd BufEnter *_otf_be_*,*_otf_fe_*,*_otf_cs*,mon*err*,*_sei_master_*,*Svr*,*_Batch_*,*feAPE* setf tracer
+  " Automatic colorization of OTF log files.
+  " Also, don't reload a log file when it changes
+  autocmd BufEnter *_otf_be_*,*_otf_fe_*,*_otf_cs*,mon*err*,*_sei_master_*,*Svr*,*_Batch_*,*feAPE* setf tracer|setlocal autoread
   
   " Handle SConstruct and SConscript as python files
   autocmd BufNewFile,BufRead SConstruct* setf python
@@ -2188,6 +2310,21 @@ if version >= 702
   iab taht that
   iab Teh The
   iab teh the
+
+
+  " Functions BEGIN
+
+  function! VimDiffResultTTS()
+    diffthis
+    "execute "rightbelow vsplit " . '%' . ".log"
+    let test_file = expand("%")
+    execute "rightbelow vsplit " . test_file . ".result"
+    execute "r!cat " . test_file . ".log | grep -v 'UN[BNZT]' | grep -v '^\'\'\'\'DCX' | grep -v '\'\'[ -]'"
+    diffthis
+    wincmd h
+  endfunction
+
+  " Functions END
 
 " }}}
 
