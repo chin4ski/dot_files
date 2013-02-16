@@ -122,7 +122,6 @@ fi
 
 
 export PAGER=less
-export DISPLAY=ncedarmand:0.0
 
 alias mv='nocorrect mv'
 alias tmux='nocorrect tmux -2'
@@ -287,9 +286,8 @@ alias tmux_new_inc_session='nocorrect t $TARGET_TMUX_SESSION_NB'
 
 [[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
 
-
 ################################################
 
-if [[ -f ~/.zshrc.home ]]; then
-  source ~/.zshrc.home
+if [[ -f $HOME/.zshrc.home ]]; then
+  source $HOME/.zshrc.home
 fi

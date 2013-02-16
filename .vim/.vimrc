@@ -1,5 +1,11 @@
 set nocompatible
 
+for i in range(97,122)
+  let c = nr2char(i)
+  exec "set <m-".c.">=\<Esc>".c
+endfor
+set <m-Space>=<Esc><Space>
+
 let &rtp = ''
 
 " set default 'runtimepath' (without ~/.vim folders)
@@ -182,15 +188,19 @@ if version >= 702
 
   call EnsureDirExists($TMPDIR.'/'.$USER.'/_VIM')
 
-  " Auto reload .vimrc when modified
+  " Auto reload various config files when modified
 "  autocmd BufWritePost .vimrc source %
+  autocmd BufWritePost,FileWritePost ~/.Xdefaults,~/.Xresources silent! !xrdb -load % >/dev/null 2>&1
+
+  "set notimeout    " don't timeout on mappings
+  "set ttimeout   " do timeout on terminal key codes
+  "set timeoutlen=100 " timeout after 100 msec
 
   " Set ESC time lenght to 1 ms.
   set timeoutlen=1000
   set ttimeoutlen=10
 
   set linespace=0
-"  set clipboard=unnamed
 
   filetype on
 
@@ -198,7 +208,7 @@ if version >= 702
 
   set vb t_vb=
 
-  " Allow 256 colros in gnu screen
+  " Allow 256 colors in gnu screen
   set t_Co=256
 
   " cscope
@@ -700,9 +710,9 @@ if version >= 702
     filetype plugin on
 
     " Alternate plugin: switch cpp <--> hpp, edi <--> gsv, ...
-    map a :A<CR>
-    vmap a <C-C>:A<CR>gv
-    imap a <C-C>:A<CR>i
+    map <m-a> :A<CR>
+    vmap <m-a> <C-C>:A<CR>gv
+    imap <m-a> <C-C>:A<CR>i
 
 
     " TABBAR
@@ -718,8 +728,8 @@ if version >= 702
     "autocmd bufenter exe "normal \<c-w>\<c-w>\<c-w>\<c-w>"
 
     " key maps are in the plugin file ===>
-"    noremap <unique> w :call <SID>Bf_Cycle(0)<CR>:<BS>
-"    noremap <unique> e :call <SID>Bf_Cycle(1)<CR>:<BS>
+"    noremap <unique> <m-w> :call <SID>Bf_Cycle(0)<CR>:<BS>
+"    noremap <unique> <m-e> :call <SID>Bf_Cycle(1)<CR>:<BS>
 
     " Omnicppcomplete 
     "imap <TAB> <C-x><C-o>
@@ -1044,6 +1054,7 @@ if version >= 702
     " powerline (new)
     "source g:dot_vim_dir.'/localbundle'.'/powerline/bindings/vim/plugin/source_plugin.vim'
     exec 'source ' . g:bundle_dir . '/powerline/powerline/bindings/vim/plugin/source_plugin.vim'
+    set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
 
     " TagHighlight
     if ! exists('g:TagHighlightSettings')          
@@ -1252,6 +1263,7 @@ if version >= 702
     nmap <silent> <Leader>ev :cd ~/.vim/bundle<CR>:execute "e ".g:dot_vim_dir."/.vimrc"<CR>
     nmap <silent> <Leader>sv :execute "source ".g:dot_vim_dir."/.vimrc"<CR>
     nmap <silent> <Leader>ez :cd ~/.oh-my-zsh<CR>:execute "e ~/.zshrc.".$USER<CR>
+    nmap <silent> <Leader>ex :e ~/.Xresources<CR>
     nmap <silent> <Leader>et :execute "e ~/.tmux.conf"<CR>
     nmap <silent> <Leader>eto :execute "e ~/doc/TODO_LIST.org"<CR>:let g:quickfixsigns#marks#marks = []<CR>:let g:quickfixsigns_class_vcsdiff = {}<CR>
 
@@ -1457,9 +1469,9 @@ if version >= 702
     command! CloseBufferAndSplit call CloseBufferAndSplit()
 
     " close current buffer, keep current split open
-    noremap <silent> q :CloseBuffer<CR><C-C>
-    vnoremap <silent> q <ESC>:CloseBuffer<CR>gv
-    inoremap <silent> q <ESC>:CloseBuffer<CR>i
+    noremap <silent> <m-q> :CloseBuffer<CR><C-C>
+    vnoremap <silent> <m-q> <ESC>:CloseBuffer<CR>gv
+    inoremap <silent> <m-q> <ESC>:CloseBuffer<CR>i
 
     " close current buffer and current split
     noremap <silent> <C-Q> :CloseBufferAndSplit<CR>
@@ -1486,19 +1498,20 @@ if version >= 702
 
     nnoremap <silent> <leader><leader> :call <sid>NextWindowBut('-TabBar-','w')<cr>
 
-    "noremap <silent> ` :b#<CR>
-    "vnoremap <silent> ` <ESC>:b#<CR>gv
-    "inoremap <silent> ` <ESC>:b#<CR>i
+    "noremap <silent> <m-`> :b#<CR>
+    "vnoremap <silent> <m-`> <ESC>:b#<CR>gv
+    "inoremap <silent> <m-`> <ESC>:b#<CR>i
 
     " Tabbar mappings
     " Switch to next/previous buffer
-    noremap <silent> w :Tbbp<CR>
-    vnoremap <silent> w <ESC>:Tbbp<CR>gv
-    inoremap <silent> w <ESC>:Tbbp<CR>i
-"    map <silent> e exec "silent Tbbn"
-    noremap <silent> e :Tbbn<CR>
-    vnoremap <silent> e <ESC>:Tbbn<CR>gv
-    inoremap <silent> e <ESC>:Tbbn<CR>i
+    noremap <silent> <m-w> :Tbbp<CR>
+    vnoremap <silent> <m-w> <ESC>:Tbbp<CR>gv
+    inoremap <silent> <m-w> <ESC>:Tbbp<CR>i
+"    map <silent> <m-e> exec "silent Tbbn"
+    noremap <silent> <m-e> :Tbbn<CR>
+    noremap <silent> <m-e> :Tbbn<CR>
+    vnoremap <silent> <m-e> <ESC>:Tbbn<CR>gv
+    inoremap <silent> <m-e> <ESC>:Tbbn<CR>i
 
 
     " to go back to exact place
@@ -1543,8 +1556,8 @@ if version >= 702
           \ 'PrtSelectMove("b")':   ['<End>', '<kEnd>'],
           \ 'PrtSelectMove("u")':   ['<PageUp>', '<kPageUp>'],
           \ 'PrtSelectMove("d")':   ['<PageDown>', '<kPageDown>'],
-          \ 'PrtHistory(-1)':       ['x'],
-          \ 'PrtHistory(1)':        ['z'],
+          \ 'PrtHistory(-1)':       ['<m-x>'],
+          \ 'PrtHistory(1)':        ['<m-z>'],
           \ 'AcceptSelection("e")': ['<cr>', '<2-LeftMouse>'],
           \ 'AcceptSelection("h")': ['<c-x>', '<c-cr>', '<c-s>'],
           \ 'AcceptSelection("t")': ['<c-t>'],
@@ -1626,9 +1639,9 @@ if version >= 702
     imap <silent> \ <ESC>:colder<CR>i
 
     " Load next search in quickfix window
-    map <silent> c :cnewer<CR>
-    vmap <silent> c <ESC>:cnewer<CR>i
-    imap <silent> c <ESC>:cnewer<CR>i
+    map <silent> <m-c> :cnewer<CR>
+    vmap <silent> <m-c> <ESC>:cnewer<CR>i
+    imap <silent> <m-c> <ESC>:cnewer<CR>i
 
     " this allows all window commands in insert mode and i'm not accidentally deleting words anymore :-)
     imap <C-w> <C-o><C-w>
@@ -1764,20 +1777,20 @@ if version >= 702
     " <F5>
     "noremap [15~ do]czz
     "ALT->
-    noremap <silent> . :silent call MergeLeftToRight()<CR>
+    noremap <silent> <m-.> :silent call MergeLeftToRight()<CR>
     " <F6>
     "noremap [17~ dp]czz
     "ALT-<
-    noremap <silent> , :silent call MergeRightToLeft()<CR>
+    noremap <silent> <m-,> :silent call MergeRightToLeft()<CR>
 
     " if it's a diff
     if &diff
-      noremap z [czz
-      noremap x ]czz
+      noremap <m-z> [czz
+      noremap <m-x> ]czz
 
     else
-      map z :silent cprev<CR>zz
-      map x :silent cnext<CR>zz
+      map <m-z> :silent cprev<CR>zz
+      map <m-x> :silent cnext<CR>zz
       " <F6>
       nnoremap [17~ :silent set invpaste paste?<CR>
       inoremap [17~ <C-C>:silent set invpaste paste?<CR>i
@@ -1799,8 +1812,8 @@ if version >= 702
     "inoremap OD <C-O>:resize -10<CR>  " <C-Left>
 
     " Move to prev/next jump
-    nnoremap - <C-O>
-    nnoremap + <C-I>
+    nnoremap <m--> <C-O>
+    nnoremap <m-+> <C-I>
     
     " original
     "nnoremap <leader>h       "_yiw?\w\+\_W\+\%#<CR>:s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR><C-o><C-l>
@@ -1852,8 +1865,8 @@ if version >= 702
     map [1;3P :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
     " CtrlP
-    nmap m :CtrlPMRU<CR>
-    nmap u :CtrlPUndo<CR>
+    nmap <m-m> :CtrlPMRU<CR>
+    nmap <m-u> :CtrlPUndo<CR>
     nmap . :CtrlPChange<CR>
 
   " }}} Mappings end
@@ -1883,8 +1896,8 @@ if version >= 702
       TbStop
       "noremap <F3> [czz
       "noremap <F4> ]czz
-      noremap z [czz
-      noremap x ]czz
+      noremap <m-z> [czz
+      noremap <m-x> ]czz
       " <F5>
       noremap [15~ do]czz
       " <F6>
@@ -2203,7 +2216,7 @@ if version >= 702
     autocmd bufenter *.vim,.vimrc vnoremap OP y:h <C-R>=escape(@",'\\/.*$^~[]')<CR><CR>
 
     " Retrofitting: to convert from webpage to cvs up -j.. -j..
-"    noremap \wr Icvs up wdw.....WDBPa ^wwdw.i-jWdwi-j^€kd 
+"    noremap \wr Icvs up <m-w>dw.....<m-W>D<m-B>Pa ^wwdw.i-j<m-W>dwi-j^€kd 
     let @t='Icvs up wdw.....WDBPa ^wwdw.i-jWdwi-j^€kd'
 "    let @t='^dWdWIcvs up kd^dwdwdwct;Ai kbkb krp^dWdWdWi-jWi-jbklkD^v$dku^wwP^kddd'
 "    let @t='dWdWkdv$dkuP^dWdWi-jt;krdWdWdWi -jbdW^PIcvs up kdddku^'

@@ -1,6 +1,6 @@
 # Env variables:
 export EDITOR="vim -u ~/.vim/.vimrc"
-
+export LANG=en_US.utf8
 export PATH="/usr/share/perl5/vendor_perl/auto/share/dist/Cope:$PATH"
 
 # Bindings:
