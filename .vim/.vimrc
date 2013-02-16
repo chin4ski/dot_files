@@ -76,7 +76,7 @@ if version >= 702
   Bundle 'marvim'
   Bundle 'matchit'
   Bundle 'matchit.zip'
-  Bundle 'neocomplcache'
+  "Bundle 'neocomplcache'
   Bundle 'neosnippet'
   Bundle 'nerdcommenter'
   Bundle 'quickfixsigns_vim'
@@ -95,6 +95,8 @@ if version >= 702
   Bundle 'vundle'
   Bundle 'xml'
   Bundle 'xterm-color-table'
+  Bundle 'YouCompleteMe'
+  Bundle 'gruvbox'
 
   Bundle 'localbundle'
   call localbundle#init()
