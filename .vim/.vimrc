@@ -18,7 +18,7 @@ else
 endif
 
 let g:bundle_dir = g:dot_vim_dir.'/bundle'
-let g:local_bundle_dir = g:dot_vim_dir.'/localbundle'
+let g:localbundle_dir = g:dot_vim_dir.'/localbundle'
 
 if version >= 702
 
@@ -34,9 +34,9 @@ if version >= 702
   " add vundle plugin path
   let &rtp = &rtp . ',' . g:bundle_dir . '/vundle'
 
-  if isdirectory(g:local_bundle_dir)
+  if isdirectory(g:localbundle_dir)
     " add localbundle target dir
-    let &runtimepath = g:dot_vim_dir.','.g:local_bundle_dir.','.g:local_bundle_dir.'/after'
+    let &runtimepath = g:dot_vim_dir.','.g:localbundle_dir.','.g:localbundle_dir.'/after'
   endif
 
   call vundle#rc()
@@ -101,7 +101,7 @@ if version >= 702
   Bundle 'localbundle'
   call localbundle#init()
 
-  if !isdirectory(g:local_bundle_dir)
+  if !isdirectory(g:localbundle_dir)
     LocalBundle
   endif
 
