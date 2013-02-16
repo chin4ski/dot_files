@@ -130,3 +130,6 @@
 [submodule ".vim/bundle/powerline"]
 	path = .vim/bundle/powerline
 	url = git://github.com/Lokaltog/powerline.git
+[submodule ".oh-my-zsh"]
+	path = .oh-my-zsh
+	url = https://github.com/chin4ski/oh-my-zsh.git
