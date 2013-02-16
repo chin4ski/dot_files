@@ -109,9 +109,6 @@
 [submodule ".vim/bundle/xterm-color-table"]
 	path = .vim/bundle/xterm-color-table
 	url = https://github.com/guns/xterm-color-table.vim.git
-[submodule ".vim/bundle/a"]
-	path = .vim/bundle/a
-	url = https://github.com/vim-scripts/a.vim.git
 [submodule ".vim/bundle/aftersyntaxc"]
 	path = .vim/bundle/aftersyntaxc
 	url = https://github.com/vim-scripts/aftersyntaxc.vim.git
