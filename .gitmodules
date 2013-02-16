@@ -136,7 +136,7 @@
   ignore = dirty
 [submodule ".vim/bundle/localbundle"]
 	path = .vim/bundle/localbundle
-	url = https://github.com/Rykka/localbundle.vim.git
+	url = https://github.com/chin4ski/localbundle.vim.git
   ignore = dirty
 [submodule ".vim/bundle/xml"]
 	path = .vim/bundle/xml
