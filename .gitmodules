@@ -156,11 +156,11 @@
   ignore = dirty
 [submodule ".vim/bundle/vcscommand"]
 	path = .vim/bundle/vcscommand
-	url = git://repo.or.cz/vcscommand.git
+	url = http://repo.or.cz/r/vcscommand.git
   ignore = dirty
 [submodule ".vim/bundle/powerline"]
 	path = .vim/bundle/powerline
-	url = git://github.com/Lokaltog/powerline.git
+	url = https://github.com/Lokaltog/powerline.git
   ignore = dirty
 [submodule ".oh-my-zsh"]
 	path = .oh-my-zsh
