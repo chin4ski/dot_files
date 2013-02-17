@@ -70,7 +70,7 @@ select-word-style bash
 
 
 #export XTERM="aterm +sb -geometry 1680x1050 -fg black -bg lightgoldenrodyellow -fn -xos4-terminus-medium-*-normal-*-14-*-*-*-*-*-iso8859-15"
-export XTERM="aterm +sb -geometry 1680x1050 -fg grey"
+#export XTERM="aterm +sb -geometry 1680x1050 -fg grey"
 
 setopt dotglob
 

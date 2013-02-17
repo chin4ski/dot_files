@@ -1,10 +1,113 @@
 set nocompatible
 
-for i in range(97,122)
-  let c = nr2char(i)
-  exec "set <m-".c.">=\<Esc>".c
-endfor
-set <m-Space>=<Esc><Space>
+""""""""""""""""""""""""""""
+" Terminal stuff {{{
+
+" Taken from: http://vim.wikia.com/wiki/Working_with_Unicode
+if has("multi_byte")
+  if &termencoding == ""
+    let &termencoding = &encoding
+  endif
+  set encoding=utf-8
+  setglobal fileencoding=utf-8
+  set fileencoding=utf-8
+  "setglobal bomb
+  set fileencodings=ucs-bom,utf-8,latin1
+endif
+
+
+"for i in range(97,122)
+"  let c = nr2char(i)
+"  exec "set <M-".c.">=\<Esc>".c
+"endfor
+"set <M-Space>=<Esc><Space>
+"set <M-m>=<Esc>m
+
+"set timeoutlen=1000
+"set ttimeoutlen=100
+set timeout timeoutlen=1000 ttimeoutlen=100
+
+function Allmap(mapping)
+  execute 'map' a:mapping
+  execute 'map!' a:mapping
+endfunction
+
+"call Allmap('   <ESC>[B         <Down>')
+"call Allmap('   <ESC>[k4~       <c-Left>')
+
+if !has("gui_running")
+  if &term == "xterm-256color" || &term == "xterm" || &term == "screen-256color"
+    " Already working keys:
+    " <M-Any_key>
+    " <C-Arrows>
+    " <C-S-Arrows>
+    " <S-F_KEY>
+    " <S-Tab>
+    " <Tab>
+
+    " Keys need a manual map:
+    call Allmap('            <BS>')
+    call Allmap('   [1;5P    <C-F1>')
+    call Allmap('   [1;5Q    <C-F2>')
+    call Allmap('   [1;5R    <C-F3>')
+    call Allmap('   [1;5S    <C-F4>')
+    call Allmap('   [15;5~   <C-F5>')
+    call Allmap('   [17;5~   <C-F6>')
+    call Allmap('   [18;5~   <C-F7>')
+    call Allmap('   [19;5~   <C-F8>')
+    call Allmap('   [20;5~   <C-F9>')
+    call Allmap('   [21;5~   <C-F10>')
+    call Allmap('   [23;5~   <C-F11>')
+    call Allmap('   [24;5~   <C-F12>')
+
+    call Allmap('   <C-@>      <C-Space>')
+
+    call Allmap('   [1;6P    <C-S-F1>')
+    call Allmap('   [1;6Q    <C-S-F2>')
+    call Allmap('   [1;6R    <C-S-F3>')
+    call Allmap('   [1;6S    <C-S-F4>')
+    call Allmap('   [15;6~   <C-S-F5>')
+    call Allmap('   [17;6~   <C-S-F6>')
+    call Allmap('   [18;6~   <C-S-F7>')
+    call Allmap('   [19;6~   <C-S-F8>')
+    call Allmap('   [20;6~   <C-S-F9>')
+    call Allmap('   [21;6~   <C-S-F10>')
+    call Allmap('   [23;6~   <C-S-F11>')
+    call Allmap('   [24;6~   <C-S-F12>')
+
+    call Allmap('   ±          <C-M-1>')
+    call Allmap('   Ä       <C-M-2>')
+    call Allmap('   õ       <C-M-3>')
+    call Allmap('   ú       <C-M-4>')
+    call Allmap('   ù       <C-M-5>')
+    call Allmap('   û       <C-M-6>')
+    call Allmap('   ü       <C-M-7>')
+    call Allmap('   ˇ          <C-M-8>')
+    call Allmap('   π          <C-M-9>')
+    call Allmap('   ∞          <C-M-0>')
+
+    call Allmap('   [1~      <Home>')
+    call Allmap('   [4~      <End>')
+
+  elseif &term == "win32"
+    " TODO
+  else
+    " TODO
+  endif
+endif
+
+" test
+"map <kPlus> :echo 'ciao'<CR>
+
+if &term == "xterm" || &term == "screen-256color"
+  set term=xterm-256color
+endif
+
+" }}}
+
+
+""""""""""""""""""""""""""""
+" Path variables {{{
 
 let &rtp = ''
 
@@ -25,6 +128,9 @@ endif
 
 let g:bundle_dir = g:dot_vim_dir.'/bundle'
 let g:localbundle_dir = g:dot_vim_dir.'/localbundle'
+
+" }}}
+
 
 if version >= 702
 
@@ -192,14 +298,6 @@ if version >= 702
 "  autocmd BufWritePost .vimrc source %
   autocmd BufWritePost,FileWritePost ~/.Xdefaults,~/.Xresources silent! !xrdb -load % >/dev/null 2>&1
 
-  "set notimeout    " don't timeout on mappings
-  "set ttimeout   " do timeout on terminal key codes
-  "set timeoutlen=100 " timeout after 100 msec
-
-  " Set ESC time lenght to 1 ms.
-  set timeoutlen=1000
-  set ttimeoutlen=10
-
   set linespace=0
 
   filetype on
@@ -260,18 +358,6 @@ if version >= 702
   nnoremap <silent> OS :setlocal invspell spell? spelllang=en_us<CR>
 
 
-  " Yankstack
-  let g:yankstack_map_keys = 0
-  " The following needs to be called before any mapping redefining yank
-  " actions (e.g. 'nmap Y y$' )
-  call yankstack#setup()
-  nmap <TAB> <Plug>yankstack_substitute_older_paste
-  nmap <S-TAB> <Plug>yankstack_substitute_newer_paste
-  " <F3>
-  nnoremap <silent> OR :Yanks<CR>
-
-
-
   """""""""""""""""""""""""""""""""
   " Tabs and indentation {{{
 
@@ -318,19 +404,12 @@ if version >= 702
     " Intuitive backspacing in insert mode
     " bs delete anything
     set backspace=indent,eol,start
-"    :fixdel
-"     if &term == "termname"
-"       set t_kb=^V<BS>
-"       fixdel
-"     endif  
 
     filetype indent on 
     filetype plugin indent on
 "    set smartindent
     set cindent " do c-style indenting
 
-   " default is: set cinoptions=s,e0,n0,f0,{0,}0,^0,:s,=s,l0,b0,gs,hs,ps,ts,is,+s,c3,C0,/0,(2s,us,U0,w0,W0,m0,j0,)20,*30,#0
-   " set cinoptions=>s,e0,n0,f0,{s,}0,^0,:s,=s,l1,b0,gs,t0,+2s,i0,c3,(0,W2s
    set cinoptions=s,e0,n0,f0,{0,}0,^0,:s,=s,l0,b0,gs,hs,ps,ts,is,+s,c3,C0,/0,(0,us,U0,w0,W0,m0,j0,)20,*30,#0
 
 
@@ -406,6 +485,7 @@ if version >= 702
     "    endif
 
     function! HasPaste()
+
       if &paste
         return 'PASTE MODE  '
       else
@@ -545,53 +625,6 @@ if version >= 702
   " It feels weird at first but is quite useful.
   set virtualedit=all
 
-  " tmux
-  "set term=screen-256color
-
-  " Set an orange cursor in insert mode, and a red cursor otherwise.
-  " Works at least for xterm and rxvt terminals.
-  " Does not work for gnome terminal, konsole, xfce4-terminal.
-  "    if &term =~ "xterm\\|rxvt"
-  "      :silent !echo -ne "\033]12;red\007"
-  "      let &t_SI = "\033]12;orange\007"
-  "      let &t_EI = "\033]12;red\007"
-  "      autocmd VimLeave * :!echo -ne "\033]12;red\007"
-  "    endif
-
-  "let &termencoding = &encoding
-
-  " Set title for screen windows
-  "let &titleold=substitute(getcwd(), $HOME, "~", '')
-
-  "set notitle
-  "let &titlestring = "[vim(" . expand("%:t") . ")]"
-  "if &term == "screen" || &term == "screen-bce"
-  "  set t_ts=k
-  "  set t_fs=\
-  "endif
-  "if &term == "screen" || &term == "xterm" || &term == "screen-bce"
-  "  set title
-  "endif
-
-  "autocmd BufEnter * let &titlestring = hostname() . "[vim(" . expand("%:t") . ")]"
-
-
-  if has("gui_running")
-    set guifont=*
-    "if has("gui_gtk2")
-    "set guifont=Courier\ New\ 11
-    "elseif has("gui_photon")
-    "set guifont=Courier\ New:s11
-    "elseif has("gui_kde")
-    "set guifont=Courier\ New/11/-1/5/50/0/0/0/1/0
-    "elseif has("x11")
-    "set guifont=-*-courier-medium-r-normal-*-*-180-*-*-m-*-*
-    "else
-    "set guifont=Courier_New:h11:cDEFAULT
-    "endif
-  endif
-
-  "set relativenumber
   set number
 
   if version >= 703
@@ -616,7 +649,7 @@ if version >= 702
   "set fillchars=vert:|
   " needed by powerline
   "set fillchars+=stl:\ ,stlnc:\
-  set encoding=utf-8
+
   " }}}
 
 
@@ -710,9 +743,9 @@ if version >= 702
     filetype plugin on
 
     " Alternate plugin: switch cpp <--> hpp, edi <--> gsv, ...
-    map <m-a> :A<CR>
-    vmap <m-a> <C-C>:A<CR>gv
-    imap <m-a> <C-C>:A<CR>i
+    map <M-a> :A<CR>
+    vmap <M-a> <C-C>:A<CR>gv
+    imap <M-a> <C-C>:A<CR>i
 
 
     " TABBAR
@@ -728,8 +761,8 @@ if version >= 702
     "autocmd bufenter exe "normal \<c-w>\<c-w>\<c-w>\<c-w>"
 
     " key maps are in the plugin file ===>
-"    noremap <unique> <m-w> :call <SID>Bf_Cycle(0)<CR>:<BS>
-"    noremap <unique> <m-e> :call <SID>Bf_Cycle(1)<CR>:<BS>
+"    noremap <unique> <M-w> :call <SID>Bf_Cycle(0)<CR>:<BS>
+"    noremap <unique> <M-e> :call <SID>Bf_Cycle(1)<CR>:<BS>
 
     " Omnicppcomplete 
     "imap <TAB> <C-x><C-o>
@@ -943,9 +976,9 @@ if version >= 702
     autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=237 ctermfg=240
     autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=238 ctermfg=242
 
-    "nnoremap Y y$
 
     " Yankring
+    "nnoremap Y y$
     "let g:yankring_n_keys = 'Y D x K'
     "function! YRRunAfterMaps()
         "nnoremap Y   :<C-U>YRYankCount 'y$'<CR>
@@ -957,14 +990,13 @@ if version >= 702
     "let g:yankring_replace_n_nkey = '<S-Tab>'
 
     " Yankstack
-    let g:yankstack_map_keys = 0
+    "let g:yankstack_map_keys = 0
+    " The following needs to be called before any mapping redefining yank
+    " actions (e.g. 'nmap Y y$' )
     call yankstack#setup()
-    nmap <TAB> <Plug>yankstack_substitute_older_paste
-    nmap <S-TAB> <Plug>yankstack_substitute_newer_paste
+    "nmap <Tab> <Plug>yankstack_substitute_older_paste
+    "nmap <S-Tab> <Plug>yankstack_substitute_newer_paste
     nnoremap <silent> <F3> :Yanks<CR>
-    " have Y behave analogously to D and C rather 
-    " than to dd and cc (which is already done by yy):
-
 
     " Mark : moved to mark.vim
     let g:mwDefaultHighlightingPalette = 'maximum'
@@ -1118,8 +1150,7 @@ if version >= 702
     "highlight MarkWord2 ctermbg=119 ctermfg=black
     "highlight MarkWord3 ctermbg=220 ctermfg=black
 
-    nnoremap <silent>  :nohlsearch<CR>
-    nnoremap <silent>  :nohlsearch<CR>
+    nnoremap <silent> <BS> :nohlsearch<CR>
 
     "nnoremap <C-]> +g<C-]>zvzz
     "nnoremap g<C-]> +g<C-]>zvzz
@@ -1251,13 +1282,15 @@ if version >= 702
 
   " }}} Plugins/Scripts end
 
-  """""""""""""""""""""""""""""""""
-  """""""""""""""""""""""""""""""""
-  """""""""""""""""""""""""""""""""
+
   """""""""""""""""""""""""""""""""
   """""""""""""""""""""""""""""""""
   """""""""""""""""""""""""""""""""
   " Mappings {{{
+
+    " Have Y behave analogously to D and C rather
+    " than to dd and cc (which is already done by yy):
+    nmap Y y$
 
     " Edit/source dot files
     nmap <silent> <Leader>ev :cd ~/.vim/bundle<CR>:execute "e ".g:dot_vim_dir."/.vimrc"<CR>
@@ -1469,9 +1502,9 @@ if version >= 702
     command! CloseBufferAndSplit call CloseBufferAndSplit()
 
     " close current buffer, keep current split open
-    noremap <silent> <m-q> :CloseBuffer<CR><C-C>
-    vnoremap <silent> <m-q> <ESC>:CloseBuffer<CR>gv
-    inoremap <silent> <m-q> <ESC>:CloseBuffer<CR>i
+    noremap <silent> <M-q> :CloseBuffer<CR><C-C>
+    vnoremap <silent> <M-q> <ESC>:CloseBuffer<CR>gv
+    inoremap <silent> <M-q> <ESC>:CloseBuffer<CR>i
 
     " close current buffer and current split
     noremap <silent> <C-Q> :CloseBufferAndSplit<CR>
@@ -1498,20 +1531,20 @@ if version >= 702
 
     nnoremap <silent> <leader><leader> :call <sid>NextWindowBut('-TabBar-','w')<cr>
 
-    "noremap <silent> <m-`> :b#<CR>
-    "vnoremap <silent> <m-`> <ESC>:b#<CR>gv
-    "inoremap <silent> <m-`> <ESC>:b#<CR>i
+    "noremap <silent> <M-`> :b#<CR>
+    "vnoremap <silent> <M-`> <ESC>:b#<CR>gv
+    "inoremap <silent> <M-`> <ESC>:b#<CR>i
 
     " Tabbar mappings
     " Switch to next/previous buffer
-    noremap <silent> <m-w> :Tbbp<CR>
-    vnoremap <silent> <m-w> <ESC>:Tbbp<CR>gv
-    inoremap <silent> <m-w> <ESC>:Tbbp<CR>i
-"    map <silent> <m-e> exec "silent Tbbn"
-    noremap <silent> <m-e> :Tbbn<CR>
-    noremap <silent> <m-e> :Tbbn<CR>
-    vnoremap <silent> <m-e> <ESC>:Tbbn<CR>gv
-    inoremap <silent> <m-e> <ESC>:Tbbn<CR>i
+    noremap <silent> <M-w> :Tbbp<CR>
+    vnoremap <silent> <M-w> <ESC>:Tbbp<CR>gv
+    inoremap <silent> <M-w> <ESC>:Tbbp<CR>i
+"    map <silent> <M-e> exec "silent Tbbn"
+    noremap <silent> <M-e> :Tbbn<CR>
+    noremap <silent> <M-e> :Tbbn<CR>
+    vnoremap <silent> <M-e> <ESC>:Tbbn<CR>gv
+    inoremap <silent> <M-e> <ESC>:Tbbn<CR>i
 
 
     " to go back to exact place
@@ -1556,8 +1589,8 @@ if version >= 702
           \ 'PrtSelectMove("b")':   ['<End>', '<kEnd>'],
           \ 'PrtSelectMove("u")':   ['<PageUp>', '<kPageUp>'],
           \ 'PrtSelectMove("d")':   ['<PageDown>', '<kPageDown>'],
-          \ 'PrtHistory(-1)':       ['<m-x>'],
-          \ 'PrtHistory(1)':        ['<m-z>'],
+          \ 'PrtHistory(-1)':       ['<M-x>'],
+          \ 'PrtHistory(1)':        ['<M-z>'],
           \ 'AcceptSelection("e")': ['<cr>', '<2-LeftMouse>'],
           \ 'AcceptSelection("h")': ['<c-x>', '<c-cr>', '<c-s>'],
           \ 'AcceptSelection("t")': ['<c-t>'],
@@ -1639,9 +1672,9 @@ if version >= 702
     imap <silent> \ <ESC>:colder<CR>i
 
     " Load next search in quickfix window
-    map <silent> <m-c> :cnewer<CR>
-    vmap <silent> <m-c> <ESC>:cnewer<CR>i
-    imap <silent> <m-c> <ESC>:cnewer<CR>i
+    map <silent> <M-c> :cnewer<CR>
+    vmap <silent> <M-c> <ESC>:cnewer<CR>i
+    imap <silent> <M-c> <ESC>:cnewer<CR>i
 
     " this allows all window commands in insert mode and i'm not accidentally deleting words anymore :-)
     imap <C-w> <C-o><C-w>
@@ -1777,20 +1810,20 @@ if version >= 702
     " <F5>
     "noremap [15~ do]czz
     "ALT->
-    noremap <silent> <m-.> :silent call MergeLeftToRight()<CR>
+    noremap <silent> <C-Right> :silent call MergeLeftToRight()<CR>
     " <F6>
     "noremap [17~ dp]czz
     "ALT-<
-    noremap <silent> <m-,> :silent call MergeRightToLeft()<CR>
+    noremap <silent> <C-Left> :silent call MergeRightToLeft()<CR>
 
     " if it's a diff
     if &diff
-      noremap <m-z> [czz
-      noremap <m-x> ]czz
+      noremap <M-z> [czz
+      noremap <M-x> ]czz
 
     else
-      map <m-z> :silent cprev<CR>zz
-      map <m-x> :silent cnext<CR>zz
+      map <M-z> :silent cprev<CR>zz
+      map <M-x> :silent cnext<CR>zz
       " <F6>
       nnoremap [17~ :silent set invpaste paste?<CR>
       inoremap [17~ <C-C>:silent set invpaste paste?<CR>i
@@ -1812,8 +1845,8 @@ if version >= 702
     "inoremap OD <C-O>:resize -10<CR>  " <C-Left>
 
     " Move to prev/next jump
-    nnoremap <m--> <C-O>
-    nnoremap <m-+> <C-I>
+    nnoremap <M--> <C-O>
+    nnoremap <M-+> <C-I>
     
     " original
     "nnoremap <leader>h       "_yiw?\w\+\_W\+\%#<CR>:s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR><C-o><C-l>
@@ -1865,9 +1898,9 @@ if version >= 702
     map [1;3P :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
     " CtrlP
-    nmap <m-m> :CtrlPMRU<CR>
-    nmap <m-u> :CtrlPUndo<CR>
-    nmap . :CtrlPChange<CR>
+    nmap <M-m> :CtrlPMRU<CR>
+    nmap <M-u> :CtrlPUndo<CR>
+    nmap <M-.> :CtrlPChange<CR>
 
   " }}} Mappings end
 
@@ -1896,8 +1929,8 @@ if version >= 702
       TbStop
       "noremap <F3> [czz
       "noremap <F4> ]czz
-      noremap <m-z> [czz
-      noremap <m-x> ]czz
+      noremap <M-z> [czz
+      noremap <M-x> ]czz
       " <F5>
       noremap [15~ do]czz
       " <F6>
@@ -2216,7 +2249,7 @@ if version >= 702
     autocmd bufenter *.vim,.vimrc vnoremap OP y:h <C-R>=escape(@",'\\/.*$^~[]')<CR><CR>
 
     " Retrofitting: to convert from webpage to cvs up -j.. -j..
-"    noremap \wr Icvs up <m-w>dw.....<m-W>D<m-B>Pa ^wwdw.i-j<m-W>dwi-j^Äkd 
+"    noremap \wr Icvs up <M-w>dw.....<M-W>D<M-B>Pa ^wwdw.i-j<M-W>dwi-j^Äkd 
     let @t='Icvs up wdw.....WDBPa ^wwdw.i-jWdwi-j^Äkd'
 "    let @t='^dWdWIcvs up kd^dwdwdwct;Ai kbkb krp^dWdWdWi-jWi-jbklkD^v$dku^wwP^kddd'
 "    let @t='dWdWkdv$dkuP^dWdWi-jt;krdWdWdWi -jbdW^PIcvs up kdddku^'
@@ -2341,6 +2374,6 @@ if version >= 702
 
 " }}}
 
-"echo "davide: DONE!" 
+"echo "davide: DONE!"
 
 endif
