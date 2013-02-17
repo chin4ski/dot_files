@@ -3,14 +3,31 @@ set nocompatible
 """"""""""""""""""""""""""""
 " Terminal stuff {{{
 
+"" Taken from: http://vim.wikia.com/wiki/Detect_non-Unicode_Xterms
+"if has("multi_byte")
+"  set encoding=utf-8
+"  if $TERM == "linux" || $TERM_PROGRAM == "GLterm"
+"    set termencoding=latin1
+"  endif
+"  if $TERM == "xterm" || $TERM == "xterm-color" || $TERM == "xterm-color" || $TERM == "xterm-256color" || $TERM == "screen-256color"
+"    let propv = system("xprop -id $WINDOWID -f WM_LOCALE_NAME 8s ' $0' -notype WM_LOCALE_NAME")
+"    if propv !~ "WM_LOCALE_NAME .*UTF.*8" && propv !~ "WM_LOCALE_NAME .*utf.*8"
+"      echo 'latinnnn'
+"      set termencoding=latin1
+"    endif
+"  endif
+"endif
+
 " Taken from: http://vim.wikia.com/wiki/Working_with_Unicode
 if has("multi_byte")
-  if &termencoding == ""
-    let &termencoding = &encoding
-  endif
+  "if &termencoding == ""
+    "let &termencoding = &encoding
+  "endif
+  set termencoding=latin1 " Needed to have correct mapping for ALT key combos
+
   set encoding=utf-8
   setglobal fileencoding=utf-8
-  set fileencoding=utf-8
+  "set fileencoding=utf-8
   "setglobal bomb
   set fileencodings=ucs-bom,utf-8,latin1
 endif
@@ -35,66 +52,66 @@ endfunction
 "call Allmap('   <ESC>[B         <Down>')
 "call Allmap('   <ESC>[k4~       <c-Left>')
 
-if !has("gui_running")
-  if &term == "xterm-256color" || &term == "xterm" || &term == "screen-256color"
-    " Already working keys:
-    " <M-Any_key>
-    " <C-Arrows>
-    " <C-S-Arrows>
-    " <S-F_KEY>
-    " <S-Tab>
-    " <Tab>
+"if !has("gui_running")
+"  if &term == "xterm-256color" || &term == "xterm" || &term == "screen-256color"
+"    " Already working keys:
+"    " <M-Any_key>
+"    " <C-Arrows>
+"    " <C-S-Arrows>
+"    " <S-F_KEY>
+"    " <S-Tab>
+"    " <Tab>
 
-    " Keys need a manual map:
-    call Allmap('            <BS>')
-    call Allmap('   [1;5P    <C-F1>')
-    call Allmap('   [1;5Q    <C-F2>')
-    call Allmap('   [1;5R    <C-F3>')
-    call Allmap('   [1;5S    <C-F4>')
-    call Allmap('   [15;5~   <C-F5>')
-    call Allmap('   [17;5~   <C-F6>')
-    call Allmap('   [18;5~   <C-F7>')
-    call Allmap('   [19;5~   <C-F8>')
-    call Allmap('   [20;5~   <C-F9>')
-    call Allmap('   [21;5~   <C-F10>')
-    call Allmap('   [23;5~   <C-F11>')
-    call Allmap('   [24;5~   <C-F12>')
+"    " Keys need a manual map:
+"    call Allmap('            <BS>')
+"    call Allmap('   [1;5P    <C-F1>')
+"    call Allmap('   [1;5Q    <C-F2>')
+"    call Allmap('   [1;5R    <C-F3>')
+"    call Allmap('   [1;5S    <C-F4>')
+"    call Allmap('   [15;5~   <C-F5>')
+"    call Allmap('   [17;5~   <C-F6>')
+"    call Allmap('   [18;5~   <C-F7>')
+"    call Allmap('   [19;5~   <C-F8>')
+"    call Allmap('   [20;5~   <C-F9>')
+"    call Allmap('   [21;5~   <C-F10>')
+"    call Allmap('   [23;5~   <C-F11>')
+"    call Allmap('   [24;5~   <C-F12>')
 
-    call Allmap('   <C-@>      <C-Space>')
+"    call Allmap('   <C-@>      <C-Space>')
 
-    call Allmap('   [1;6P    <C-S-F1>')
-    call Allmap('   [1;6Q    <C-S-F2>')
-    call Allmap('   [1;6R    <C-S-F3>')
-    call Allmap('   [1;6S    <C-S-F4>')
-    call Allmap('   [15;6~   <C-S-F5>')
-    call Allmap('   [17;6~   <C-S-F6>')
-    call Allmap('   [18;6~   <C-S-F7>')
-    call Allmap('   [19;6~   <C-S-F8>')
-    call Allmap('   [20;6~   <C-S-F9>')
-    call Allmap('   [21;6~   <C-S-F10>')
-    call Allmap('   [23;6~   <C-S-F11>')
-    call Allmap('   [24;6~   <C-S-F12>')
+"    call Allmap('   [1;6P    <C-S-F1>')
+"    call Allmap('   [1;6Q    <C-S-F2>')
+"    call Allmap('   [1;6R    <C-S-F3>')
+"    call Allmap('   [1;6S    <C-S-F4>')
+"    call Allmap('   [15;6~   <C-S-F5>')
+"    call Allmap('   [17;6~   <C-S-F6>')
+"    call Allmap('   [18;6~   <C-S-F7>')
+"    call Allmap('   [19;6~   <C-S-F8>')
+"    call Allmap('   [20;6~   <C-S-F9>')
+"    call Allmap('   [21;6~   <C-S-F10>')
+"    call Allmap('   [23;6~   <C-S-F11>')
+"    call Allmap('   [24;6~   <C-S-F12>')
 
-    call Allmap('   ±          <C-M-1>')
-    call Allmap('   Ä       <C-M-2>')
-    call Allmap('   õ       <C-M-3>')
-    call Allmap('   ú       <C-M-4>')
-    call Allmap('   ù       <C-M-5>')
-    call Allmap('   û       <C-M-6>')
-    call Allmap('   ü       <C-M-7>')
-    call Allmap('   ˇ          <C-M-8>')
-    call Allmap('   π          <C-M-9>')
-    call Allmap('   ∞          <C-M-0>')
+"    call Allmap('   ±          <C-M-1>')
+"    call Allmap('   Ä       <C-M-2>')
+"    call Allmap('   õ       <C-M-3>')
+"    call Allmap('   ú       <C-M-4>')
+"    call Allmap('   ù       <C-M-5>')
+"    call Allmap('   û       <C-M-6>')
+"    call Allmap('   ü       <C-M-7>')
+"    call Allmap('   ˇ          <C-M-8>')
+"    call Allmap('   π          <C-M-9>')
+"    call Allmap('   ∞          <C-M-0>')
 
-    call Allmap('   [1~      <Home>')
-    call Allmap('   [4~      <End>')
+"    call Allmap('   [1~      <Home>')
+"    call Allmap('   [4~      <End>')
 
-  elseif &term == "win32"
-    " TODO
-  else
-    " TODO
-  endif
-endif
+"  elseif &term == "win32"
+"    " TODO
+"  else
+"    " TODO
+"  endif
+"endif
 
 " test
 "map <kPlus> :echo 'ciao'<CR>
@@ -198,7 +215,7 @@ if version >= 702
   Bundle 'undotree'
   Bundle 'vim-exjumplist'
   Bundle 'vim-indent-guides'
-  Bundle 'powerline'
+  "Bundle 'powerline'
   Bundle 'vim-repeat'
   Bundle 'vim-scratch'
   Bundle 'vim-surround'
@@ -1085,8 +1102,12 @@ if version >= 702
 
     " powerline (new)
     "source g:dot_vim_dir.'/localbundle'.'/powerline/bindings/vim/plugin/source_plugin.vim'
-    exec 'source ' . g:bundle_dir . '/powerline/powerline/bindings/vim/plugin/source_plugin.vim'
-    set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
+    let pl_dir = g:bundle_dir . '/powerline'
+    if isdirectory(pl_dir)
+      "exec 'source ' . g:bundle_dir . '/powerline/powerline/bindings/vim/plugin/source_plugin.vim'
+      exec 'source ' . pl_dir . '/powerline/bindings/vim/plugin/source_plugin.vim'
+      set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
+    endif
 
     " TagHighlight
     if ! exists('g:TagHighlightSettings')          

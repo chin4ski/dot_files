@@ -23,11 +23,15 @@ xterm*VT100.geometry:     111x42
 !xterm*faceName:        Inconsolata dz Powerline
 !xterm*faceSize:        10
 
-*VT100*utf8:            1
-*VT100*eightBitInput:   true
-*VT100*eightBitControl: false
-*VT100*eightBitOutput:  true
+!*VT100*utf8:            1
+!*VT100*eightBitInput:   true
+!*VT100*eightBitControl: false
+!*VT100*eightBitOutput:  true
 
+xterm*utf8: 1
+xterm*eightBitInput:   true
+xterm*eightBitControl: false
+xterm*eightBitOutput:  true
 !xterm*dynamicColors:      true
 !xterm*metaSendsEscape:    true
 !xterm*scrollKey:          true
@@ -37,7 +41,7 @@ xterm*VT100.geometry:     111x42
 !xterm*jumpScroll:         true
 !xterm*multiScroll:        true
 !xterm*toolBar:            false
-!xterm*termName:           xterm-256color
+xterm*termName:           xterm-256color
 !xterm*boldMode:           false
 xterm*saveLines:          1000
 xterm*cursorColor:        green

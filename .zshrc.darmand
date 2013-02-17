@@ -44,15 +44,8 @@ export PATH=$PATH:$HOME/doc/scripts
 export PATH=$PATH:$HOME/curl/usr/local/bin
 export PATH=$PATH:/data3/ngi/soft/git-1.7.1.1/bin
 export PATH=$PATH:$HOME/tools/TTServer
-
 export BIN=$BIN:/projects/ngi/bin
 export BIN=$BIN:$HOME/env/bin
-#export BIN=$BIN:$HOME/doc/vim/vim73/src
-#export BIN=$BIN:$HOME/doc/global-6.1/global
-#export BIN=$BIN:$HOME/doc/global-6.1/gtags
-#export BIN=$BIN:$HOME/doc/global-6.1/gtags-cscope
-#export BIN=$BIN:$HOME/doc/global-6.1/gozilla
-#export BIN=$BIN:$HOME/doc/global-6.1/htags
 export PATH=$PATH:$BIN
 
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/env/lib
@@ -64,13 +57,15 @@ export HISTFILE=~/.zsh_history
 export HISTSIZE=100000
 export SAVEHIST=100000
 
+# Set locale
+export LANG=en_US.utf8
+export LC_ALL=en_US.utf8
+export LANG=en_US.utf8
+export LANGUAGE=en_US.utf8
+
 # consider words bash-style
 autoload -U select-word-style
 select-word-style bash
-
-
-#export XTERM="aterm +sb -geometry 1680x1050 -fg black -bg lightgoldenrodyellow -fn -xos4-terminus-medium-*-normal-*-14-*-*-*-*-*-iso8859-15"
-#export XTERM="aterm +sb -geometry 1680x1050 -fg grey"
 
 setopt dotglob
 
@@ -96,15 +91,6 @@ bindkey   -M   viins   '[3~'   vi-delete-char
 bindkey   -M   viins   '^r'      history-incremental-search-backward
 
 
-# From http://stackoverflow.com/questions/994563/integrate-readlines-kill-ring-and-the-x11-clipboard
-
-#kill-line() { zle .kill-line ; echo -n $CUTBUFFER | xclip -i }
-#zle -N kill-line
-
-#yank() { LBUFFER=$LBUFFER$(xclip -o) }
-#zle -N yank
-
-
 setopt SHARE_HISTORY
 setopt APPEND_HISTORY
 setopt EXTENDED_HISTORY
@@ -124,7 +110,7 @@ fi
 export PAGER=less
 
 alias mv='nocorrect mv'
-alias tmux='nocorrect tmux -2'
+alias tmux='nocorrect tmux -2 -u'
 alias cp='nocorrect cp'
 alias mkdir='nocorrect mkdir'
 alias cvs='nocorrect cvs -w -q'
@@ -223,12 +209,6 @@ alias cdcore='cd $HOME/ama/obe/SLS'
 alias gocore='cd $HOME/ama/obe/SLS'
 alias goabr='cd $HOME/ama/obe/REG/ape/com/data/abr'
 alias start_otf='nocorrect start_otf'
-#   alias scons="scons appname=APE custom_builddir=/gctmp/$USERNAME/obj obedelpath=/gctmp/$USERNAME/obetar installpath=/gctmp/$USERNAME/deliveries"
-#alias scons='scons mwreppath=/gctmp/darmand/replicate ngireppath=/gctmp/darmand/replicate custom_builddir=/gctmp/darmand/'
-#alias scons='sh ~/scons_script.sh'
-# alias scons='scons'
-#alias scons='~/doc/scripts/scons.sh'
-#alias scons="scons appname=APE custom_builddir=/gctmp/$USERNAME/obj installpath=/gctmp/$USERNAME/deliveries obedelpath=/gctmp/$USERNAME/obetar"
 alias scons="scons appname=APE custom_builddir=/gctmp/$USERNAME/obj obedelpath=/gctmp/$USERNAME/obetar"
 
 ###########################################
@@ -284,7 +264,7 @@ alias tmux_new_inc_session='nocorrect t $TARGET_TMUX_SESSION_NB'
 #  [[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
 #fi
 
-[[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
+#[[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
 
 ################################################
 
