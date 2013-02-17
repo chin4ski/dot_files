@@ -1,0 +1,44 @@
+*VT100*colorMode: on
+*VT100*dynamicColors: on
+
+*VT100*underLine:       true
+! Uncomment this to use color for underline attribute
+!*VT100*colorULMode: on
+!*VT100*underLine: off
+
+*VT100*colorBDMode: off
+
+xterm*foreground:white
+xterm*background:#444444
+
+xterm*VT100.geometry:     111x42
+
+*VT100*faceName:        DejaVu Sans Mono
+!*VT100*faceName:        DejaVu Sans Condensed
+!*VT100*faceName:        anonymous pro for powerline
+!*VT100*faceName:        Inconsolata Dz For Powerline
+*VT100*faceSize:        8
+
+!xterm*faceName:        anonymous pro for powerline
+!xterm*faceName:        Inconsolata dz Powerline
+!xterm*faceSize:        10
+
+*VT100*utf8:            1
+*VT100*eightBitInput:   true
+*VT100*eightBitControl: false
+*VT100*eightBitOutput:  true
+
+!xterm*dynamicColors:      true
+!xterm*metaSendsEscape:    true
+!xterm*scrollKey:          true
+!xterm*scrollTtyOutput:    false
+!xterm*scrollBar:          false
+!xterm*rightScrollBar:     false
+!xterm*jumpScroll:         true
+!xterm*multiScroll:        true
+!xterm*toolBar:            false
+!xterm*termName:           xterm-256color
+!xterm*boldMode:           false
+xterm*saveLines:          1000
+xterm*cursorColor:        green
+xterm*appkeypadDefault:   true
