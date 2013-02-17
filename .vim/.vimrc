@@ -165,7 +165,7 @@ if version >= 702
 
   if isdirectory(g:localbundle_dir)
     " add localbundle target dir
-    let &runtimepath = g:dot_vim_dir.','.g:localbundle_dir.','.g:localbundle_dir.'/after'
+    let &rtp = &rtp . ',' . g:dot_vim_dir.','.g:localbundle_dir.','.g:localbundle_dir.'/after'
   endif
 
   call vundle#rc()
