@@ -3,6 +3,9 @@ set nocompatible
 """"""""""""""""""""""""""""
 " Terminal stuff {{{
 
+
+
+
 "" Taken from: http://vim.wikia.com/wiki/Detect_non-Unicode_Xterms
 "if has("multi_byte")
 "  set encoding=utf-8
@@ -19,26 +22,19 @@ set nocompatible
 "endif
 
 " Taken from: http://vim.wikia.com/wiki/Working_with_Unicode
-if has("multi_byte")
-  "if &termencoding == ""
-    "let &termencoding = &encoding
-  "endif
-  set termencoding=latin1 " Needed to have correct mapping for ALT key combos
+"if has("multi_byte")
+"  "if &termencoding == ""
+"    "let &termencoding = &encoding
+"  "endif
+"  set termencoding=latin1 " Needed to have correct mapping for ALT key combos
+"  "set termencoding=utf-8
 
-  set encoding=utf-8
-  setglobal fileencoding=utf-8
-  "set fileencoding=utf-8
-  "setglobal bomb
-  set fileencodings=ucs-bom,utf-8,latin1
-endif
-
-
-"for i in range(97,122)
-"  let c = nr2char(i)
-"  exec "set <M-".c.">=\<Esc>".c
-"endfor
-"set <M-Space>=<Esc><Space>
-"set <M-m>=<Esc>m
+"  set encoding=utf-8
+"  setglobal fileencoding=utf-8
+"  "set fileencoding=utf-8
+"  "setglobal bomb
+"  set fileencodings=ucs-bom,utf-8,latin1
+"endif
 
 "set timeoutlen=1000
 "set ttimeoutlen=100
@@ -49,76 +45,102 @@ function Allmap(mapping)
   execute 'map!' a:mapping
 endfunction
 
-"call Allmap('   <ESC>[B         <Down>')
-"call Allmap('   <ESC>[k4~       <c-Left>')
+if exists("$USING_XTERM_LINUX") || exists("$USING_XTERM_CYGWIN")
 
-"if !has("gui_running")
-"  if &term == "xterm-256color" || &term == "xterm" || &term == "screen-256color"
-"    " Already working keys:
-"    " <M-Any_key>
-"    " <C-Arrows>
-"    " <C-S-Arrows>
-"    " <S-F_KEY>
-"    " <S-Tab>
-"    " <Tab>
+  "set term=xterm-8bit
+  set ttymouse=sgr
 
-"    " Keys need a manual map:
-"    call Allmap('            <BS>')
-"    call Allmap('   [1;5P    <C-F1>')
-"    call Allmap('   [1;5Q    <C-F2>')
-"    call Allmap('   [1;5R    <C-F3>')
-"    call Allmap('   [1;5S    <C-F4>')
-"    call Allmap('   [15;5~   <C-F5>')
-"    call Allmap('   [17;5~   <C-F6>')
-"    call Allmap('   [18;5~   <C-F7>')
-"    call Allmap('   [19;5~   <C-F8>')
-"    call Allmap('   [20;5~   <C-F9>')
-"    call Allmap('   [21;5~   <C-F10>')
-"    call Allmap('   [23;5~   <C-F11>')
-"    call Allmap('   [24;5~   <C-F12>')
+  " Already working keys:
+  " <M-Any_key>
+  " <C-Arrows>
+  " <C-S-Arrows>
+  " <S-F_KEY>
+  " <S-Tab>
+  " <Tab>
 
-"    call Allmap('   <C-@>      <C-Space>')
+  " Keys need a manual map:
+  call Allmap('            <BS>')
+  call Allmap('   [1;5P    <C-F1>')
+  call Allmap('   [1;5Q    <C-F2>')
+  call Allmap('   [1;5R    <C-F3>')
+  call Allmap('   [1;5S    <C-F4>')
+  call Allmap('   [15;5~   <C-F5>')
+  call Allmap('   [17;5~   <C-F6>')
+  call Allmap('   [18;5~   <C-F7>')
+  call Allmap('   [19;5~   <C-F8>')
+  call Allmap('   [20;5~   <C-F9>')
+  call Allmap('   [21;5~   <C-F10>')
+  call Allmap('   [23;5~   <C-F11>')
+  call Allmap('   [24;5~   <C-F12>')
 
-"    call Allmap('   [1;6P    <C-S-F1>')
-"    call Allmap('   [1;6Q    <C-S-F2>')
-"    call Allmap('   [1;6R    <C-S-F3>')
-"    call Allmap('   [1;6S    <C-S-F4>')
-"    call Allmap('   [15;6~   <C-S-F5>')
-"    call Allmap('   [17;6~   <C-S-F6>')
-"    call Allmap('   [18;6~   <C-S-F7>')
-"    call Allmap('   [19;6~   <C-S-F8>')
-"    call Allmap('   [20;6~   <C-S-F9>')
-"    call Allmap('   [21;6~   <C-S-F10>')
-"    call Allmap('   [23;6~   <C-S-F11>')
-"    call Allmap('   [24;6~   <C-S-F12>')
+  call Allmap('   <C-@>      <C-Space>')
 
-"    call Allmap('   ±          <C-M-1>')
-"    call Allmap('   Ä       <C-M-2>')
-"    call Allmap('   õ       <C-M-3>')
-"    call Allmap('   ú       <C-M-4>')
-"    call Allmap('   ù       <C-M-5>')
-"    call Allmap('   û       <C-M-6>')
-"    call Allmap('   ü       <C-M-7>')
-"    call Allmap('   ˇ          <C-M-8>')
-"    call Allmap('   π          <C-M-9>')
-"    call Allmap('   ∞          <C-M-0>')
+  call Allmap('   [1;6P    <C-S-F1>')
+  call Allmap('   [1;6Q    <C-S-F2>')
+  call Allmap('   [1;6R    <C-S-F3>')
+  call Allmap('   [1;6S    <C-S-F4>')
+  call Allmap('   [15;6~   <C-S-F5>')
+  call Allmap('   [17;6~   <C-S-F6>')
+  call Allmap('   [18;6~   <C-S-F7>')
+  call Allmap('   [19;6~   <C-S-F8>')
+  call Allmap('   [20;6~   <C-S-F9>')
+  call Allmap('   [21;6~   <C-S-F10>')
+  call Allmap('   [23;6~   <C-S-F11>')
+  call Allmap('   [24;6~   <C-S-F12>')
 
-"    call Allmap('   [1~      <Home>')
-"    call Allmap('   [4~      <End>')
+  call Allmap('   ±        <C-M-1>')
+  call Allmap('   Ä       <C-M-2>')
+  call Allmap('   õ       <C-M-3>')
+  call Allmap('   ú       <C-M-4>')
+  call Allmap('   ù       <C-M-5>')
+  call Allmap('   û       <C-M-6>')
+  call Allmap('   ü       <C-M-7>')
+  call Allmap('   ˇ          <C-M-8>')
+  call Allmap('   π          <C-M-9>')
+  call Allmap('   ∞          <C-M-0>')
 
-"  elseif &term == "win32"
-"    " TODO
-"  else
-"    " TODO
-"  endif
-"endif
+  call Allmap('   [1~      <Home>')
+  call Allmap('   [4~      <End>')
+
+  echo 'xterm key mapping applied!'
+
+elseif exists( "$USING_URXVT_LINUX" )
+
+  "set term=xterm-256color
+  "set term=rxvt-unicode
+  set termencoding=latin1
+  set fileencoding=utf-8
+  set ttymouse=sgr
+  "set ttymouse=urxvt
+  "set ttymouse=xterm2
+
+  echo 'rxvt-linux key mapping applied!'
+
+elseif exists("$USING_URXVT_CYGWIN")
+
+  set term=xterm-256color
+  set ttymouse=urxvt
+  echo 'urxvt cygwin key mapping applied!'
+
+elseif exists("$USING_PUTTY")
+
+  for i in range(97,122)
+    let c = nr2char(i)
+    exec "set <M-".c.">=\<Esc>".c
+  endfor
+  set <M-Space>=<Esc><Space>
+  "set <M-m>=<Esc>m
+
+  "set ttymouse=xterm2   " Make mouse and putty work together (no tmux)
+  set ttymouse=xterm    " Make mouse and putty work together (with tmux)
+
+  echo 'putty key mapping applied!'
+else
+  echo 'No key mapping applied!'
+endif
 
 " test
 "map <kPlus> :echo 'ciao'<CR>
-
-if &term == "xterm" || &term == "screen-256color"
-  set term=xterm-256color
-endif
 
 " }}}
 
@@ -186,7 +208,8 @@ if version >= 702
   Bundle 'MatchTag'
   Bundle 'Rename2'
   Bundle 'TabBar'
-  Bundle 'TagHighlight'
+  "Bundle 'TagHighlight'
+  Bundle 'taghighlight'
   Bundle 'Vimball'
   Bundle 'a'
   Bundle 'aftersyntax'
@@ -619,7 +642,7 @@ if version >= 702
   " the buffer is scrolled by a single line. 
   " Setting the option below will start the scrolling three lines before the border, 
   " keeping more context around where you're working. 
-  "set scrolloff=10
+  set scrolloff=5
   "set sidescrolloff=10
 
   "    set list " we do what to show tabs
@@ -677,10 +700,6 @@ if version >= 702
 "    :au BufAdd,BufNewFile * nested tab sball
 
     set mouse=a            " Enable mouse usage (all modes) in terminals
-    "non-tmux:
-    "set ttymouse=xterm2    " Make mouse and putty work together
-    " tmux:
-    set ttymouse=xterm    " Make mouse and putty work together
 
     set ttyfast
     " Affiche le nombre de lignes sÈlectionnÈes en mode visuel ou la
@@ -745,7 +764,7 @@ if version >= 702
 
     set noequalalways
 
-    set lz " do not redraw while running macros (much faster) (LazyRedraw)"
+    set lazyredraw " do not redraw while running macros (much faster)
 
     " earch for selected text, forwards or backwards.
      " Remove the Windows ^M - when the encodings gets messed up
@@ -1318,6 +1337,8 @@ if version >= 702
     nmap <silent> <Leader>sv :execute "source ".g:dot_vim_dir."/.vimrc"<CR>
     nmap <silent> <Leader>ez :cd ~/.oh-my-zsh<CR>:execute "e ~/.zshrc.".$USER<CR>
     nmap <silent> <Leader>ex :e ~/.Xresources<CR>
+    nmap <silent> <Leader>ef :e ~/.fonts.conf<CR>
+    nmap <silent> <Leader>ei :e ~/.inputrc<CR>
     nmap <silent> <Leader>et :execute "e ~/.tmux.conf"<CR>
     nmap <silent> <Leader>eto :execute "e ~/doc/TODO_LIST.org"<CR>:let g:quickfixsigns#marks#marks = []<CR>:let g:quickfixsigns_class_vcsdiff = {}<CR>
 

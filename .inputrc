@@ -1,3 +1,21 @@
-set input-meta   on
-set output-meta  on
+## Active la saisie 8bit
+#set meta-flag On 
+#set input-meta On
+
+## Désactive la suppression du 8ème bit
+#set convert-meta Off
+
+## Conserve le 8ème bit pour l'affichage
+#set output-meta On
+
+#"\e[3~": delete-char
+
+# Enable 8bit input
+set meta-flag on 
+set input-meta on
+
+# Turns off 8th bit stripping
 set convert-meta off
+
+# Keep the 8th bit for display
+set output-meta on

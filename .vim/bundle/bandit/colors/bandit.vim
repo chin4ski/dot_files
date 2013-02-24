@@ -18,7 +18,7 @@ let ColourAssignment = {}
 " terminals is essential
 
 " By default, assume the background colour is dark (changes for light backgrounds are handled later)
-let ColourAssignment['Normal']          = {"CTERMFG": '255'}
+let ColourAssignment['Normal']          = {"CTERMFG": '255', "CTERMBG": '238'}
 
 let ColourAssignment['Comment']         = {"CTERMFG": '145',     "TERM":   'Bold'}
 

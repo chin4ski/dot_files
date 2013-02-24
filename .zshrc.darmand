@@ -30,6 +30,7 @@ ZSH_THEME="davide"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=()
 
+export PATH=$PATH:/data3/ngi/soft/git-1.7.1.1/bin
 source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
@@ -42,7 +43,6 @@ colors
 
 export PATH=$PATH:$HOME/doc/scripts
 export PATH=$PATH:$HOME/curl/usr/local/bin
-export PATH=$PATH:/data3/ngi/soft/git-1.7.1.1/bin
 export PATH=$PATH:$HOME/tools/TTServer
 export BIN=$BIN:/projects/ngi/bin
 export BIN=$BIN:$HOME/env/bin
@@ -87,8 +87,11 @@ bindkey   -M   vicmd   '^r'      redo
 bindkey   -M   vicmd   'p'       yank
 bindkey   -M   vicmd   'u'       undo
 bindkey   -M   vicmd   ''      vi-backward-delete-char
+bindkey   -M   vicmd   ''      vi-backward-delete-char      # for urxvt
 bindkey   -M   viins   '[3~'   vi-delete-char
 bindkey   -M   viins   '^r'      history-incremental-search-backward
+bindkey   -M   viins   ''      vi-backward-delete-char
+bindkey   -M   viins   ''      vi-backward-delete-char
 
 
 setopt SHARE_HISTORY
@@ -103,14 +106,15 @@ OS_NAME=`uname`
 export PAGER=less
 
 if [[ "$USER" == "darmand" ]]; then
-  export DISPLAY=nce${USER}:0.0
+  #export DISPLAY=nce${USER}:0.0
+  export DISPLAY=172.16.13.198:0.0
 fi
 
 
 export PAGER=less
 
 alias mv='nocorrect mv'
-alias tmux='nocorrect tmux -2 -u'
+alias tmux='nocorrect ~/env/bin/tmux -2 -u'
 alias cp='nocorrect cp'
 alias mkdir='nocorrect mkdir'
 alias cvs='nocorrect cvs -w -q'
@@ -218,7 +222,7 @@ alias scons="scons appname=APE custom_builddir=/gctmp/$USERNAME/obj obedelpath=/
 t() {
   [[ -z "$1" ]] && { echo "usage: t <session>" >&2; return 1; }
   printf '\033]0;%s\007' $1 
-  tmux has -t $1 && tmux attach -t $1 || tmux new -s $1
+  tmux has -t $1 && tmux -2 attach -t $1 || tmux -2 new -s $1
 }
 
 if [[ "$USER" != "apeoncal" ]]; then
@@ -256,14 +260,43 @@ done
 
 alias tmux_new_inc_session='nocorrect t $TARGET_TMUX_SESSION_NB'
 
+
+###############
+## Terminals ##
+###############
+
+# Use putty (windows):
+#[[ $TERM == "screen-256color" ]] && export USING_PUTTY=1
+#[[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
+
+# Use xterm-linux (linux):
+export USING_XTERM_LINUX=1
+if [ $SHLVL  -le 1 ]; then
+  xrdb ~/.Xresources
+  $HOME/env/bin/xterm -u8 &
+  disown
+  logout
+else
+  [[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
+fi
+
+# Use urxvt (linux):
 #if [ $SHLVL  -le 1 ]; then
-#  xterm&
+#  xrdb ~/.Xresources
+#  urxvt&
 #  disown
 #  logout
 #else
+#  export USING_URXVT_LINUX=1
 #  [[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
 #fi
 
+# Use xterm (cygwin):
+#[[ $TERM == "screen-256color" ]] && export USING_XTERM_CYGWIN=1
+#[[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
+
+# Use urxvt (cygwin):
+#[[ $TERM == "screen-256color" ]] && export USING_URXVT_CYGWIN=1
 #[[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
 
 ################################################
