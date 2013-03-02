@@ -7,13 +7,18 @@ git config --global credential.helper 'cache --timeout=36000'
 git remote add origin https://github.com/chin4ski/dot_files.git
 git push origin master
 
-# Update all submodules (from project root):
+# Update from github to local repo all submodules (to be run from project root):
 git submodule foreach git pull origin master
 
 # Add a submodule:
-git submodule add https://github.com/PATH/SUBMODULE_NAME.git PATH_TO_SUBMODULE_ON_DISK
+--> use add_submodules.sh
 
 # Remove a submodule:
+--> use remove_submodule.sh
 git config -f .git/config --remove-section submodule.SUBMODULE_NAME
 git config -f .gitmodules --remove-section submodule.SUBMODULE_NAME
 git rm --cached PATH_TO_SUBMODULE
+
+# Pull new commits from the original repo you forked the submodule for, and merge modif with your forked repo:
+# Fetches any new changes from the original repository  & Merges any changes fetched into your working files
+git fetch upstream && git merge upstream/master
