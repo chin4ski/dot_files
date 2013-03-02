@@ -102,7 +102,7 @@ if exists("$USING_XTERM_LINUX") || exists("$USING_XTERM_CYGWIN")
   call Allmap('   [1~      <Home>')
   call Allmap('   [4~      <End>')
 
-  echo 'xterm key mapping applied!'
+  "echo 'xterm key mapping applied!'
 
 elseif exists( "$USING_URXVT_LINUX" )
 

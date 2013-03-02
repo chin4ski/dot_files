@@ -45,8 +45,8 @@ export PATH=$PATH:$HOME/doc/scripts
 export PATH=$PATH:$HOME/curl/usr/local/bin
 export PATH=$PATH:$HOME/tools/TTServer
 export BIN=$BIN:/projects/ngi/bin
-export BIN=$BIN:$HOME/env/bin
 export PATH=$PATH:$BIN
+export BIN=$HOME/env/bin:$PATH
 
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/env/lib
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib64/engines/
@@ -106,15 +106,15 @@ OS_NAME=`uname`
 export PAGER=less
 
 if [[ "$USER" == "darmand" ]]; then
-  #export DISPLAY=nce${USER}:0.0
-  export DISPLAY=172.16.13.198:0.0
+  export DISPLAY=nce${USER}:0.0
+  #export DISPLAY=172.16.13.198:0.0
 fi
 
 
 export PAGER=less
 
 alias mv='nocorrect mv'
-alias tmux='nocorrect ~/env/bin/tmux -2 -u'
+alias tmux='nocorrect tmux -2 -u'
 alias cp='nocorrect cp'
 alias mkdir='nocorrect mkdir'
 alias cvs='nocorrect cvs -w -q'
@@ -269,11 +269,11 @@ alias tmux_new_inc_session='nocorrect t $TARGET_TMUX_SESSION_NB'
 #[[ $TERM == "screen-256color" ]] && export USING_PUTTY=1
 #[[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
 
-# Use xterm-linux (linux):
+# Use xterm (linux):
 export USING_XTERM_LINUX=1
-if [ $SHLVL  -le 1 ]; then
+if [ $SHLVL  -le 1 ] && [[ "$USER" == "darmand"  ]]; then
   xrdb ~/.Xresources
-  $HOME/env/bin/xterm -u8 &
+  xterm -u8 &
   disown
   logout
 else
