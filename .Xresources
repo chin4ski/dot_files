@@ -17,8 +17,10 @@
 xterm*foreground:white
 xterm*background:#222222
 !xterm*faceName:        DejaVu Sans Mono
+!xterm*faceName:        Terminus
 !xterm*faceName:        anonymous pro for powerline
 !xterm*faceName:        Inconsolata dz Powerline
+!xterm*faceName:        fixed
 xterm*faceSize:         11
 xterm*VT100.geometry:     160x60
 xterm*utf8: 1
@@ -37,13 +39,23 @@ xterm*saveLines:          1000
 xterm*cursorColor:        green
 xterm*appkeypadDefault:   true
 xterm*charClass: 33:48,35:48,37:48,43:48,45-47:48,64:48,95:48,126:48
+xterm*VT100.Translations: #override \
+    ShiftInsert: insert-selection(CLIPBOARD) \n\
+    Insert: insert-selection(PRIMARY) \n\
+    Shift: insert-selection(CLIPBOARD) \n\
+    Shift: select-start() \n\
+    Shift: select-extend() \n\
+    Shift: select-end(CLIPBOARD)\n\
+    Meta<KeyPress> d:    string("ciao")\n\
+    <Key>Super_L:  string("\033\033[24~")
+!Meta<Key>d:    string(0x1b) string("d")
 
 
 ! urxvt
 !URxvt*termName: rxvt-unicode
 !URxvt*geometry: 190x70
 !URxvt*background: #333333
-!3Rxvt*foreground: #ffffbf
+!URxvt*foreground: #ffffbf
 !URxvt*cursorColor: green
 !URxvt*meta8:true
 !URxvt*backspacekey:  

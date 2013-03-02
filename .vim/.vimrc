@@ -102,7 +102,7 @@ if exists("$USING_XTERM_LINUX") || exists("$USING_XTERM_CYGWIN")
   call Allmap('   [1~      <Home>')
   call Allmap('   [4~      <End>')
 
-  echo 'xterm key mapping applied!'
+  "echo 'xterm key mapping applied!'
 
 elseif exists( "$USING_URXVT_LINUX" )
 
@@ -211,7 +211,7 @@ if version >= 702
   "Bundle 'TagHighlight'
   Bundle 'taghighlight'
   Bundle 'Vimball'
-  Bundle 'a'
+  Bundle 'a.vim'
   Bundle 'aftersyntax'
   Bundle 'aftersyntaxc'
   Bundle 'ape_syntax'
@@ -1177,9 +1177,12 @@ if version >= 702
     " Add new mark
     nmap <silent> + <Plug>MarkSet
     xmap <silent> + <Plug>MarkSet
-    " Clear all marks
+    " Temporary clear all marks
     nmap <silent> - <Plug>ClearLastMark
     xmap <silent> - <Plug>ClearLastMark
+    " Clear all marks
+    nmap <silent> ­ <Plug>MarkClear
+    xmap <silent> ­ <Plug>MarkClear
     "To remove the default overriding of * and #, use:
     nmap <Plug>IgnoreMarkSearchNext <Plug>MarkSearchNext
     nmap <Plug>IgnoreMarkSearchPrev <Plug>MarkSearchPrev
@@ -1709,9 +1712,9 @@ if version >= 702
     "onoremap <C-LeftDrag> <C-C><LeftDrag>
 
     " Load previous search in quickfix window
-    map <silent> \ :colder<CR>
-    vmap <silent> \ <ESC>:colder<CR>i
-    imap <silent> \ <ESC>:colder<CR>i
+    map <silent> <M-\> :colder<CR>
+    vmap <silent> <M-\> <ESC>:colder<CR>i
+    imap <silent> <M-\> <ESC>:colder<CR>i
 
     " Load next search in quickfix window
     map <silent> <M-c> :cnewer<CR>
