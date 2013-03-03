@@ -24,7 +24,7 @@
   ignore = dirty
 [submodule ".vim/bundle/TabBar"]
 	path = .vim/bundle/TabBar
-	url = https://github.com/vim-scripts/TabBar
+	url = https://github.com/chin4ski/TabBar.git
   ignore = dirty
 [submodule ".vim/bundle/Vimball"]
 	path = .vim/bundle/Vimball

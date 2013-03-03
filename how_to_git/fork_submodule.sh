@@ -1,4 +1,4 @@
-# 0/ Add submodule using add_submodules.sh && commit it
+# 0/ Add submodule using add_submodules.sh && commit && push
 # 1/ Fork submodule in github webpage
 # 2/ Edit ".gitmodules" and change the submodule to point to the forked one
 # 3/ Execute:
