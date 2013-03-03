@@ -18,7 +18,7 @@ let ColourAssignment = {}
 " terminals is essential
 
 " By default, assume the background colour is dark (changes for light backgrounds are handled later)
-let ColourAssignment['Normal']          = {"CTERMFG": '255', "CTERMBG": '238'}
+let ColourAssignment['Normal']          = {"CTERMFG": '255', "CTERMBG": '236'}
 
 let ColourAssignment['Comment']         = {"CTERMFG": '145',     "TERM":   'Bold'}
 
@@ -173,13 +173,13 @@ let ColourAssignment['VertSplit']       = {"GUIFG": '11',       "GUIBG": '244'}
 let ColourAssignment['SignColumn']      = {"GUIFG": '118', "GUIBG": '238'}
 
 " Text Titles
-let ColourAssignment['Title']           = {"GUIFG": 'Blue',        "GUI": "None"}
-let ColourAssignment['htmlH1']          = {"GUIFG": 'Blue'}
-let ColourAssignment['htmlH2']          = {"GUIFG": 'Blue'}
-let ColourAssignment['htmlH3']          = {"GUIFG": 'Blue'}
-let ColourAssignment['htmlH4']          = {"GUIFG": 'Blue'}
-let ColourAssignment['htmlH5']          = {"GUIFG": 'Blue'}
-let ColourAssignment['htmlH6']          = {"GUIFG": 'Blue'}
+let ColourAssignment['Title']           = {"GUIFG": '147',        "GUI": "None"}
+let ColourAssignment['htmlH1']          = {"GUIFG": '147'}
+let ColourAssignment['htmlH2']          = {"GUIFG": '147'}
+let ColourAssignment['htmlH3']          = {"GUIFG": '147'}
+let ColourAssignment['htmlH4']          = {"GUIFG": '147'}
+let ColourAssignment['htmlH5']          = {"GUIFG": '147'}
+let ColourAssignment['htmlH6']          = {"GUIFG": '147'}
 
 
 " Delimiters
