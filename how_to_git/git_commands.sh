@@ -19,6 +19,7 @@ git config -f .git/config --remove-section submodule.SUBMODULE_NAME
 git config -f .gitmodules --remove-section submodule.SUBMODULE_NAME
 git rm --cached PATH_TO_SUBMODULE
 
-# Pull new commits from the original repo you forked the submodule for, and merge modif with your forked repo:
+# For forked repos:
+# Pull new commits from the original repo you forked the submodule from, and merge modif with your forked repo:
 # Fetches any new changes from the original repository  & Merges any changes fetched into your working files
 git fetch upstream && git merge upstream/master

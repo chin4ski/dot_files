@@ -249,6 +249,7 @@ if version >= 702
   Bundle 'xterm-color-table'
   Bundle 'YouCompleteMe'
   Bundle 'gruvbox'
+  Bundle 'fugitive'
 
   Bundle 'localbundle'
   call localbundle#init()
@@ -785,6 +786,8 @@ if version >= 702
 
 
     " TABBAR
+    " Don't load TabBar
+    "let Tb_loaded= 1
     let g:Tb_TabWrap = 1
     " Limit number of line displaying tabs in the tabs window
     let g:Tb_MaxSize = 0
