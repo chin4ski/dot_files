@@ -116,7 +116,7 @@ export PAGER=less
 
 alias df='nocorrect df'
 alias mv='nocorrect mv'
-alias tmux='nocorrect ~/env/bin/tmux -2 -u'
+alias tmux='nocorrect tmux -2 -u'
 alias cp='nocorrect cp'
 alias mkdir='nocorrect mkdir'
 alias cvs='nocorrect cvs -w -q'
@@ -271,11 +271,11 @@ alias tmux_new_inc_session='nocorrect t $TARGET_TMUX_SESSION_NB'
 #[[ $TERM == "screen-256color" ]] && export USING_PUTTY=1
 #[[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
 
-# Use xterm-linux (linux):
+# Use xterm (linux):
 export USING_XTERM_LINUX=1
-if [ $SHLVL  -le 1 ]; then
+if [ $SHLVL  -le 1 ] && [[ "$USER" == "darmand"  ]]; then
   xrdb ~/.Xresources
-  $HOME/env/bin/xterm -u8 &
+  xterm -u8 &
   disown
   logout
 else

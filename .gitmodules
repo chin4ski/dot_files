@@ -179,3 +179,6 @@
 [submodule ".vim/bundle/vim-detailed"]
 	path = .vim/bundle/vim-detailed
 	url = https://github.com/rking/vim-detailed.git
+[submodule ".vim/bundle/fugitive"]
+	path = .vim/bundle/fugitive
+	url = https://github.com/tpope/vim-fugitive.git
