@@ -1126,8 +1126,6 @@ if version >= 702
     "source g:dot_vim_dir.'/localbundle'.'/powerline/bindings/vim/plugin/source_plugin.vim'
     let pl_dir = g:bundle_dir . '/powerline'
     if isdirectory(pl_dir)
-      "exec 'source ' . g:bundle_dir . '/powerline/powerline/bindings/vim/plugin/source_plugin.vim'
-      "exec 'source ' . pl_dir . '/powerline/bindings/vim/plugin/source_plugin.vim'
       let &rtp = &rtp . ',' . pl_dir . '/powerline/bindings/vim'
     endif
 
