@@ -1,14 +1,14 @@
 # Env variables:
 export EDITOR="vim -u ~/.vim/.vimrc"
-export LANG=en_US.utf8
 export PATH="/usr/share/perl5/vendor_perl/auto/share/dist/Cope:$PATH"
+export DISPLAY=:0.0
 
 # Bindings:
 bindkey '^r' history-incremental-search-backward
 bindkey '^a' beginning-of-line
 bindkey '^e' end-of-line
-bindkey '^h' backward-delete-char 
-bindkey '[3~' delete-char 
+bindkey '^h' backward-delete-char
+#bindkey '[3~' delete-char
 
 # Sourcings:
 source /usr/share/doc/pkgfile/command-not-found.zsh
@@ -17,6 +17,7 @@ source /usr/share/doc/pkgfile/command-not-found.zsh
 alias vim='nocorrect vim -u ~/.vim/.vimrc'
 alias p='pacman-color'
 alias pacman='pacman-color'
+alias git='nocorrect git'
 
 alias y='yaourt'
 # Allow tab completion with the alias
