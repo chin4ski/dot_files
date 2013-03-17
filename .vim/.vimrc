@@ -239,6 +239,7 @@ if version >= 702
   Bundle 'vim-exjumplist'
   Bundle 'vim-indent-guides'
   "Bundle 'powerline'
+  Bundle 'vim-powerline'
   Bundle 'vim-repeat'
   Bundle 'vim-scratch'
   Bundle 'vim-surround'
@@ -1115,15 +1116,13 @@ if version >= 702
     "let g:quickfixsigns_events = ['BufRead']
     let g:quickfixsigns_events = ['BufWritePost']
 
-    " Powerline
+    " vim-powerline (old)
     call EnsureDirExists($TMPDIR.'/'.$USER.'/_VIM/Powerline_cache')
     let Powerline_cache_file = $TMPDIR.'/'.$USER.'/_VIM/Powerline_cache/Powerline.cache'
     let Powerline_cache_enabled = 1
     "let Powerline_symbols="unicode"
-    "TPlugin powerline
 
     " powerline (new)
-    "source g:dot_vim_dir.'/localbundle'.'/powerline/bindings/vim/plugin/source_plugin.vim'
     let pl_dir = g:bundle_dir . '/powerline'
     if isdirectory(pl_dir)
       let &rtp = &rtp . ',' . pl_dir . '/powerline/bindings/vim'
