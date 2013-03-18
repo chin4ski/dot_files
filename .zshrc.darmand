@@ -111,6 +111,8 @@ export PAGER=less
 if [[ "$USER" == "darmand" ]]; then
   export DISPLAY=nce${USER}:0.0
   #export DISPLAY=172.16.13.227:0.0
+else
+  export DISPLAY=:0.0
 fi
 
 

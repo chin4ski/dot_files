@@ -158,10 +158,6 @@
 	path = .vim/bundle/vcscommand
 	url = http://repo.or.cz/r/vcscommand.git
   ignore = dirty
-[submodule ".vim/bundle/powerline"]
-	path = .vim/bundle/powerline
-	url = https://github.com/Lokaltog/powerline.git
-  ignore = dirty
 [submodule ".oh-my-zsh"]
 	path = .oh-my-zsh
 	url = https://github.com/chin4ski/oh-my-zsh.git
@@ -182,3 +178,6 @@
 [submodule ".vim/bundle/fugitive"]
 	path = .vim/bundle/fugitive
 	url = https://github.com/tpope/vim-fugitive.git
+[submodule ".vim/bundle/vim-powerline"]
+	path = .vim/bundle/vim-powerline
+	url = https://github.com/Lokaltog/vim-powerline.git
