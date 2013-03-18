@@ -16,6 +16,33 @@
 ! xtem
 xterm*foreground:white
 xterm*background:#222222
+!!black
+!*color0:     #101010
+!*color8:     #404040
+!!red
+!*color1:     #E84F4F
+!*color9:     #D23D3D
+!!green
+!*color2:     #B8D68C
+!*color10:    #A0CF5D
+!!yellow
+!*color3:     #E1AA5D
+!*color11:    #F39D21
+!blue
+*color4:     #7DC8CF
+*color12:    #4E9FB1
+!!magenta
+!*color5:     #9B64FB
+!*color13:    #8542FF
+!!cyan
+!*color6:     #6D878D
+!*color14:    #42717B
+!!white
+!*color7:     #dddddd
+!*color15:    #dddddd
+
+
+
 !xterm*faceName:        DejaVu Sans Mono
 !xterm*faceName:        Terminus
 !xterm*faceName:        anonymous pro for powerline
@@ -28,7 +55,7 @@ xterm*eightBitInput:   true
 xterm*eightBitControl: false
 xterm*eightBitOutput:  true
 xterm*metaSendsEscape:    false
-XTerm*altSendsEscape: false
+xterm*altSendsEscape: false
 xterm*scrollTtyOutput:    false
 xterm*jumpScroll:         true
 xterm*multiScroll:        true
@@ -39,17 +66,25 @@ xterm*saveLines:          1000
 xterm*cursorColor:        green
 xterm*appkeypadDefault:   true
 xterm*charClass: 33:48,35:48,37:48,43:48,45-47:48,64:48,95:48,126:48
-xterm*VT100.Translations: #override \
-    ShiftInsert: insert-selection(CLIPBOARD) \n\
-    Insert: insert-selection(PRIMARY) \n\
-    Shift: insert-selection(CLIPBOARD) \n\
-    Shift: select-start() \n\
-    Shift: select-extend() \n\
-    Shift: select-end(CLIPBOARD)\n\
-    Meta<KeyPress> d:    string("ciao")\n\
-    <Key>Super_L:  string("\033\033[24~")
-!Meta<Key>d:    string(0x1b) string("d")
+!xterm*VT100.Translations: #override \
+!    ShiftInsert: insert-selection(CLIPBOARD) \n\
+!    Insert: insert-selection(PRIMARY) \n\
+!    Shift: insert-selection(CLIPBOARD) \n\
+!    Shift: select-start() \n\
+!    Shift: select-extend() \n\
+!    Shift: select-end(CLIPBOARD) \n\
 
+xterm*VT100.Translations: #override \
+    Meta<Key>d:  string("\033d")\n\
+    Alt<Key>d:  string("\033d")\n\
+    Meta<Key>s:  string("\033s")\n\
+    Alt<Key>s:  string("\033s")\n\
+
+!Meta<Key>d:  string("\033[19;2~")\n\
+!Alt<Key>d:  string("\033[19;2~")\n\
+
+!Meta<Key>d:  string("\033[34~")\n\
+!Alt<Key>d:  string("\033[34~")\n\
 
 ! urxvt
 !URxvt*termName: rxvt-unicode

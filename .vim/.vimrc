@@ -643,7 +643,9 @@ if version >= 702
   " the buffer is scrolled by a single line. 
   " Setting the option below will start the scrolling three lines before the border, 
   " keeping more context around where you're working. 
-  set scrolloff=5
+
+  " unset it for quickfix window..
+  "set scrolloff=5
   "set sidescrolloff=10
 
   "    set list " we do what to show tabs
@@ -1081,7 +1083,7 @@ if version >= 702
           "\ ['1', '1'],
           "\ ]
     " vcscommand
-    au BufEnter *CVS* set syntax=rcslog
+    au FileType cvslog set syntax=rcslog
     nmap <Leader>C <Plug>VCSCommit
 
     " Sessionman

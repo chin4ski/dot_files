@@ -28,10 +28,12 @@ ZSH_THEME="davide"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(zsh-syntax-highlighting)
+plugins=()
 
 export PATH=$PATH:/data3/ngi/soft/git-1.7.1.1/bin
 source $ZSH/oh-my-zsh.sh
+
+source $ZSH/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Customize to your needs...
 
@@ -45,8 +47,8 @@ export PATH=$PATH:$HOME/doc/scripts
 export PATH=$PATH:$HOME/curl/usr/local/bin
 export PATH=$PATH:$HOME/tools/TTServer
 export PATH=$PATH:/projects/ngi/bin
-export PATH=$PATH:$HOME/env/bin
 export PATH=$PATH:$BIN
+export PATH=$HOME/env/bin:$PATH
 #export PATH=$HOME/.cw/def:$PATH
 
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/env/lib
