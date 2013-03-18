@@ -1,18 +1,3 @@
-!*VT100*colorMode: on
-!*VT100*underLine:       true
-!!*VT100*faceName:        DejaVu Sans Mono
-!!*VT100*faceSize:        11
-!!*VT100*faceName:        DejaVu Sans Condensed
-!!*VT100*faceName:        anonymous pro for powerline
-!!*VT100*faceName:        Inconsolata Dz For Powerline
-!*VT100*colorBDMode: off
-!*VT100*utf8:            1
-!*VT100*eightBitInput:   true
-!*VT100*eightBitControl: false
-!*VT100*eightBitOutput:  true
-!*VT100*metaSendsEscape:    false
-
-
 ! xtem
 xterm*foreground:white
 xterm*background:#222222
@@ -48,15 +33,23 @@ xterm*background:#222222
 !xterm*faceName:        anonymous pro for powerline
 !xterm*faceName:        Inconsolata dz Powerline
 !xterm*faceName:        fixed
-xterm*faceSize:         11
+xterm*Font: fixed
+xterm*boldFont: fixed
+!xterm*font: -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
+!xterm*font: -*-dejavu sans mono-*-*-*-*-*-*-*-*-*-*-*-*
+!xterm*font: -*-dina-*-*-*-*-*-*-*-*-*-*-*-*
+!xterm*font: -*-terminusmodx.icons-*-*-*-*-*-*-*-*-*-*-*-*
+!xterm*font: -*-terminus for powerline-*-*-*-*-*-*-*-*-*-*-*-*
+!xterm*font: -*-anonymous pro for powerline-*-*-*-*-*-*-*-*-*-*-*-*
+!xterm*faceName:        dina
+!xterm*faceSize:         8
 xterm*VT100.geometry:     160x60
-xterm*utf8: 1
-xterm*eightBitInput:   true
-xterm*eightBitControl: false
-xterm*eightBitOutput:  true
+xterm*utf8:              1
+xterm*VT100*eightBitInput:     true
+xterm*VT100*eightBitControl:   false
+xterm*VT100*eightBitOutput:    true
 xterm*metaSendsEscape:    false
-xterm*altSendsEscape: false
-xterm*scrollTtyOutput:    false
+xterm*altSendsEscape:     falsexterm*scrollTtyOutput:    false
 xterm*jumpScroll:         true
 xterm*multiScroll:        true
 xterm*scrollBar:          false
@@ -65,37 +58,10 @@ xterm*boldMode:           false
 xterm*saveLines:          1000
 xterm*cursorColor:        green
 xterm*appkeypadDefault:   true
-xterm*charClass: 33:48,35:48,37:48,43:48,45-47:48,64:48,95:48,126:48
-!xterm*VT100.Translations: #override \
-!    ShiftInsert: insert-selection(CLIPBOARD) \n\
-!    Insert: insert-selection(PRIMARY) \n\
-!    Shift: insert-selection(CLIPBOARD) \n\
-!    Shift: select-start() \n\
-!    Shift: select-extend() \n\
-!    Shift: select-end(CLIPBOARD) \n\
-
+xterm*charClass:          33:48,35:48,37:48,43:48,45-47:48,64:48,95:48,126:48
 xterm*VT100.Translations: #override \
     Meta<Key>d:  string("\033d")\n\
     Alt<Key>d:  string("\033d")\n\
     Meta<Key>s:  string("\033s")\n\
     Alt<Key>s:  string("\033s")\n\
-
-!Meta<Key>d:  string("\033[19;2~")\n\
-!Alt<Key>d:  string("\033[19;2~")\n\
-
-!Meta<Key>d:  string("\033[34~")\n\
-!Alt<Key>d:  string("\033[34~")\n\
-
-! urxvt
-!URxvt*termName: rxvt-unicode
-!URxvt*geometry: 190x70
-!URxvt*background: #333333
-!URxvt*foreground: #ffffbf
-!URxvt*cursorColor: green
-!URxvt*meta8:true
-!URxvt*backspacekey:  
-!URxvt.searchable-scrollback: CM-l
-!URxvt*jumpScroll:         true
-!URxvt.depth: 24
-
 

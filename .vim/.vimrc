@@ -88,16 +88,16 @@ if exists("$USING_XTERM_LINUX") || exists("$USING_XTERM_CYGWIN")
   call Allmap('   [23;6~   <C-S-F11>')
   call Allmap('   [24;6~   <C-S-F12>')
 
-  call Allmap('   ±        <C-M-1>')
-  call Allmap('   €       <C-M-2>')
-  call Allmap('   ›       <C-M-3>')
-  call Allmap('   œ       <C-M-4>')
-  call Allmap('          <C-M-5>')
-  call Allmap('          <C-M-6>')
-  call Allmap('   Ÿ       <C-M-7>')
-  call Allmap('   ÿ          <C-M-8>')
-  call Allmap('   ¹          <C-M-9>')
-  call Allmap('   °          <C-M-0>')
+  "call Allmap('   Â±        <C-M-1>')
+  "call Allmap('   Â€       <C-M-2>')
+  "call Allmap('   Â›       <C-M-3>')
+  "call Allmap('   Âœ       <C-M-4>')
+  "call Allmap('   Â       <C-M-5>')
+  "call Allmap('   Â       <C-M-6>')
+  "call Allmap('   ÂŸ       <C-M-7>')
+  "call Allmap('   Ã¿          <C-M-8>')
+  "call Allmap('   Â¹          <C-M-9>')
+  "call Allmap('   Â°          <C-M-0>')
 
   call Allmap('   [1~      <Home>')
   call Allmap('   [4~      <End>')
@@ -239,6 +239,7 @@ if version >= 702
   Bundle 'vim-exjumplist'
   Bundle 'vim-indent-guides'
   "Bundle 'powerline'
+  Bundle 'vim-powerline'
   Bundle 'vim-repeat'
   Bundle 'vim-scratch'
   Bundle 'vim-surround'
@@ -417,7 +418,7 @@ if version >= 702
 
     set list
     set listchars=tab:>-,trail:_
-    "set listchars=tab:\\ \ ,trail:_
+    set fillchars=vert:â”‚
 
 
     " reselect visual block after in/dedent so we can in/dedent more
@@ -496,7 +497,7 @@ if version >= 702
   " TextMate uses. You might need to adjust your color scheme so they.re not
   " too distracting. 
   "    set list
-  "    set listchars=tab:.\ ,eol:¬
+  "    set listchars=tab:.\ ,eol:Â¬
 
   set noerrorbells
   set noflash
@@ -655,7 +656,7 @@ if version >= 702
 
   set report=0 " tell us when anything is changed via :...
 
-  " Tenter de rester toujours sur la même colonne lors de changements de
+  " Tenter de rester toujours sur la mÃªme colonne lors de changements de
   " lignes :
   set nostartofline 
 
@@ -688,10 +689,6 @@ if version >= 702
     "vnoremap <silent><ESC> <ESC>:set number<CR>
   endif
 
-  " that's a vertical box-drawing character
-  "set fillchars=vert:|
-  " needed by powerline
-  "set fillchars+=stl:\ ,stlnc:\
 
   " }}}
 
@@ -705,10 +702,10 @@ if version >= 702
     set mouse=a            " Enable mouse usage (all modes) in terminals
 
     set ttyfast
-    " Affiche le nombre de lignes sélectionnées en mode visuel ou la
+    " Affiche le nombre de lignes sÃ©lectionnÃ©es en mode visuel ou la
     " touche/commande qu'on vient de taper en mode commande
     set showcmd
-    " Indiquer le nombre de modification lorsqu'il y en a plus de 0 suite à
+    " Indiquer le nombre de modification lorsqu'il y en a plus de 0 suite Ã 
     " une commande
      set report=0
 
@@ -1117,20 +1114,16 @@ if version >= 702
     "let g:quickfixsigns_events = ['BufRead']
     let g:quickfixsigns_events = ['BufWritePost']
 
-    " Powerline
+    " vim-powerline (old)
     call EnsureDirExists($TMPDIR.'/'.$USER.'/_VIM/Powerline_cache')
     let Powerline_cache_file = $TMPDIR.'/'.$USER.'/_VIM/Powerline_cache/Powerline.cache'
     let Powerline_cache_enabled = 1
     "let Powerline_symbols="unicode"
-    "TPlugin powerline
 
     " powerline (new)
-    "source g:dot_vim_dir.'/localbundle'.'/powerline/bindings/vim/plugin/source_plugin.vim'
     let pl_dir = g:bundle_dir . '/powerline'
     if isdirectory(pl_dir)
-      "exec 'source ' . g:bundle_dir . '/powerline/powerline/bindings/vim/plugin/source_plugin.vim'
-      exec 'source ' . pl_dir . '/powerline/bindings/vim/plugin/source_plugin.vim'
-      set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
+      let &rtp = &rtp . ',' . pl_dir . '/powerline/bindings/vim'
     endif
 
     " TagHighlight
@@ -1186,8 +1179,8 @@ if version >= 702
     nmap <silent> - <Plug>ClearLastMark
     xmap <silent> - <Plug>ClearLastMark
     " Clear all marks
-    nmap <silent> ­ <Plug>MarkClear
-    xmap <silent> ­ <Plug>MarkClear
+    nmap <silent> Â­ <Plug>MarkClear
+    xmap <silent> Â­ <Plug>MarkClear
     "To remove the default overriding of * and #, use:
     nmap <Plug>IgnoreMarkSearchNext <Plug>MarkSearchNext
     nmap <Plug>IgnoreMarkSearchPrev <Plug>MarkSearchPrev
@@ -2299,16 +2292,16 @@ if version >= 702
     autocmd bufenter *.vim,.vimrc vnoremap OP y:h <C-R>=escape(@",'\\/.*$^~[]')<CR><CR>
 
     " Retrofitting: to convert from webpage to cvs up -j.. -j..
-"    noremap \wr Icvs up <M-w>dw.....<M-W>D<M-B>Pa ^wwdw.i-j<M-W>dwi-j^€kd 
-    let @t='Icvs up wdw.....WDBPa ^wwdw.i-jWdwi-j^€kd'
+"    noremap \wr Icvs up <M-w>dw.....<M-W>D<M-B>Pa ^wwdw.i-j<M-W>dwi-j^Â€kd 
+    let @t='Icvs up wdw.....WDBPa ^wwdw.i-jWdwi-j^Â€kd'
 "    let @t='^dWdWIcvs up kd^dwdwdwct;Ai kbkb krp^dWdWdWi-jWi-jbklkD^v$dku^wwP^kddd'
 "    let @t='dWdWkdv$dkuP^dWdWi-jt;krdWdWdWi -jbdW^PIcvs up kdddku^'
     " Retrofitting: to convert from cvs commit output to cvs up -j.. -j..
-"    noremap \cr dWdWddp€kudw..I-jE€kDdw...i -j^dW$A €krpB€kl€kDJIcvs up ^
-    let @r='dWdWddp€kudwdwdwI-jE€kDdwdwdwdwi -j^dW$A €krpB€kl€kDJIcvs up ^€kd'
+"    noremap \cr dWdWddpÂ€kudw..I-jEÂ€kDdw...i -j^dW$A Â€krpBÂ€klÂ€kDJIcvs up ^
+    let @r='dWdWddpÂ€kudwdwdwI-jEÂ€kDdwdwdwdwi -j^dW$A Â€krpBÂ€klÂ€kDJIcvs up ^Â€kd'
 
     " revert changes:
-    let @e='^df/...€kddd€kuE€klD€kd^dW.E€kl€kr€kD€krdW.^i-jWi-j^D€kuPa Icvs up €kddd€ku^'
+    let @e='^df/...Â€kdddÂ€kuEÂ€klDÂ€kd^dW.EÂ€klÂ€krÂ€kDÂ€krdW.^i-jWi-j^DÂ€kuPa Icvs up Â€kdddÂ€ku^'
 
     " Paste and increase number, useful for adding numbered log debug
     "nnoremap <leader>p p<C-A>==yy
