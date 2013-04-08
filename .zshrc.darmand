@@ -1,3 +1,10 @@
+# Compilation from source:
+# ./configure --prefix=$HOME/env
+# make
+# make install
+
+SUSE_VERSION=$( grep -a VERSION /etc/SuSE-release | cut -d " " -f 3)
+
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
 
@@ -11,7 +18,7 @@ ZSH_THEME="davide"
 # CASE_SENSITIVE="true"
 
 # Comment this out to disable bi-weekly auto-update checks
-# DISABLE_AUTO_UPDATE="true"
+ DISABLE_AUTO_UPDATE="true"
 
 # Uncomment to change how many often would you like to wait before auto-updates occur? (in days)
 # export UPDATE_ZSH_DAYS=13
@@ -20,10 +27,10 @@ ZSH_THEME="davide"
 # DISABLE_LS_COLORS="true"
 
 # Uncomment following line if you want to disable autosetting terminal title.
-# DISABLE_AUTO_TITLE="true"
+ DISABLE_AUTO_TITLE="true"
 
 # Uncomment following line if you want red dots to be displayed while waiting for completion
-# COMPLETION_WAITING_DOTS="true"
+ COMPLETION_WAITING_DOTS="true"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
@@ -43,15 +50,47 @@ colors
 
 #export PS1="$(print '%{\e[0;36m%}%n%{\e[0;37m%}@%{\e[0;36m%}%m%{\e[0m%}'):$(print '%{\e[0;33m%}%~%{\e[0m%}')$ "
 
+case $TERM in
+    termite|*xterm*|rxvt|rxvt-unicode|rxvt-256color|rxvt-unicode-256color|(dt|k|E)term)
+    precmd () { print -Pn "\e]0;[%n@%M][%~]%#\a" } 
+    preexec () { print -Pn "\e]0;[%n@%M][%~]%# ($1)\a" }
+  ;;
+    screen|screen-256color)
+      precmd () { 
+      print -Pn "\e]83;title \"$1\"\a" 
+      print -Pn "\e]0;$TERM - (%L) [%n@%M]%# [%~]\a" 
+    }
+    preexec () { 
+      print -Pn "\e]83;title \"$1\"\a" 
+      print -Pn "\e]0;$TERM - (%L) [%n@%M]%# [%~] ($1)\a" 
+    }
+  ;; 
+esac
+
+
 export PATH=$PATH:$HOME/doc/scripts
 export PATH=$PATH:$HOME/curl/usr/local/bin
 export PATH=$PATH:$HOME/tools/TTServer
 export PATH=$PATH:/projects/ngi/bin
 export PATH=$PATH:$BIN
-export PATH=$HOME/env/bin:$PATH
+
+if [[ "$SUSE_VERSION" == "10" ]]; then
+  ENV_DIR=$HOME/env_SUSE10
+  # For libevent-1.4.so.2 :
+  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/data3/ngi/soft/tools/onCall/memcached/lib
+elif [[ "$SUSE_VERSION" == "11" ]]; then
+  ENV_DIR=$HOME/env_SUSE11
+else
+  ENV_DIR=/usr
+  echo "Unknown SUSE version!"
+fi
+
+export PATH=$ENV_DIR/bin:$PATH
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ENV_DIR/lib
+export SHELL=$ENV_DIR/bin/zsh
+
 #export PATH=$HOME/.cw/def:$PATH
 
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/env/lib
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib64/engines/
 
 export ECLIPSE_HOME="/gcmtmp/darmand"
@@ -132,7 +171,8 @@ alias view_as_state='~/doc/scripts/view_as_state.sh'
 
 if [[ "$USER" == "darmand" ]]
 then
-  alias vim='nocorrect $HOME/env/bin/vim -u ~/.vim/.vimrc'
+  #alias vim='nocorrect $HOME/env/bin/vim -u ~/.vim/.vimrc'
+  alias vim='nocorrect vim -u ~/.vim/.vimrc'
   alias v='vim'
   alias vimdiff='nocorrect vim -c "windo set wrap" -d'
   alias gvim='nocorrect gvim'
@@ -159,7 +199,8 @@ alias vod='~/doc/scripts/open_modified_files.zsh'
 alias voc='~/doc/scripts/open_conflicting_files.sh'
 alias vd2='~/doc/scripts/vimdiff_between_to_dir.sh'
 
-export EDITOR="$HOME/env/bin/vim -u ~/.vim/.vimrc"
+#export EDITOR="$HOME/env/bin/vim -u ~/.vim/.vimrc"
+export EDITOR="vim -u ~/.vim/.vimrc"
 # export VIMRUNTIME=/remote/users2/darmand/.vim
 #export VIMRUNTIME=/remote/users2/darmand/doc/vim/vim73/runtime
 export CSCOPE_DB=""
@@ -221,6 +262,7 @@ alias goabr='cd $HOME/ama/obe/REG/ape/com/data/abr'
 alias start_otf='nocorrect start_otf'
 alias scons="scons appname=APE custom_builddir=/gctmp/$USERNAME/obj obedelpath=/gctmp/$USERNAME/obetar"
 
+
 ###########################################
 # tmux stuff
 
@@ -275,13 +317,21 @@ alias tmux_new_inc_session='nocorrect t $TARGET_TMUX_SESSION_NB'
 #[[ $TERM == "screen-256color" ]] && export USING_PUTTY=1
 #[[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
 
+# Use MobaXterm (windows):
+#[[ $TERM == "screen-256color" ]] && export USING_MOBAXTERM=1
+#[[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
+
 # Use xterm (linux):
 export USING_XTERM_LINUX=1
 if [ $SHLVL  -le 1 ] && [[ "$USER" == "darmand"  ]]; then
-  xrdb ~/.Xresources
-  xterm -u8 &
-  disown
-  logout
+  if [[ "$SUSE_VERSION" == "11" ]]; then
+    xrdb ~/.Xresources
+    xterm -u8 &
+    disown
+    logout
+  else
+    [[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
+  fi
 else
   [[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
 fi

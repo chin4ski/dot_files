@@ -18,7 +18,7 @@ let ColourAssignment = {}
 " terminals is essential
 
 " By default, assume the background colour is dark (changes for light backgrounds are handled later)
-let ColourAssignment['Normal']          = {"CTERMFG": '255', "CTERMBG": '236'}
+let ColourAssignment['Normal']          = {"CTERMFG": '255', "CTERMBG": '237'}
 
 let ColourAssignment['Comment']         = {"CTERMFG": '145',     "TERM":   'Bold'}
 
@@ -126,7 +126,7 @@ let ColourAssignment['EnumerationName'] = {"GUIFG": '80',     "TERM":  'Underlin
 let ColourAssignment['Member']          = {"GUIFG": '225'}
 let ColourAssignment['Union']           = {"GUIFG": '80',        "TERM":    'Underline'}
 
-let ColourAssignment['DefinedName']     = {"GUIFG": '214',     "GUI":    'BOLD'}
+let ColourAssignment['DefinedName']     = {"GUIFG": '178',     "GUI":    'BOLD'}
 " let ColourAssignment['DefinedName']     = {"GUIFG": '114',     "GUI":    'BOLD'}
 let ColourAssignment['GlobalVariable']  = {"CTERMFG": '226',      "TERM":  'Underline'}
 let ColourAssignment['LocalVariable']   = {"CTERMFG": '224'}
@@ -140,7 +140,7 @@ let ColourAssignment['Structure']       = {"GUIFG": '225', "GUI":  'Bold'} " str
 " Special Stuff
 let ColourAssignment['Special']         = {"GUIFG": '151',         "TERM":    'None'}
 let ColourAssignment['SpecialChar']     = {"GUIFG": '151'}     " special character in a constant
-let ColourAssignment['SpecialKey']      = {"GUIFG": '244'}     " special highlighting for 'listchars' etc
+let ColourAssignment['SpecialKey']      = {"GUIFG": '241'}     " special highlighting for 'listchars' etc
 let ColourAssignment['NonText']         = {"GUIFG": '250'}     " special highlighting for 'listchars' etc
 let ColourAssignment['MatchParen']      = {"GUI":   'Underline',   "GUIFG": '255', "GUIBG": '9'}   " Highlighting of matching parentheses
 
@@ -161,6 +161,7 @@ let ColourAssignment['PmenuSel']           = {"GUIFG": '235',     "GUIBG": '185'
 
 " Number of lines
 let ColourAssignment['LineNr']          = {"GUIFG": '243'}
+let ColourAssignment['CursorLineNr']    = {"GUIFG": '190'}
 
 " Status Lines
 let ColourAssignment['StatusLine']      = {"GUIFG": '232',       "GUIBG": '254'}
@@ -199,6 +200,9 @@ let ColourAssignment['Delimiter']       = {"GUIFG": 'DarkCyan'}
 " " Stop rainbow.vim from overwriting these colours (requires modifications to rainbow.vim v2a
 " let g:rainbow_delimiter_colours_defined = 1
 
+let ColourAssignment['CursorLine']         = {"CTERMBG": '238'}
+let ColourAssignment['CursorColumn']         = {"CTERMBG": '237'}
+
 " Marks plugin
 let ColourAssignment['MarkWord1']          = {"CTERMFG": '232', "CTERMBG": '117'}
 let ColourAssignment['MarkWord2']          = {"CTERMFG": '232', "CTERMBG": '119'}
@@ -210,10 +214,6 @@ let ColourAssignment['MarkWord7']          = {"CTERMFG": '254', "CTERMBG": '28'}
 let ColourAssignment['MarkWord8']          = {"CTERMFG": '232', "CTERMBG": '214'}
 let ColourAssignment['MarkWord9']          = {"CTERMFG": '254', "CTERMBG": '124'}
 let ColourAssignment['MarkWord10']          = {"CTERMFG": '254', "CTERMBG": '128'}
-
-let ColourAssignment['CursorLine']         = {"CTERMBG": '238'}
-"let ColourAssignment['CursorLine']         = {"CTERM":  'Reverse'}
-let ColourAssignment['CursorColumn']         = {"CTERMBG": '237'}
 
 " ========================================================================
 " Other available highlighting groups are listed at the bottom of the file

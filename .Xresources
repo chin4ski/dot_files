@@ -1,3 +1,8 @@
+! Compilation from source:
+! ./configure --prefix=$HOME/env --enable-256-color --enable-double-buffer --enable-wide-chars
+! make
+! make install
+
 ! xtem
 xterm*foreground:white
 xterm*background:#222222
@@ -28,6 +33,7 @@ xterm*background:#222222
 
 
 
+xterm*title: xterm
 !xterm*faceName:        DejaVu Sans Mono
 !xterm*faceName:        Terminus
 !xterm*faceName:        anonymous pro for powerline
@@ -64,4 +70,16 @@ xterm*VT100.Translations: #override \
     Alt<Key>d:  string("\033d")\n\
     Meta<Key>s:  string("\033s")\n\
     Alt<Key>s:  string("\033s")\n\
+    Alt<Key>a:  string("\033a")\n\
+    Meta<Key>a:  string("\033a")\n\
+    Alt<Key>1:  string("\0331")\n\
+    Meta<Key>1:  string("\0331")\n\
+    Alt<Key>2:  string("\0332")\n\
+    Meta<Key>2:  string("\0332")\n\
+    Alt<Key>3:  string("\0333")\n\
+    Meta<Key>3:  string("\0333")\n\
+    Alt<Key>4:  string("\0334")\n\
+    Meta<Key>4:  string("\0334")\n\
+    Alt<Key>5:  string("\0335")\n\
+    Meta<Key>5:  string("\0335")\n\
 
