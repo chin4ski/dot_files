@@ -40,7 +40,7 @@ plugins=()
 export PATH=$PATH:/data3/ngi/soft/git-1.7.1.1/bin
 source $ZSH/oh-my-zsh.sh
 
-source $ZSH/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+#source $ZSH/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Customize to your needs...
 
@@ -50,22 +50,22 @@ colors
 
 #export PS1="$(print '%{\e[0;36m%}%n%{\e[0;37m%}@%{\e[0;36m%}%m%{\e[0m%}'):$(print '%{\e[0;33m%}%~%{\e[0m%}')$ "
 
-case $TERM in
-    termite|*xterm*|rxvt|rxvt-unicode|rxvt-256color|rxvt-unicode-256color|(dt|k|E)term)
-    precmd () { print -Pn "\e]0;[%n@%M][%~]%#\a" } 
-    preexec () { print -Pn "\e]0;[%n@%M][%~]%# ($1)\a" }
-  ;;
-    screen|screen-256color)
-      precmd () { 
-      print -Pn "\e]83;title \"$1\"\a" 
-      print -Pn "\e]0;$TERM - (%L) [%n@%M]%# [%~]\a" 
-    }
-    preexec () { 
-      print -Pn "\e]83;title \"$1\"\a" 
-      print -Pn "\e]0;$TERM - (%L) [%n@%M]%# [%~] ($1)\a" 
-    }
-  ;; 
-esac
+#case $TERM in
+#    termite|*xterm*|rxvt|rxvt-unicode|rxvt-256color|rxvt-unicode-256color|(dt|k|E)term)
+#    precmd () { print -Pn "\e]0;[%n@%M][%~]%#\a" } 
+#    preexec () { print -Pn "\e]0;[%n@%M][%~]%# ($1)\a" }
+#  ;;
+#    screen|screen-256color)
+#      precmd () { 
+#      print -Pn "\e]83;title \"$1\"\a" 
+#      print -Pn "\e]0;$TERM - (%L) [%n@%M]%# [%~]\a" 
+#    }
+#    preexec () { 
+#      print -Pn "\e]83;title \"$1\"\a" 
+#      print -Pn "\e]0;$TERM - (%L) [%n@%M]%# [%~] ($1)\a" 
+#    }
+#  ;; 
+#esac
 
 
 export PATH=$PATH:$HOME/doc/scripts

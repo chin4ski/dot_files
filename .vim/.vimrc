@@ -261,12 +261,16 @@ if version >= 702
     Bundle 'vundle'
     Bundle 'xml'
     Bundle 'xterm-color-table'
-    Bundle 'YouCompleteMe'
+    "Bundle 'YouCompleteMe'
     Bundle 'gruvbox'
     Bundle 'fugitive'
     Bundle 'vcscommand'
     Bundle 'tabular'
     Bundle 'vim-textobj-user'
+    Bundle 'vim-textobj-between'
+    Bundle 'vim-textobj-diff'
+    Bundle 'vim-textobj-function'
+    Bundle 'vim-textobj-parameter'
 
     Bundle 'localbundle'
     call localbundle#init()
@@ -277,17 +281,6 @@ if version >= 702
 
   endif
 
-  "" original repos on github
-  "Bundle 'tpope/vim-fugitive'
-  "Bundle 'Lokaltog/vim-easymotion'
-  "Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
-  "Bundle 'tpope/vim-rails.git'
-  "" vim-scripts repos
-  "Bundle 'L9'
-  "Bundle 'FuzzyFinder'
-  "" non github repos
-  "Bundle 'git://git.wincent.com/command-t.git'
-
   filetype plugin indent on     " required!
   "
   " Brief help
@@ -297,34 +290,8 @@ if version >= 702
   " :BundleClean(!)      - confirm(or auto-approve) removal of unused bundles
   "
   " see :h vundle for more details or wiki for FAQ
-  " NOTE: comments after Bundle command are not allowed..
 
   """""""""""""" vundle+localbundle - END
-
-
-  """""""""""""" neobundle - START
-  "filetype off                   " Required!
-  "filetype plugin indent off     " Required!
-
-  "if has('vim_starting')
-    "set runtimepath+=/remote/users2/$USER/.vim/bundle/Shougo-neobundle.vim-91b483e/
-  "endif
-
-  "call neobundle#rc(expand('/remote/users2/$USER/.vim/bundle/'))
-
-  "NeoBundle 'CVSconflict'
-
-  "filetype plugin indent on     " Required!
-
-  """""""""""""" neobundle - END
-
-  """""""""""""" tplugin - START
-  "runtime bundle/tomtom-tplugin_vim-266145a/macros/tplugin.vim
-  "TPluginRoot /remote/users2/$USER/.vim/bundle/
-  "TPlugin tabbar
-  ""TPluginBefore *.[hc]pp TPlugin abudden-taghighlight-f58e4fd24d1e | e!
-  ""TPlugin abudden-taghighlight-f58e4fd24d1e
-  """""""""""""" tplugin - END
 
 
   if !exists("$TMPDIR")
@@ -422,13 +389,13 @@ if version >= 702
   " Tabs and indentation {{{
 
     " insert spaces instead of real tabs
-    set expandtab 
+	set expandtab
     " number of space in which a tab is expanded
-    set tabstop=2
-    set softtabstop=2
+    set tabstop=4
+    set softtabstop=4
 
     " >> indentation size
-    set shiftwidth=2
+    set shiftwidth=4
 
     "set autoindent
     "set cindent
@@ -512,14 +479,6 @@ if version >= 702
   if isdirectory(g:bandit_dir)
     colorscheme bandit
   endif
-  "colorscheme davide
-  "set background=light
-
-  " This makes Vim show invisible characters with the same characters that
-  " TextMate uses. You might need to adjust your color scheme so they.re not
-  " too distracting. 
-  "    set list
-  "    set listchars=tab:.\ ,eol:¬
 
   set noerrorbells
   set noflash
@@ -681,7 +640,7 @@ if version >= 702
 
   set number
 
-  if version >= 703
+  "if version >= 703
     "autocmd InsertEnter * :set number
     "autocmd InsertLeave * :set relativenumber
     "inoremap <silent><C-C> <ESC>:set relativenumber<CR><C-C>
@@ -697,7 +656,7 @@ if version >= 702
     "vnoremap V :set relativenumber<CR>V
     "vnoremap <silent><C-C> <ESC>:set number<CR><C-C>
     "vnoremap <silent><ESC> <ESC>:set number<CR>
-  endif
+  "endif
 
 
   " }}}
@@ -1044,12 +1003,12 @@ if version >= 702
     "let g:yankstack_map_keys = 0
     " The following needs to be called before any mapping redefining yank
     " actions (e.g. 'nmap Y y$' )
-    let g:yankstack_dir = g:bundle_dir.'vim-yankstack'
+    let g:yankstack_dir = g:bundle_dir.'/vim-yankstack'
     if isdirectory(g:yankstack_dir)
       call yankstack#setup()
       nmap <Tab> <Plug>yankstack_substitute_older_paste
       nmap <S-Tab> <Plug>yankstack_substitute_newer_paste
-      nnoremap <silent> <F3> :Yanks<CR>
+      nnoremap <ciao> <F3> :Yanks<CR>
     endif
 
     " Mark : moved to mark.vim
