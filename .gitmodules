@@ -199,3 +199,6 @@
 [submodule ".vim/bundle/vim-textobj-parameter"]
 	path = .vim/bundle/vim-textobj-parameter
 	url = https://github.com/sgur/vim-textobj-parameter
+[submodule ".vim/bundle/CVSconflict"]
+	path = .vim/bundle/CVSconflict
+	url = https://github.com/vim-scripts/CVSconflict.git

@@ -55,7 +55,8 @@ xterm*VT100*eightBitInput:     true
 xterm*VT100*eightBitControl:   false
 xterm*VT100*eightBitOutput:    true
 xterm*metaSendsEscape:    false
-xterm*altSendsEscape:     falsexterm*scrollTtyOutput:    false
+xterm*altSendsEscape:     false
+xterm*scrollTtyOutput:    false
 xterm*jumpScroll:         true
 xterm*multiScroll:        true
 xterm*scrollBar:          false

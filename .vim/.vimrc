@@ -866,7 +866,7 @@ if version >= 702
         let g:neocomplcache_keyword_patterns['default'] = '\v\h\w*'
 
         "imap <C-E>     g:neocomplcache_snippets_expand
-        imap <expr><C-l> neocomplcache#sources#snippets_complete#expandable() ?
+        imap <expr><C-s> neocomplcache#sources#snippets_complete#expandable() ?
               \ "\<Plug>(neocomplcache_snippets_expand)" : "\<C-n>"
 
         " Using omni-completion:
@@ -1008,7 +1008,7 @@ if version >= 702
       call yankstack#setup()
       nmap <Tab> <Plug>yankstack_substitute_older_paste
       nmap <S-Tab> <Plug>yankstack_substitute_newer_paste
-      nnoremap <ciao> <F3> :Yanks<CR>
+      nnoremap <F3> :Yanks<CR>
     endif
 
     " Mark : moved to mark.vim

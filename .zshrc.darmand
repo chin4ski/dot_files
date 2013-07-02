@@ -67,7 +67,6 @@ colors
 #  ;; 
 #esac
 
-
 export PATH=$PATH:$HOME/doc/scripts
 export PATH=$PATH:$HOME/curl/usr/local/bin
 export PATH=$PATH:$HOME/tools/TTServer
@@ -309,6 +308,14 @@ done
 alias tmux_new_inc_session='nocorrect t $TARGET_TMUX_SESSION_NB'
 
 
+# Taken from: http://brainscraps.wikia.com/wiki/Extreme_Multitasking_with_tmux_and_PuTTY
+function update_display() {
+  good_display=$(netstat -an | grep 0\ [0-9,:,.]*:60..\  | awk '{print $4}' | tail -n 1)
+  good_display=${good_display: -2}
+  export DISPLAY=${HOSTNAME}:${good_display}.0
+}
+
+
 ###############
 ## Terminals ##
 ###############
@@ -356,6 +363,15 @@ fi
 #[[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
 
 ################################################
+
+
+# Generate a ESC when a Shift key is pressed and released by itself.
+if [ -z $XCAPE ] ; then
+    # Run xcape only once
+    export XCAPE=1
+    xcape -e 'Shift_L=Escape;Shift_R=Escape'
+fi
+
 
 if [[ -f $HOME/.zshrc.home ]]; then
   source $HOME/.zshrc.home
