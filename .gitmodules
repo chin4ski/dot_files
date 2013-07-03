@@ -202,3 +202,6 @@
 [submodule ".vim/bundle/CVSconflict"]
 	path = .vim/bundle/CVSconflict
 	url = https://github.com/vim-scripts/CVSconflict.git
+[submodule ".vim/bundle/Recover"]
+	path = .vim/bundle/Recover
+	url = https://github.com/chrisbra/Recover.vim.git

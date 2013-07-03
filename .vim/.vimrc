@@ -259,7 +259,7 @@ if version >= 702
     Bundle 'vim-yankstack'
     Bundle 'vimproc'
     Bundle 'vundle'
-    Bundle 'xml'
+    "Bundle 'xml'
     Bundle 'xterm-color-table'
     "Bundle 'YouCompleteMe'
     Bundle 'gruvbox'

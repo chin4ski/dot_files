@@ -366,11 +366,11 @@ fi
 
 
 # Generate a ESC when a Shift key is pressed and released by itself.
-if [ -z $XCAPE ] ; then
-    # Run xcape only once
-    export XCAPE=1
-    xcape -e 'Shift_L=Escape;Shift_R=Escape'
-fi
+#if [ -z $XCAPE ] ; then
+#    # Run xcape only once
+#    export XCAPE=1
+#    xcape -e 'Shift_L=Escape;Shift_R=Escape'
+#fi
 
 
 if [[ -f $HOME/.zshrc.home ]]; then
