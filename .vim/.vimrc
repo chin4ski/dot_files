@@ -277,7 +277,6 @@ if version >= 702
     if !isdirectory(g:localbundle_dir)
       LocalBundle
     endif
->>>>>>> edf8fa540beee50f389504f0df28972a522aeb01
 
   endif
 
