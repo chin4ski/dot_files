@@ -181,6 +181,30 @@
 [submodule ".vim/bundle/vim-powerline"]
 	path = .vim/bundle/vim-powerline
 	url = https://github.com/Lokaltog/vim-powerline.git
+[submodule ".vim/bundle/tabular"]
+	path = .vim/bundle/tabular
+	url = https://github.com/godlygeek/tabular.git
+[submodule ".vim/bundle/vim-textobj-user"]
+	path = .vim/bundle/vim-textobj-user
+	url = https://github.com/kana/vim-textobj-user.git
+[submodule ".vim/bundle/vim-textobj-between"]
+	path = .vim/bundle/vim-textobj-between
+	url = https://github.com/thinca/vim-textobj-between.git
+[submodule ".vim/bundle/vim-textobj-diff"]
+	path = .vim/bundle/vim-textobj-diff
+	url = https://github.com/kana/vim-textobj-diff.git
+[submodule ".vim/bundle/vim-textobj-function"]
+	path = .vim/bundle/vim-textobj-function
+	url = https://github.com/kana/vim-textobj-function.git
+[submodule ".vim/bundle/vim-textobj-parameter"]
+	path = .vim/bundle/vim-textobj-parameter
+	url = https://github.com/sgur/vim-textobj-parameter
+[submodule ".vim/bundle/CVSconflict"]
+	path = .vim/bundle/CVSconflict
+	url = https://github.com/vim-scripts/CVSconflict.git
+[submodule ".vim/bundle/Recover"]
+	path = .vim/bundle/Recover
+	url = https://github.com/chrisbra/Recover.vim.git
 [submodule ".vim/bundle/operator-camelize"]
 	path = .vim/bundle/operator-camelize
 	url = https://github.com/tyru/operator-camelize.vim.git

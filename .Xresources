@@ -1,17 +1,54 @@
+! Compilation from source:
+! ./configure --prefix=$HOME/env --enable-256-color --enable-double-buffer --enable-wide-chars
+! make
+! make install
+
+! xtem
 xterm*foreground:white
 xterm*background:#222222
+!!black
+!*color0:     #101010
+!*color8:     #404040
+!!red
+!*color1:     #E84F4F
+!*color9:     #D23D3D
+!!green
+!*color2:     #B8D68C
+!*color10:    #A0CF5D
+!!yellow
+!*color3:     #E1AA5D
+!*color11:    #F39D21
+!blue
+*color4:     #7DC8CF
+*color12:    #4E9FB1
+!!magenta
+!*color5:     #9B64FB
+!*color13:    #8542FF
+!!cyan
+!*color6:     #6D878D
+!*color14:    #42717B
+!!white
+!*color7:     #dddddd
+!*color15:    #dddddd
 
-xterm*font: -*-terminus-medium-*-*-*-12-*-*-*-*-*-*-*
-xterm*boldFont: -*-terminus-bold-*-*-*-12-*-*-*-*-*-*-*
 
-!xterm*font: -*-terminus-medium-*-*-*-14-*-*-*-*-*-*-*
-!xterm*boldFont: -*-terminus-bold-*-*-*-14-*-*-*-*-*-*-*
 
-!xterm*font: -*-proggycleanttsz-*-*-*-*-0-*-*-*-*-*-*-*
-
-!xterm*font: -*-orp-medium-r-semicondensed-*-13-*-*-*-*-*-*-*
-!xterm*font: -*-profont-*-*-*-*-*-*-*-*-*-*-*-*
-!xterm*font: -*-dina-medium-r-normal-*-13-80-*-*-*-*-*-*
+xterm*title: xterm
+!xterm*faceName:        DejaVu Sans Mono
+!xterm*faceName:        Terminus
+!xterm*faceName:        anonymous pro for powerline
+!xterm*faceName:        Inconsolata dz Powerline
+!xterm*faceName:        fixed
+xterm*Font: fixed
+xterm*boldFont: fixed
+!xterm*font: -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
+!xterm*font: -*-dejavu sans mono-*-*-*-*-*-*-*-*-*-*-*-*
+!xterm*font: -*-dina-*-*-*-*-*-*-*-*-*-*-*-*
+!xterm*font: -*-terminusmodx.icons-*-*-*-*-*-*-*-*-*-*-*-*
+!xterm*font: -*-terminus for powerline-*-*-*-*-*-*-*-*-*-*-*-*
+!xterm*font: -*-anonymous pro for powerline-*-*-*-*-*-*-*-*-*-*-*-*
+!xterm*faceName:        dina
+!xterm*faceSize:         8
 xterm*VT100.geometry:     160x60
 xterm*utf8:              1
 xterm*VT100*eightBitInput:     true
@@ -31,12 +68,23 @@ xterm*saveLines:          1000
 xterm*cursorColor:        green
 xterm*appkeypadDefault:   true
 xterm*charClass:          33:48,35:48,37:48,43:48,45-47:48,64:48,95:48,126:48
-xterm*selectToClipboard:  true
-
-!xterm*VT100.Translations: #override \
-!    Meta<KeyPress> d:    string("ciao")\n\
-!    <Key>Super_L:  string("\033\033[24~")
-!Meta<Key>d:    string(0x1b) string("d")
+xterm*VT100.Translations: #override \
+    Meta<Key>d:  string("\033d")\n\
+    Alt<Key>d:  string("\033d")\n\
+    Meta<Key>s:  string("\033s")\n\
+    Alt<Key>s:  string("\033s")\n\
+    Alt<Key>a:  string("\033a")\n\
+    Meta<Key>a:  string("\033a")\n\
+    Alt<Key>1:  string("\0331")\n\
+    Meta<Key>1:  string("\0331")\n\
+    Alt<Key>2:  string("\0332")\n\
+    Meta<Key>2:  string("\0332")\n\
+    Alt<Key>3:  string("\0333")\n\
+    Meta<Key>3:  string("\0333")\n\
+    Alt<Key>4:  string("\0334")\n\
+    Meta<Key>4:  string("\0334")\n\
+    Alt<Key>5:  string("\0335")\n\
+    Meta<Key>5:  string("\0335")\n\
 
 
 st*foreground:white

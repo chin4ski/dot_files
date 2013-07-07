@@ -1,10 +1,13 @@
+""""""""""""""""""""""""""""
+" Compilation from source:
+" ./configure --with-features=normal --enable-cscope --enable-pythoninterp=yes --enable-rubyinterp=yes --enable-luainterp=no --enable-gui --with-features=huge --prefix=$HOME/env --enable-gtk2-check --enable-gui=gtk2
+" make
+" make install 
+
 set nocompatible
 
 """"""""""""""""""""""""""""
 " Terminal stuff {{{
-
-
-
 
 "" Taken from: http://vim.wikia.com/wiki/Detect_non-Unicode_Xterms
 "if has("multi_byte")
@@ -15,7 +18,6 @@ set nocompatible
 "  if $TERM == "xterm" || $TERM == "xterm-color" || $TERM == "xterm-color" || $TERM == "xterm-256color" || $TERM == "screen-256color"
 "    let propv = system("xprop -id $WINDOWID -f WM_LOCALE_NAME 8s ' $0' -notype WM_LOCALE_NAME")
 "    if propv !~ "WM_LOCALE_NAME .*UTF.*8" && propv !~ "WM_LOCALE_NAME .*utf.*8"
-"      echo 'latinnnn'
 "      set termencoding=latin1
 "    endif
 "  endif
@@ -38,7 +40,7 @@ set nocompatible
 
 "set timeoutlen=1000
 "set ttimeoutlen=100
-set timeout timeoutlen=1000 ttimeoutlen=100
+set timeout timeoutlen=1000 ttimeoutlen=1
 
 function Allmap(mapping)
   execute 'map' a:mapping
@@ -118,12 +120,18 @@ elseif exists("$USING_PUTTY")
     exec "set <M-".c.">=\<Esc>".c
   endfor
   set <M-Space>=<Esc><Space>
-  "set <M-m>=<Esc>m
 
   "set ttymouse=xterm2   " Make mouse and putty work together (no tmux)
   set ttymouse=xterm    " Make mouse and putty work together (with tmux)
 
-  echo 'putty key mapping applied!'
+  set encoding=utf-8  " with putty 'character set translation' set to 'UTF-8'
+  set termencoding=utf-8
+
+  "echo 'putty key mapping applied!'
+
+elseif exists("$USING_MOBAXTERM")
+
+  echo 'mobaxterm key mapping applied!'
 
 elseif exists("$USING_ST_TERMINAL_LINUX")
 
@@ -131,6 +139,7 @@ elseif exists("$USING_ST_TERMINAL_LINUX")
   set ttymouse=sgr
  
   echo 'st key mapping applied!'
+
 else
   echo 'No key mapping applied!'
 endif
@@ -155,11 +164,14 @@ let s:portable = expand('<sfile>:p:h')
 " add the directory to 'runtimepath'
 let &rtp= &rtp . ',' . printf('%s,%s,%s/after', s:portable, &runtimepath, s:portable)
 
-if $USER != "apeoncal"
-  let g:dot_vim_dir = $HOME.'/.vim'
-else
-  let g:dot_vim_dir = $HOME.'/.vim.darmand'
-endif
+let $VIMHOME=expand("<sfile>:p:h")
+let g:dot_vim_dir = $VIMHOME
+
+"if $USER != "apeoncal"
+"  let g:dot_vim_dir = $HOME.'/.vim'
+"else
+"  let g:dot_vim_dir = $HOME.'/.vim.darmand'
+"endif
 
 let g:bundle_dir = g:dot_vim_dir.'/bundle'
 let g:localbundle_dir = g:dot_vim_dir.'/localbundle'
@@ -179,6 +191,7 @@ if version >= 702
   filetype off                   " required!
 
   " add vundle plugin path
+  let g:vundle_dir = g:bundle_dir . '/vundle'
   let &rtp = &rtp . ',' . g:bundle_dir . '/vundle'
 
   if isdirectory(g:localbundle_dir)
@@ -186,86 +199,87 @@ if version >= 702
     let &rtp = &rtp . ',' . g:dot_vim_dir.','.g:localbundle_dir.','.g:localbundle_dir.'/after'
   endif
 
-  call vundle#rc()
+  if isdirectory(g:vundle_dir)
+    call vundle#rc()
 
-  " let Vundle manage Vundle
-  " required! 
-  Bundle 'vundle'
+    " let Vundle manage Vundle
+    " required! 
+    Bundle 'vundle'
 
-  " My Bundles here:
+    " My Bundles here:
 
-  Bundle 'CVSconflict'
-  Bundle 'Color-Sampler-Pack'
-  Bundle 'DirDiff'
-  Bundle 'DoxygenToolkit'
-  Bundle 'Enter-Indent'
-  Bundle 'IndexedSearch'
-  Bundle 'Mark--Karkat'
-  Bundle 'MatchTag'
-  Bundle 'Rename2'
-  Bundle 'TabBar'
-  "Bundle 'TagHighlight'
-  Bundle 'taghighlight'
-  Bundle 'Vimball'
-  Bundle 'a.vim'
-  Bundle 'aftersyntax'
-  Bundle 'aftersyntaxc'
-  Bundle 'ape_syntax'
-  Bundle 'bandit'
-  Bundle 'cpp_stuff'
-  Bundle 'ctrlp'
-  Bundle 'current-func-info'
-  Bundle 'errormarker'
-  Bundle 'file-line'
-  Bundle 'grep'
-  Bundle 'gtags'
-  Bundle 'gundo'
-  Bundle 'localbundle'
-  Bundle 'marvim'
-  Bundle 'matchit'
-  Bundle 'matchit.zip'
-  Bundle 'neocomplcache'
-  Bundle 'neosnippet'
-  Bundle 'nerdcommenter'
-  Bundle 'quickfixsigns_vim'
-  Bundle 'sessionman'
-  Bundle 'textobj-word-column'
-  Bundle 'themes'
-  Bundle 'undotree'
-  Bundle 'vim-exjumplist'
-  Bundle 'vim-indent-guides'
-  Bundle 'vim-powerline'
-  Bundle 'vim-repeat'
-  Bundle 'vim-scratch'
-  Bundle 'vim-surround'
-  Bundle 'vim-yankstack'
-  Bundle 'vimproc'
-  Bundle 'vundle'
-  Bundle 'xml'
-  Bundle 'xterm-color-table'
-  Bundle 'YouCompleteMe'
-  Bundle 'gruvbox'
-  Bundle 'fugitive'
-  Bundle 'operator-camelize'
-  Bundle 'operator-user'
+    Bundle 'CVSconflict'
+    Bundle 'Color-Sampler-Pack'
+    Bundle 'DirDiff'
+    Bundle 'DoxygenToolkit'
+    Bundle 'Enter-Indent'
+    Bundle 'IndexedSearch'
+    Bundle 'Mark--Karkat'
+    Bundle 'MatchTag'
+    Bundle 'Rename2'
+    Bundle 'TabBar'
+    "Bundle 'TagHighlight'
+    Bundle 'taghighlight'
+    Bundle 'Vimball'
+    Bundle 'a.vim'
+    Bundle 'aftersyntax'
+    Bundle 'aftersyntaxc'
+    Bundle 'ape_syntax'
+    Bundle 'bandit'
+    Bundle 'cpp_stuff'
+    Bundle 'ctrlp'
+    Bundle 'current-func-info'
+    Bundle 'errormarker'
+    Bundle 'file-line'
+    Bundle 'grep'
+    Bundle 'gtags'
+    Bundle 'gundo'
+    Bundle 'localbundle'
+    Bundle 'marvim'
+    Bundle 'matchit'
+    Bundle 'matchit.zip'
+    Bundle 'neocomplcache'
+    Bundle 'neosnippet'
+    Bundle 'nerdcommenter'
+    Bundle 'quickfixsigns_vim'
+    Bundle 'sessionman'
+    Bundle 'textobj-word-column'
+    Bundle 'themes'
+    Bundle 'undotree'
+    Bundle 'vim-exjumplist'
+    Bundle 'vim-indent-guides'
+    "Bundle 'powerline'
+    Bundle 'vim-powerline'
+    Bundle 'vim-repeat'
+    Bundle 'vim-scratch'
+    Bundle 'vim-surround'
+    Bundle 'vim-yankstack'
+    Bundle 'vimproc'
+    Bundle 'vundle'
+    "Bundle 'xml'
+    Bundle 'xterm-color-table'
+    "Bundle 'YouCompleteMe'
+    Bundle 'gruvbox'
+    Bundle 'fugitive'
+    Bundle 'vcscommand'
+    Bundle 'tabular'
+    Bundle 'vim-textobj-user'
+    Bundle 'vim-textobj-between'
+    Bundle 'vim-textobj-diff'
+    Bundle 'vim-textobj-function'
+    Bundle 'vim-textobj-parameter'
+    Bundle 'operator-camelize'
+    Bundle 'operator-user'
 
-  Bundle 'localbundle'
-  call localbundle#init()
+    Bundle 'localbundle'
+    call localbundle#init()
 
-  if !isdirectory(g:localbundle_dir)
-    LocalBundle
+    if !isdirectory(g:localbundle_dir)
+      LocalBundle
+    endif
+>>>>>>> edf8fa540beee50f389504f0df28972a522aeb01
+
   endif
-
-  "" original repos on github
-  "Bundle 'tpope/vim-fugitive'
-  "Bundle 'Lokaltog/vim-easymotion'
-  "Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
-  "Bundle 'tpope/vim-rails.git'
-  "" vim-scripts repos
-  "Bundle 'L9'
-  "Bundle 'FuzzyFinder'
-  "" non github repos
-  "Bundle 'git://git.wincent.com/command-t.git'
 
   filetype plugin indent on     " required!
   "
@@ -276,34 +290,8 @@ if version >= 702
   " :BundleClean(!)      - confirm(or auto-approve) removal of unused bundles
   "
   " see :h vundle for more details or wiki for FAQ
-  " NOTE: comments after Bundle command are not allowed..
 
   """""""""""""" vundle+localbundle - END
-
-
-  """""""""""""" neobundle - START
-  "filetype off                   " Required!
-  "filetype plugin indent off     " Required!
-
-  "if has('vim_starting')
-    "set runtimepath+=/remote/users2/$USER/.vim/bundle/Shougo-neobundle.vim-91b483e/
-  "endif
-
-  "call neobundle#rc(expand('/remote/users2/$USER/.vim/bundle/'))
-
-  "NeoBundle 'CVSconflict'
-
-  "filetype plugin indent on     " Required!
-
-  """""""""""""" neobundle - END
-
-  """""""""""""" tplugin - START
-  "runtime bundle/tomtom-tplugin_vim-266145a/macros/tplugin.vim
-  "TPluginRoot /remote/users2/$USER/.vim/bundle/
-  "TPlugin tabbar
-  ""TPluginBefore *.[hc]pp TPlugin abudden-taghighlight-f58e4fd24d1e | e!
-  ""TPlugin abudden-taghighlight-f58e4fd24d1e
-  """""""""""""" tplugin - END
 
 
   if !exists("$TMPDIR")
@@ -401,13 +389,13 @@ if version >= 702
   " Tabs and indentation {{{
 
     " insert spaces instead of real tabs
-    set expandtab 
+	set expandtab
     " number of space in which a tab is expanded
-    set tabstop=2
-    set softtabstop=2
+    set tabstop=4
+    set softtabstop=4
 
     " >> indentation size
-    set shiftwidth=2
+    set shiftwidth=4
 
     "set autoindent
     "set cindent
@@ -486,15 +474,11 @@ if version >= 702
   " Color settings, highlights, visual {{{
 
   set background=dark
-  colorscheme bandit
-  "colorscheme davide
-  "set background=light
 
-  " This makes Vim show invisible characters with the same characters that
-  " TextMate uses. You might need to adjust your color scheme so they.re not
-  " too distracting. 
-  "    set list
-  "    set listchars=tab:.\ ,eol:¬
+  let g:bandit_dir = g:bundle_dir.'/bandit'
+  if isdirectory(g:bandit_dir)
+    colorscheme bandit
+  endif
 
   set noerrorbells
   set noflash
@@ -537,18 +521,6 @@ if version >= 702
 
     " Custom status line
     set statusline=   " clear the statusline for when vimrc is reloaded
-    "set statusline+=%{HasPaste()}
-    "set statusline+=%02n:\                           " buffer number
-    "set statusline+=%f\                          " file name
-    "set statusline+=%h%m%r%w                     " flags
-    "set statusline+=[%{strlen(&ft)?&ft:'none'},  " filetype
-    "set statusline+=%{strlen(&fenc)?&fenc:&enc}, " encoding
-    "set statusline+=%{&fileformat}]              " file format
-    ""      set statusline+=\ [%r%{getcwd()}%h]     " CWD
-    "set statusline+=%=      "left/right separator
-    "set statusline+=%b,0x%-8B\      " current char
-    "set statusline+=%c,%l/ "cursor column/total lines
-    "set statusline+=%L\ %P "total lines/percentage in file
 
     "" A statusbar function, that provides a visual scrollbar (courtesy of A.Politz)
     "func! STL()
@@ -641,7 +613,9 @@ if version >= 702
   " the buffer is scrolled by a single line. 
   " Setting the option below will start the scrolling three lines before the border, 
   " keeping more context around where you're working. 
-  set scrolloff=5
+
+  " unset it for quickfix window..
+  "set scrolloff=5
   "set sidescrolloff=10
 
   "    set list " we do what to show tabs
@@ -666,7 +640,7 @@ if version >= 702
 
   set number
 
-  if version >= 703
+  "if version >= 703
     "autocmd InsertEnter * :set number
     "autocmd InsertLeave * :set relativenumber
     "inoremap <silent><C-C> <ESC>:set relativenumber<CR><C-C>
@@ -682,7 +656,7 @@ if version >= 702
     "vnoremap V :set relativenumber<CR>V
     "vnoremap <silent><C-C> <ESC>:set number<CR><C-C>
     "vnoremap <silent><ESC> <ESC>:set number<CR>
-  endif
+  "endif
 
 
   " }}}
@@ -754,7 +728,7 @@ if version >= 702
 
    
 "    set clipboard=unnamed " copy paste to system registry
-    set clipboard+=unnamed " share windows clipboard
+    "set clipboard+=unnamed " share windows clipboard ==>  !breaks Yankstackpluging!
     set clipboard+=autoselect " share windows clipboard
 
     set noequalalways
@@ -774,9 +748,12 @@ if version >= 702
     filetype plugin on
 
     " Alternate plugin: switch cpp <--> hpp, edi <--> gsv, ...
-    map <M-a> :A<CR>
-    vmap <M-a> <C-C>:A<CR>gv
-    imap <M-a> <C-C>:A<CR>i
+    "map <M-a> :A<CR>
+    "vmap <M-a> <C-C>:A<CR>gv
+    "imap <M-a> <C-C>:A<CR>i
+    map <Leader>a :A<CR>
+    vmap <Leader>a <C-C>:A<CR>gv
+    imap <Leader>a <C-C>:A<CR>i
 
 
     " TABBAR
@@ -889,7 +866,7 @@ if version >= 702
         let g:neocomplcache_keyword_patterns['default'] = '\v\h\w*'
 
         "imap <C-E>     g:neocomplcache_snippets_expand
-        imap <expr><C-l> neocomplcache#sources#snippets_complete#expandable() ?
+        imap <expr><C-s> neocomplcache#sources#snippets_complete#expandable() ?
               \ "\<Plug>(neocomplcache_snippets_expand)" : "\<C-n>"
 
         " Using omni-completion:
@@ -1026,10 +1003,13 @@ if version >= 702
     "let g:yankstack_map_keys = 0
     " The following needs to be called before any mapping redefining yank
     " actions (e.g. 'nmap Y y$' )
-    call yankstack#setup()
-    "nmap <Tab> <Plug>yankstack_substitute_older_paste
-    "nmap <S-Tab> <Plug>yankstack_substitute_newer_paste
-    nnoremap <silent> <F3> :Yanks<CR>
+    let g:yankstack_dir = g:bundle_dir.'/vim-yankstack'
+    if isdirectory(g:yankstack_dir)
+      call yankstack#setup()
+      nmap <Tab> <Plug>yankstack_substitute_older_paste
+      nmap <S-Tab> <Plug>yankstack_substitute_newer_paste
+      nnoremap <F3> :Yanks<CR>
+    endif
 
     " Mark : moved to mark.vim
     let g:mwDefaultHighlightingPalette = 'maximum'
@@ -1075,7 +1055,7 @@ if version >= 702
           "\ ['1', '1'],
           "\ ]
     " vcscommand
-    au BufEnter *CVS* set syntax=rcslog
+    au FileType cvslog set syntax=rcslog
     nmap <Leader>C <Plug>VCSCommit
 
     " Sessionman
@@ -1182,7 +1162,7 @@ if version >= 702
     nmap <Plug>IgnoreMarkSearchPrev <Plug>MarkSearchPrev
 
     " Marks #colors
-    " (moded to ~/.vim/bundle/bandit/colors/bandit.vim)
+    " (moved to ~/.vim/bundle/bandit/colors/bandit.vim)
     "highlight MarkWord1 ctermbg=117 ctermfg=black
     "highlight MarkWord2 ctermbg=119 ctermfg=black
     "highlight MarkWord3 ctermbg=220 ctermfg=black
@@ -1605,7 +1585,7 @@ if version >= 702
     let g:ctrlp_dotfiles = 0
     let g:ctrlp_max_files = 0
     let g:ctrlp_split_window = 0
-    hi CtrlpHighlightMatch cterm=Underline ctermfg=Yellow
+    hi CtrlpHighlightMatch cterm=Underline ctermfg=190
     let g:ctrlp_highlight_match = [1, 'CtrlpHighlightMatch']
     let g:ctrlp_regexp = 0
     let g:ctrlp_by_filename = 0
@@ -2164,7 +2144,7 @@ if version >= 702
       endwhile
     endfunction
 
-    vnoremap <Leader>ah :call Dec2Hex()<CR>
+    vnoremap <Leader>th :call Dec2Hex()<CR>
 
     function! Hex2Dec()
       let lstr = getline(".")
@@ -2424,6 +2404,8 @@ if version >= 702
   iab taht that
   iab Teh The
   iab teh the
+  iab Flioght Flight
+  iab flioght flight
 
 
   " Functions BEGIN
