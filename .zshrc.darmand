@@ -40,7 +40,7 @@ plugins=()
 export PATH=$PATH:/data3/ngi/soft/git-1.7.1.1/bin
 source $ZSH/oh-my-zsh.sh
 
-#source $ZSH/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $ZSH/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Customize to your needs...
 
@@ -147,8 +147,10 @@ OS_NAME=`uname`
 export PAGER=less
 
 if [[ "$USER" == "darmand" ]]; then
-  export DISPLAY=nce${USER}:0.0
-  #export DISPLAY=172.16.13.227:0.0
+  #export DISPLAY=nce${USER}:0.0
+  #export DISPLAY=NCEL2404:0.0
+  #export DISPLAY=NCEL2404.iis.amadeus.net:0.0
+  export DISPLAY=172.26.214.147:0.0
 else
   export DISPLAY=:0.0
 fi
@@ -329,19 +331,19 @@ function update_display() {
 #[[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
 
 # Use xterm (linux):
-export USING_XTERM_LINUX=1
-if [ $SHLVL  -le 1 ] && [[ "$USER" == "darmand"  ]]; then
-  if [[ "$SUSE_VERSION" == "11" ]]; then
-    xrdb ~/.Xresources
-    xterm -u8 &
-    disown
-    logout
-  else
-    [[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
-  fi
-else
-  [[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
-fi
+#export USING_XTERM_LINUX=1
+#if [ $SHLVL  -le 1 ] && [[ "$USER" == "darmand"  ]]; then
+#  if [[ "$SUSE_VERSION" == "11" ]]; then
+#    xrdb ~/.Xresources
+#    xterm -u8 &
+#    disown
+#    logout
+#  else
+#    [[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
+#  fi
+#else
+#  [[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
+#fi
 
 # Use urxvt (linux):
 #if [ $SHLVL  -le 1 ]; then
@@ -361,6 +363,10 @@ fi
 # Use urxvt (cygwin):
 #[[ $TERM == "screen-256color" ]] && export USING_URXVT_CYGWIN=1
 #[[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
+
+# Use tera term (Windows):
+[[ $TERM == "screen-256color" ]] && export USING_TERA_TERM=1
+[[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
 
 ################################################
 

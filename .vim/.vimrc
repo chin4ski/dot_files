@@ -47,7 +47,7 @@ function Allmap(mapping)
   execute 'map!' a:mapping
 endfunction
 
-if exists("$USING_XTERM_LINUX") || exists("$USING_XTERM_CYGWIN")
+if exists("$USING_XTERM_LINUX") || exists("$USING_XTERM_CYGWIN") || exists("$USING_TERA_TERM")
 
   "set term=xterm-8bit
   set ttymouse=sgr
@@ -1093,7 +1093,7 @@ if version >= 702
     call EnsureDirExists($TMPDIR.'/'.$USER.'/_VIM/Powerline_cache')
     let Powerline_cache_file = $TMPDIR.'/'.$USER.'/_VIM/Powerline_cache/Powerline.cache'
     let Powerline_cache_enabled = 1
-    "let Powerline_symbols="unicode"
+    let Powerline_symbols="fancy"
 
     " powerline (new)
     let pl_dir = g:bundle_dir . '/powerline'
