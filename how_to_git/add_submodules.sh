@@ -43,3 +43,9 @@ read $CMD_IN
 eval $CMD_EXEC
 echo
 
+echo "Done!"
+echo
+echo "Remember to:"
+echo "  - Add the bundle in .vimrc"
+echo "  - Call :LocalBundle from vim"
+echo

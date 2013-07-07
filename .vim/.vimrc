@@ -88,17 +88,6 @@ if exists("$USING_XTERM_LINUX") || exists("$USING_XTERM_CYGWIN")
   call Allmap('   [23;6~   <C-S-F11>')
   call Allmap('   [24;6~   <C-S-F12>')
 
-  "call Allmap('   ±        <C-M-1>')
-  "call Allmap('          <C-M-2>')
-  "call Allmap('          <C-M-3>')
-  "call Allmap('          <C-M-4>')
-  "call Allmap('          <C-M-5>')
-  "call Allmap('          <C-M-6>')
-  "call Allmap('          <C-M-7>')
-  "call Allmap('   ÿ          <C-M-8>')
-  "call Allmap('   ¹          <C-M-9>')
-  "call Allmap('   °          <C-M-0>')
-
   call Allmap('   [1~      <Home>')
   call Allmap('   [4~      <End>')
 
@@ -135,6 +124,13 @@ elseif exists("$USING_PUTTY")
   set ttymouse=xterm    " Make mouse and putty work together (with tmux)
 
   echo 'putty key mapping applied!'
+
+elseif exists("$USING_ST_TERMINAL_LINUX")
+
+  set term=st-256color
+  set ttymouse=sgr
+ 
+  echo 'st key mapping applied!'
 else
   echo 'No key mapping applied!'
 endif
@@ -238,7 +234,6 @@ if version >= 702
   Bundle 'undotree'
   Bundle 'vim-exjumplist'
   Bundle 'vim-indent-guides'
-  "Bundle 'powerline'
   Bundle 'vim-powerline'
   Bundle 'vim-repeat'
   Bundle 'vim-scratch'
@@ -251,6 +246,8 @@ if version >= 702
   Bundle 'YouCompleteMe'
   Bundle 'gruvbox'
   Bundle 'fugitive'
+  Bundle 'operator-camelize'
+  Bundle 'operator-user'
 
   Bundle 'localbundle'
   call localbundle#init()
@@ -1116,13 +1113,14 @@ if version >= 702
     call EnsureDirExists($TMPDIR.'/'.$USER.'/_VIM/Powerline_cache')
     let Powerline_cache_file = $TMPDIR.'/'.$USER.'/_VIM/Powerline_cache/Powerline.cache'
     let Powerline_cache_enabled = 1
+    let g:Powerline_symbols = 'fancy'
     "let Powerline_symbols="unicode"
 
     " powerline (new)
-    let pl_dir = g:bundle_dir . '/powerline'
-    if isdirectory(pl_dir)
-      let &rtp = &rtp . ',' . pl_dir . '/powerline/bindings/vim'
-    endif
+    "let pl_dir = g:bundle_dir . '/powerline'
+    "if isdirectory(pl_dir)
+    "  let &rtp = &rtp . ',' . pl_dir . '/powerline/bindings/vim'
+    "endif
 
     " TagHighlight
     if ! exists('g:TagHighlightSettings')          
@@ -1318,6 +1316,8 @@ if version >= 702
     "      \   'DONE': { 'ctermfg':'white', 'ctermbg':'green' }
     "      \ }
 
+    " operator-camelize
+    map <Leader>tc <Plug>(operator-camelize-toggle)
 
   " }}} Plugins/Scripts end
 
@@ -2032,6 +2032,33 @@ if version >= 702
   endfunction
   " Locally (local to block) rename a variable
   nmap <Leader>rv "zyiw:call Refactor()<cr>mx:silent! norm gd<cr>[V%:s/<C-R>//<c-r>z/gc<cr>`x
+
+
+
+  " Execute 'cmd' while redirecting output.
+  " Delete all lines that do not match regex 'filter' (if not empty).
+  " Delete any blank lines.
+  " Delete '<whitespace><number>:<whitespace>' from start of each line.
+  " Display result in a scratch buffer.
+  function! s:Filter_lines(cmd, filter)
+    let save_more = &more
+    set nomore
+    redir => lines
+    silent execute a:cmd
+    redir END
+    let &more = save_more
+    new
+    setlocal buftype=nofile bufhidden=hide noswapfile
+    put =lines
+    g/^\s*$/d
+    %s/^\s*\d\+:\s*//e
+    if !empty(a:filter)
+      execute 'v/' . a:filter . '/d'
+    endif
+    0
+  endfunction
+  command! -nargs=? Scriptnames call s:Filter_lines('scriptnames', <q-args>)
+
 
   " }}} Functions end
 

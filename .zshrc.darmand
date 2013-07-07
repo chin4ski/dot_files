@@ -303,6 +303,18 @@ fi
 #[[ $TERM == "screen-256color" ]] && export USING_URXVT_CYGWIN=1
 #[[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
 
+# Use st terminal:
+#export USING_ST_TERMINAL_LINUX=1
+#if [ $SHLVL  -le 1 ] && [[ "$USER" == "darmand"  ]]; then
+#  xrdb ~/.Xresources
+#  st &
+#  disown
+#  logout
+#else
+#  [[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
+#fi
+
+
 ################################################
 
 if [[ -f $HOME/.zshrc.home ]]; then
