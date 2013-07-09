@@ -241,7 +241,7 @@ if version >= 702
     Bundle 'neocomplcache'
     Bundle 'neosnippet'
     Bundle 'nerdcommenter'
-    Bundle 'quickfixsigns_vim'
+    "Bundle 'quickfixsigns_vim'
     Bundle 'sessionman'
     Bundle 'textobj-word-column'
     Bundle 'themes'
@@ -270,6 +270,7 @@ if version >= 702
     Bundle 'vim-textobj-parameter'
     Bundle 'operator-camelize'
     Bundle 'operator-user'
+    Bundle 'vim-signify'
 
     Bundle 'localbundle'
     call localbundle#init()
@@ -1062,31 +1063,29 @@ if version >= 702
     noremap <silent> [24~ :SessionList<CR>
     
     " quickfixsigns
-    let g:quickfixsigns_balloon = 0
-    let g:quickfixsigns#marks#marks = split('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', '\zs')
-    let g:quickfixsigns_class_vcsdiff = {'sign': '*quickfixsigns#vcsdiff#Signs', 'get': 'quickfixsigns#vcsdiff#GetList(%s)', 'event': ['BufWritePost','BufRead'], 'always_new': 1}
+    "let g:quickfixsigns_balloon = 0
+    "let g:quickfixsigns#marks#marks = split('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', '\zs')
+    "let g:quickfixsigns_class_vcsdiff = {'sign': '*quickfixsigns#vcsdiff#Signs', 'get': 'quickfixsigns#vcsdiff#GetList(%s)', 'event': ['BufWritePost','BufRead'], 'always_new': 1}
 
-    function! ToggleQuickfixSigns()
-      "if g:quickfixsigns#marks#marks == []
-      if g:quickfixsigns_class_vcsdiff == {}
-        let g:quickfixsigns#marks#marks = split('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', '\zs')
-        let g:quickfixsigns_class_vcsdiff = {'sign': '*quickfixsigns#vcsdiff#Signs', 'get': 'quickfixsigns#vcsdiff#GetList(%s)', 'event': ['BufWritePost','BufRead'], 'always_new': 1}
-      else
-        let g:quickfixsigns#marks#marks = []
-        let g:quickfixsigns_class_vcsdiff = {}
-      endif
-      QuickfixsignsSet
-    endfunction
-    silent command! ToggleQuickfixSigns :silent call ToggleQuickfixSigns()
+    "function! ToggleQuickfixSigns()
+    "  "if g:quickfixsigns#marks#marks == []
+    "  if g:quickfixsigns_class_vcsdiff == {}
+    "    let g:quickfixsigns#marks#marks = split('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', '\zs')
+    "    let g:quickfixsigns_class_vcsdiff = {'sign': '*quickfixsigns#vcsdiff#Signs', 'get': 'quickfixsigns#vcsdiff#GetList(%s)', 'event': ['BufWritePost','BufRead'], 'always_new': 1}
+    "  else
+    "    let g:quickfixsigns#marks#marks = []
+    "    let g:quickfixsigns_class_vcsdiff = {}
+    "  endif
+    "  QuickfixsignsSet
+    "endfunction
+    "silent command! ToggleQuickfixSigns :silent call ToggleQuickfixSigns()
 
     " <F11>
-    silent! noremap <silent> [23~ :ToggleQuickfixSigns<CR>
-    silent! vmap <silent> [23~ <ESC>:ToggleQuickfixSigns<CR>gv
-    silent! imap <silent> [23~ <C-O>[23~
+    "silent! noremap <silent> [23~ :ToggleQuickfixSigns<CR>
+    "silent! vmap <silent> [23~ <ESC>:ToggleQuickfixSigns<CR>gv
+    "silent! imap <silent> [23~ <C-O>[23~
 
-    "let g:quickfixsigns_events = ['BufRead', 'CursorHold', 'CursorHoldI', 'InsertLeave', 'InsertEnter', 'InsertChange']
-    "let g:quickfixsigns_events = ['BufRead']
-    let g:quickfixsigns_events = ['BufWritePost']
+    "let g:quickfixsigns_events = ['BufWritePost']
 
     " vim-powerline (old)
     call EnsureDirExists($TMPDIR.'/'.$USER.'/_VIM/Powerline_cache')
@@ -1222,12 +1221,12 @@ if version >= 702
 
 
     " DynamicSigns
-    "let g:Signs_IndentationLevel = 1
-    ":let g:SignsMixedIndentation = 1
-    :let g:Signs_Bookmarks = 1
-    :let g:Signs_QFList = 1
-    :let g:Signs_Diff = 1
-    :let g:Signs_Scrollbar = 1
+    ""let g:Signs_IndentationLevel = 1
+    "":let g:SignsMixedIndentation = 1
+    ":let g:Signs_Bookmarks = 1
+    ":let g:Signs_QFList = 1
+    ":let g:Signs_Diff = 1
+    ":let g:Signs_Scrollbar = 1
 
 
     " Clang complete
@@ -1296,6 +1295,12 @@ if version >= 702
     " operator-camelize
     map <Leader>tc <Plug>(operator-camelize-toggle)
 
+
+    "Signify
+    "let g:signify_disable_by_default = 0
+    let g:signify_vcs_list = ['cvs', 'hg']
+    "let g:signify_line_highlight = 1
+
   " }}} Plugins/Scripts end
 
 
@@ -1316,7 +1321,7 @@ if version >= 702
     nmap <silent> <Leader>ef :e ~/.fonts.conf<CR>
     nmap <silent> <Leader>ei :e ~/.inputrc<CR>
     nmap <silent> <Leader>et :execute "e ~/.tmux.conf"<CR>
-    nmap <silent> <Leader>eto :execute "e ~/doc/TODO_LIST.org"<CR>:let g:quickfixsigns#marks#marks = []<CR>:let g:quickfixsigns_class_vcsdiff = {}<CR>
+    "nmap <silent> <Leader>eto :execute "e ~/doc/TODO_LIST.org"<CR>:let g:quickfixsigns#marks#marks = []<CR>:let g:quickfixsigns_class_vcsdiff = {}<CR>
 
 
     " Edit TTS files
