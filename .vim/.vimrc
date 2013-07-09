@@ -270,7 +270,7 @@ if version >= 702
     Bundle 'vim-textobj-parameter'
     Bundle 'operator-camelize'
     Bundle 'operator-user'
-    Bundle 'vim-signify'
+    Bundle 'signify'
 
     Bundle 'localbundle'
     call localbundle#init()
