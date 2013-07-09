@@ -90,10 +90,6 @@
 	path = .vim/bundle/Mark--Karkat
 	url = https://github.com/chin4ski/Mark--Karkat.git
   ignore = dirty
-[submodule ".vim/bundle/TagHighlight"]
-	path = .vim/bundle/TagHighlight
-	url = https://github.com/abudden/TagHighlight.git
-  ignore = dirty
 [submodule ".vim/bundle/undotree"]
 	path = .vim/bundle/undotree
 	url = https://github.com/mbbill/undotree.git
