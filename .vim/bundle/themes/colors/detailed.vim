@@ -1,0 +1,1 @@
+<html><body>You are being <a href="https://raw.github.com/rking/vim-detailed/master/colors/detailed.vim">redirected</a>.</body></html>

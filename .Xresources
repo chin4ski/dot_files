@@ -61,6 +61,8 @@ xterm*jumpScroll:         true
 xterm*multiScroll:        true
 xterm*scrollBar:          false
 xterm*rightScrollBar:     false
+xterm*allowBoldFonts:     true
+xterm*wideBoldFont:       true
 xterm*boldMode:           false
 xterm*saveLines:          1000
 xterm*cursorColor:        green
@@ -83,4 +85,35 @@ xterm*VT100.Translations: #override \
     Meta<Key>4:  string("\0334")\n\
     Alt<Key>5:  string("\0335")\n\
     Meta<Key>5:  string("\0335")\n\
+
+
+st*foreground:white
+st*background:#222222
+st*font: -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
+!st*font: -*-orp-medium-r-semicondensed-*-13-*-*-*-*-*-*-*
+!st*font: -*-profont-*-*-*-*-*-*-*-*-*-*-*-*
+!st*font:              -*-dina-medium-r-normal-*-13-80-*-*-*-*-*-*
+st*VT100.geometry:     160x60
+st*utf8:              1
+st*VT100*eightBitInput:     true
+st*VT100*eightBitControl:   false
+st*VT100*eightBitOutput:    true
+st*metaSendsEscape:    false
+st*altSendsEscape:     false
+st*scrollTtyOutput:    false
+st*jumpScroll:         true
+st*multiScroll:        true
+st*scrollBar:          false
+st*rightScrollBar:     false
+st*boldMode:           false
+st*saveLines:          1000
+st*cursorColor:        green
+st*appkeypadDefault:   true
+st*charClass:          33:48,35:48,37:48,43:48,45-47:48,64:48,95:48,126:48
+st*selectToClipboard:  true
+
+!st*VT100.Translations: #override \
+!    Meta<KeyPress> d:    string("ciao")\n\
+!    <Key>Super_L:  string("\033\033[24~")
+!Meta<Key>d:    string(0x1b) string("d")
 

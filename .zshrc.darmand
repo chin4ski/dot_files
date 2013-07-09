@@ -364,11 +364,19 @@ function update_display() {
 #[[ $TERM == "screen-256color" ]] && export USING_URXVT_CYGWIN=1
 #[[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
 
-# Use tera term (Windows):
-[[ $TERM == "screen-256color" ]] && export USING_TERA_TERM=1
-[[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
+# Use st terminal:
+#export USING_ST_TERMINAL_LINUX=1
+#if [ $SHLVL  -le 1 ] && [[ "$USER" == "darmand"  ]]; then
+#  xrdb ~/.Xresources
+#  st &
+#  disown
+#  logout
+#else
+#  [[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
 
-################################################
+#fi# Use tera term (Windows):
+[[ $TERM == "screen-256color" ]] && export USING_TERA_TERM=1
+[[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit################################################
 
 
 # Generate a ESC when a Shift key is pressed and released by itself.
