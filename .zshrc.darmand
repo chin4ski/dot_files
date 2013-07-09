@@ -40,7 +40,7 @@ plugins=()
 export PATH=$PATH:/data3/ngi/soft/git-1.7.1.1/bin
 source $ZSH/oh-my-zsh.sh
 
-source $ZSH/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+#source $ZSH/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Customize to your needs...
 
@@ -149,8 +149,8 @@ export PAGER=less
 if [[ "$USER" == "darmand" ]]; then
   #export DISPLAY=nce${USER}:0.0
   #export DISPLAY=NCEL2404:0.0
-  #export DISPLAY=NCEL2404.iis.amadeus.net:0.0
-  export DISPLAY=172.26.214.147:0.0
+  export DISPLAY=NCEL2404.iis.amadeus.net:0.0
+  #export DISPLAY=172.26.214.147:0.0
 else
   export DISPLAY=:0.0
 fi
