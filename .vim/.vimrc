@@ -47,7 +47,42 @@ function Allmap(mapping)
   execute 'map!' a:mapping
 endfunction
 
-if exists("$USING_XTERM_LINUX") || exists("$USING_XTERM_CYGWIN") || exists("$USING_TERA_TERM")
+if exists("$USING_TERA_TERM")
+
+  "set term=xterm-8bit
+  set ttymouse=sgr
+
+  " Already working keys:
+  " <M-Any_key>
+  " <C-Arrows>
+  " <C-S-Arrows>
+  " <S-F_KEY>
+  " <S-Tab>
+  " <Tab>
+
+  " Keys need a manual map:
+  call Allmap('          <BS>')
+  call Allmap('   [11~   <F1>')
+  call Allmap('   [12~   <F2>')
+  call Allmap('   [13~   <F3>')
+  call Allmap('   [14~   <F4>')
+  call Allmap('   [15~   <F5>')
+  call Allmap('   [17~   <F6>')
+  call Allmap('   [18~   <F7>')
+  call Allmap('   [19~   <F8>')
+  call Allmap('   [20~   <F9>')
+  call Allmap('   [21~   <F10>')
+  call Allmap('   [23~   <F11>')
+  call Allmap('   [24~   <F12>')
+
+  call Allmap('   OR   *')
+  call Allmap('   Ol   +')
+  call Allmap('   OS   -')
+  call Allmap('   OM   <CR>')
+
+  "echo 'Tera Term key mapping applied!'
+
+elseif exists("$USING_XTERM_LINUX") || exists("$USING_XTERM_CYGWIN")
 
   "set term=xterm-8bit
   set ttymouse=sgr
@@ -132,6 +167,28 @@ elseif exists("$USING_PUTTY")
 elseif exists("$USING_MOBAXTERM")
 
   echo 'mobaxterm key mapping applied!'
+
+elseif exists("$USING_FUTTY")
+
+  "set ttymouse=xterm2   " Make mouse and putty work together (no tmux)
+  "set ttymouse=xterm    " Make mouse and putty work together (with tmux)
+  set ttymouse=sgr
+
+  set encoding=utf-8  " with putty 'character set translation' set to 'UTF-8'
+  set termencoding=utf-8
+
+  echo 'futty key mapping applied!'
+
+elseif exists("$USING_PUTTY_GDI")
+
+  "set ttymouse=xterm2   " Make mouse and putty work together (no tmux)
+  "set ttymouse=xterm    " Make mouse and putty work together (with tmux)
+  set ttymouse=sgr
+
+  set encoding=utf-8  " with putty 'character set translation' set to 'UTF-8'
+  set termencoding=utf-8
+
+  "echo 'putty_gdi key mapping applied!'
 
 elseif exists("$USING_ST_TERMINAL_LINUX")
 
@@ -271,6 +328,8 @@ if version >= 702
     Bundle 'operator-camelize'
     Bundle 'operator-user'
     Bundle 'signify'
+    Bundle 'easyclip'
+    Bundle 'unite.vim-master'
 
     Bundle 'localbundle'
     call localbundle#init()
@@ -335,6 +394,24 @@ if version >= 702
 
   " Allow 256 colors in gnu screen
   set t_Co=256
+
+
+  " Enable cursor shape control (Tera Term)
+  set t_SI=[6\ q
+  set t_EI=[1\ q
+
+  " Restore window title when exiting vim
+  let &t_ti .= "\e[22;0t"
+  let &t_te .= "\e[23;0t"
+
+  " Fix control sequence in screen
+  if &term == "screen"
+      let &t_SI .= "\eP\e[3 q\e\\"
+      let &t_EI .= "\eP\e[1 q\e\\"
+  else
+      let &t_SI .= "\e[3 q"
+      let &t_EI .= "\e[1 q"
+  endif
 
   " cscope
   "  map [I :cs find c <C-r><C-w><CR> 
@@ -1300,6 +1377,23 @@ if version >= 702
     "let g:signify_disable_by_default = 0
     let g:signify_vcs_list = ['cvs', 'hg']
     "let g:signify_line_highlight = 1
+    "let g:signify_mapping_next_hunk = 'OB'
+    "let g:signify_mapping_prev_hunk = 'OA'
+
+
+    " Easyclip
+    let g:EasyClipUseYankDefaults = 0
+    let g:EasyClipUseCutDefaults = 0
+    let g:EasyClipUsePasteDefaults = 0
+    let g:EasyClipUseSubstituteDefaults = 1
+
+
+    " Unite
+    call unite#custom#source('file,file/new,buffer,file_rec',
+                \ 'matchers', 'matcher_fuzzy')
+    "nnoremap <Space> :<C-u>Unite -no-split -buffer-name=files -start-insert file_rec/async<cr>
+    "nnoremap <Leader>s :Unite grep:.<cr>
+
 
   " }}} Plugins/Scripts end
 
@@ -1774,8 +1868,8 @@ if version >= 702
 
     " Toggle fold (open/close)
     "inoremap <space> <C-O>za
-    nnoremap <space> za
-    onoremap <space> <C-C>za
+    "nnoremap <space> za
+    "onoremap <space> <C-C>za
 
     " Close fold
     "inoremap [D <C-O>zci " <C-Left>
