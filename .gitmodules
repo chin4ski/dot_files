@@ -194,9 +194,6 @@
 [submodule ".vim/bundle/CVSconflict"]
 	path = .vim/bundle/CVSconflict
 	url = https://github.com/vim-scripts/CVSconflict.git
-[submodule ".vim/bundle/Recover"]
-	path = .vim/bundle/Recover
-	url = https://github.com/chrisbra/Recover.vim.git
 [submodule ".vim/bundle/operator-camelize"]
 	path = .vim/bundle/operator-camelize
 	url = https://github.com/tyru/operator-camelize.vim.git
