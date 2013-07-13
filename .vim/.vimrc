@@ -1389,8 +1389,8 @@ if version >= 702
 
 
     " Unite
-    call unite#custom#source('file,file/new,buffer,file_rec',
-                \ 'matchers', 'matcher_fuzzy')
+"     call unite#custom#source('file,file/new,buffer,file_rec',
+"                \ 'matchers', 'matcher_fuzzy')
     "nnoremap <Space> :<C-u>Unite -no-split -buffer-name=files -start-insert file_rec/async<cr>
     "nnoremap <Leader>s :Unite grep:.<cr>
 
