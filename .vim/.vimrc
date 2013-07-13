@@ -330,6 +330,7 @@ if version >= 702
     Bundle 'signify'
     Bundle 'easyclip'
     Bundle 'unite.vim-master'
+    Bundle 'recover'
 
     Bundle 'localbundle'
     call localbundle#init()

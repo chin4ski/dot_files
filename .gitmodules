@@ -206,3 +206,6 @@
 [submodule ".vim/bundle/easyclip"]
 	path = .vim/bundle/easyclip
 	url = https://github.com/svermeulen/vim-easyclip.git
+[submodule ".vim/bundle/recover"]
+	path = .vim/bundle/recover
+	url = https://github.com/chrisbra/Recover.vim.git
