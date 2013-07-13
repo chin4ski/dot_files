@@ -212,3 +212,12 @@
 [submodule ".vim/bundle/unite"]
 	path = .vim/bundle/unite
 	url = https://github.com/Shougo/unite.vim.git
+[submodule ".vim/bundle/largefile"]
+	path = .vim/bundle/largefile
+	url = https://github.com/vim-scripts/LargeFile.git
+[submodule ".vim/bundle/cpp-enhanced-highlight"]
+	path = .vim/bundle/cpp-enhanced-highlight
+	url = https://github.com/octol/vim-cpp-enhanced-highlight.git
+[submodule ".vim/bundle/tagbar"]
+	path = .vim/bundle/tagbar
+	url = https://github.com/majutsushi/tagbar.git

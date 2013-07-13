@@ -37,36 +37,6 @@ else
     let &t_EI .= "\e[1 q"
 endif
 
-
-"" Taken from: http://vim.wikia.com/wiki/Detect_non-Unicode_Xterms
-"if has("multi_byte")
-"  set encoding=utf-8
-"  if $TERM == "linux" || $TERM_PROGRAM == "GLterm"
-"    set termencoding=latin1
-"  endif
-"  if $TERM == "xterm" || $TERM == "xterm-color" || $TERM == "xterm-color" || $TERM == "xterm-256color" || $TERM == "screen-256color"
-"    let propv = system("xprop -id $WINDOWID -f WM_LOCALE_NAME 8s ' $0' -notype WM_LOCALE_NAME")
-"    if propv !~ "WM_LOCALE_NAME .*UTF.*8" && propv !~ "WM_LOCALE_NAME .*utf.*8"
-"      set termencoding=latin1
-"    endif
-"  endif
-"endif
-
-" Taken from: http://vim.wikia.com/wiki/Working_with_Unicode
-"if has("multi_byte")
-"  "if &termencoding == ""
-"    "let &termencoding = &encoding
-"  "endif
-"  set termencoding=latin1 " Needed to have correct mapping for ALT key combos
-"  "set termencoding=utf-8
-
-"  set encoding=utf-8
-"  setglobal fileencoding=utf-8
-"  "set fileencoding=utf-8
-"  "setglobal bomb
-"  set fileencodings=ucs-bom,utf-8,latin1
-"endif
-
 set timeout timeoutlen=1000 ttimeoutlen=1
 
 function Allmap(mapping)
@@ -122,6 +92,7 @@ elseif exists("$USING_XTERM_LINUX") || exists("$USING_XTERM_CYGWIN")
 
     " Keys need a manual map:
     call Allmap('            <BS>')
+
     call Allmap('   [1;5P    <C-F1>')
     call Allmap('   [1;5Q    <C-F2>')
     call Allmap('   [1;5R    <C-F3>')
@@ -135,7 +106,18 @@ elseif exists("$USING_XTERM_LINUX") || exists("$USING_XTERM_CYGWIN")
     call Allmap('   [23;5~   <C-F11>')
     call Allmap('   [24;5~   <C-F12>')
 
-    call Allmap('   <C-@>      <C-Space>')
+    call Allmap('   [1;2P    <S-F1>')
+    call Allmap('   [1;2Q    <S-F2>')
+    call Allmap('   [1;2R    <S-F3>')
+    call Allmap('   [1;2S    <S-F4>')
+    call Allmap('   [15;2~   <S-F5>')
+    call Allmap('   [17;2~   <S-F6>')
+    call Allmap('   [18;2~   <S-F7>')
+    call Allmap('   [19;2~   <S-F8>')
+    call Allmap('   [20;2~   <S-F9>')
+    call Allmap('   [21;2~   <S-F10>')
+    call Allmap('   [23;2~   <S-F11>')
+    call Allmap('   [24;2~   <S-F12>')
 
     call Allmap('   [1;6P    <C-S-F1>')
     call Allmap('   [1;6Q    <C-S-F2>')
@@ -149,6 +131,10 @@ elseif exists("$USING_XTERM_LINUX") || exists("$USING_XTERM_CYGWIN")
     call Allmap('   [21;6~   <C-S-F10>')
     call Allmap('   [23;6~   <C-S-F11>')
     call Allmap('   [24;6~   <C-S-F12>')
+
+    call Allmap('   <C-@>      <C-Space>')
+    call Allmap('   [27;5;13~ <C-CR>')
+    call Allmap('   [27;2;13~ <S-CR>')
 
     call Allmap('   [1~      <Home>')
     call Allmap('   [4~      <End>')
@@ -364,6 +350,10 @@ if version >= 702
         Bundle 'easyclip'
         Bundle 'unite.vim-master'
         Bundle 'recover'
+        Bundle 'largefile'
+        Bundle 'cpp-enhanced-highlight'
+        Bundle 'tagbar'
+        Bundle 'taghighlight'
 
         Bundle 'localbundle'
         call localbundle#init()
@@ -415,10 +405,6 @@ if version >= 702
 
     filetype on
 
-    " cscope
-    "  map [I :cs find c <C-r><C-w><CR> 
-    set csto=1
-
     " Store swap files in fixed location, not current directory, with full path
     " For Unix and Win32, if a directory ends in two path separators "//" or
     " "\\", the swap file name will be built from the complete path to the file
@@ -444,10 +430,6 @@ if version >= 702
     endif
 
 
-    " default is 4000 ms
-    " makes quickfixsigns plugin faster to refresh
-    set updatetime=500
-
     "Only ignore case when we type lower case when searching
     set ignorecase
     set smartcase
@@ -455,7 +437,7 @@ if version >= 702
     set history=10000
 
     " Spell check
-    nnoremap <silent> <F4> :setlocal invspell spell? spelllang=en_us<CR>
+    nnoremap <silent> <S-F4> :setlocal invspell spell? spelllang=en_us<CR>
 
 
     " ==========================================================
@@ -493,14 +475,14 @@ if version >= 702
 
     " move visual selection:
     " to the right
-    vnoremap <expr> [C 'dp`[' . strpart(getregtype(), 0, 1) . '`]'
+    vnoremap <expr> <C-Right> 'dp`[' . strpart(getregtype(), 0, 1) . '`]'
     "vnoremap <expr> gh 'dp`[' . strpart(getregtype(), 0, 1) . '`]'
     " to the left
-    vnoremap <expr> [D 'dhhp`[' . strpart(getregtype(), 0, 1) . '`]'
+    vnoremap <expr> <C-Left> 'dhhp`[' . strpart(getregtype(), 0, 1) . '`]'
     " up
-    vnoremap <expr> [A 'dkhp`[' . strpart(getregtype(), 0, 1) . '`]'
+    vnoremap <expr> <C-Up> 'dkhp`[' . strpart(getregtype(), 0, 1) . '`]'
     " down
-    vnoremap <expr> [B 'djhp`[' . strpart(getregtype(), 0, 1) . '`]'
+    vnoremap <expr> <C-Down> 'djhp`[' . strpart(getregtype(), 0, 1) . '`]'
 
     set smarttab
 
@@ -685,26 +667,19 @@ if version >= 702
     " incremental search
     set incsearch
 
-    "Maintain more context around the cursor 
-    "When the cursor is moved outside the viewport of the current window, 
+    " Maintain more context around the cursor 
+    " When the cursor is moved outside the viewport of the current window, 
     " the buffer is scrolled by a single line. 
     " Setting the option below will start the scrolling three lines before the border, 
     " keeping more context around where you're working. 
-
-    " unset it for quickfix window..
     "set scrolloff=5
     "set sidescrolloff=10
-
-    "    set list " we do what to show tabs
-    "    set listchars=tab:>-,trail:- " show tabs and trailing
-
-    "    set matchtime=5 " how many tenths of a second to blink matching brackets for
 
     set report=0 " tell us when anything is changed via :...
 
     " Tenter de rester toujours sur la même colonne lors de changements de
     " lignes :
-    set nostartofline 
+    set nostartofline
 
     set wrap " wrap line
 
@@ -716,25 +691,6 @@ if version >= 702
     set virtualedit=all
 
     set number
-
-    "if version >= 703
-    "autocmd InsertEnter * :set number
-    "autocmd InsertLeave * :set relativenumber
-    "inoremap <silent><C-C> <ESC>:set relativenumber<CR><C-C>
-    ""au BufRead -TabBar- :set nonumber norelativenumber<CR>
-    ""au BufCreate * echo 'davide: '.bufname('%')
-
-    "au BufReadPost * if bufname('%') == '-TabBar-' |
-    "\   echo 'ciao' |
-    ""\   setlocal nonumber norelativenumber |
-    "\ endif
-
-    "noremap V :set relativenumber<CR>V
-    "vnoremap V :set relativenumber<CR>V
-    "vnoremap <silent><C-C> <ESC>:set number<CR><C-C>
-    "vnoremap <silent><ESC> <ESC>:set number<CR>
-    "endif
-
 
     " }}}
     " ==========================================================
@@ -752,9 +708,6 @@ if version >= 702
     " Affiche le nombre de lignes sélectionnées en mode visuel ou la
     " touche/commande qu'on vient de taper en mode commande
     set showcmd
-    " Indiquer le nombre de modification lorsqu'il y en a plus de 0 suite à
-    " une commande
-    set report=0
 
     "Allow switching buffers without writing to disk
     set hidden
@@ -813,9 +766,9 @@ if version >= 702
 
     set lazyredraw " do not redraw while running macros (much faster)
 
-    " earch for selected text, forwards or backwards.
-    " Remove the Windows ^M - when the encodings gets messed up
-    "noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
+    " allow the . to execute once for each line of a BLOCK visual selection
+    vnoremap . :normal .<CR>
+
 
     " }}}
     " ==========================================================
@@ -880,12 +833,6 @@ if version >= 702
     "    set completeopt=menu,preview  " default
     set completeopt=menu
 
-
-    " another benefit of using ctags is that you can use it for tab completion. I find 
-    " that tab completion becomes unusably slow in a large project if you're finding 
-    " keywords from open buffers, but you can tell Vim to only use the current file and 
-    " ctags when finding keywords:
-    set complete=.,t
 
 
     "DOXYGEN
@@ -1111,8 +1058,7 @@ if version >= 702
     "set foldmethod=syntax
 
     " Tagbar
-    " <F4>
-    "nnoremap <silent> <F4> :TagbarToggle<CR>
+    nnoremap <silent> <F4> :TagbarToggle<CR>
 
     " rainbow_parenthesis
     "let g:rbpt_colorpairs = [
@@ -1138,10 +1084,12 @@ if version >= 702
     nmap <Leader>C <Plug>VCSCommit
 
     " Sessionman
-    " <F12>
-    noremap <silent> [24~ :SessionList<CR>
+    noremap <silent> <F12> :SessionList<CR>
 
     " quickfixsigns
+    " default is 4000 ms
+    " makes quickfixsigns plugin faster to refresh
+    "set updatetime=500
     "let g:quickfixsigns_balloon = 0
     "let g:quickfixsigns#marks#marks = split('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', '\zs')
     "let g:quickfixsigns_class_vcsdiff = {'sign': '*quickfixsigns#vcsdiff#Signs', 'get': 'quickfixsigns#vcsdiff#GetList(%s)', 'event': ['BufWritePost','BufRead'], 'always_new': 1}
@@ -1160,9 +1108,9 @@ if version >= 702
     "silent command! ToggleQuickfixSigns :silent call ToggleQuickfixSigns()
 
     " <F11>
-    "silent! noremap <silent> [23~ :ToggleQuickfixSigns<CR>
-    "silent! vmap <silent> [23~ <ESC>:ToggleQuickfixSigns<CR>gv
-    "silent! imap <silent> [23~ <C-O>[23~
+    "silent! noremap <silent> <F11> :ToggleQuickfixSigns<CR>
+    "silent! vmap <silent> <F11> <ESC>:ToggleQuickfixSigns<CR>gv
+    "silent! imap <silent> <F11> <C-O><F11>
 
     "let g:quickfixsigns_events = ['BufWritePost']
 
@@ -1404,6 +1352,16 @@ if version >= 702
 
     " ==========================================================
     " Mappings {{{
+
+    " Use <F2> for saving, also in Insert mode
+    noremap <F2> :w<CR>
+    vnoremap <F2> <C-C>:w<CR>gv
+    inoremap <F2> <C-O>:w<CR>
+
+    " save to new file and open it
+    "    nnoremap :we :WriteAndEdit 
+    " <F5>
+    noremap <F5> :e!<CR>
 
     " Have Y behave analogously to D and C rather
     " than to dd and cc (which is already done by yy):
@@ -1788,21 +1746,18 @@ if version >= 702
     imap <C-w> <C-o><C-w>
 
     " insert new line without going into insert mode
-    au WinEnter *
-                \ if &modifiable |
-                \   nnoremap <buffer> <CR> :put=''<CR> |
+    au BufEnter,WinEnter *
+                \ if &modifiable && &buftype != 'quickfix'|
+                \   map <CR> :silent put=''<CR>|
+                \   map <S-CR> :silent put!=''<CR>|
+                \ else|
+                \   silent! unmap <CR>|
+                \   silent! unmap <S-CR>|
                 \ endif
-    "\   nnoremap <S-CR> :put!=''<CR> |
-    "nnoremap <CR> :put=''<CR>
-    "nnoremap <S-CR> :put!=''<CR>
 
-    " Moving lines or block of text with Alt+Movement Keys
-    "nnoremap <C-j> :m+<CR>==
-    "nnoremap <C-k> :m-2<CR>==
-    "inoremap <C-j> <Esc>:m+<CR>==gi
-    "inoremap <C-k> <Esc>:m-2<CR>==gi
-    "vnoremap <C-j> :m'>+<CR>gv=`<my`>mzgv`yo`z
-    "vnoremap <C-k> :m'<-2<CR>gv=`>my`<mzgv`yo`z
+    au CmdwinEnter *
+                \ silent! unmap <CR>|
+                \ silent! unmap <S-CR>
 
     " Bash like keys for the command line
     cnoremap <C-A> <Home>
@@ -1813,11 +1768,6 @@ if version >= 702
     nmap <S-Z> <Plug>(exjumplist-previous-buffer)
     " Same, but forward
     nmap <S-X> <Plug>(exjumplist-next-buffer)
-
-    " Jump back to previous cursor location in jumps history
-    "nmap z <C-O>
-    " Same, but forward
-    "nmap x <C-I>
 
     " Move to next/previous method
     "nmap ] ]m
@@ -1846,16 +1796,16 @@ if version >= 702
     nmap <Leader>b va{
 
     " Move to next/previous fold
-    "nmap [A zkzz  " <C-Up>
-    "nmap [B zjzz  " <C-Down>
-    "imap [A <C-O>zkzz  " <C-Up>
-    "imap [B <C-O>zjzz  " <C-Down>
+    "nmap <C-Up> zkzz  " <C-Up>
+    "nmap <C-Down> zjzz  " <C-Down>
+    "imap <C-Up> <C-O>zkzz  " <C-Up>
+    "imap <C-Down> <C-O>zjzz  " <C-Down>
 
     " Fold current block of code
-    "nmap [D zfi} " <C-Left>
-    "nmap [C zo " <C-Right>
-    "nmap [C vf} " <C-Right>
-    "nmap [D zo " <C-Left>
+    "nmap <C-Left> zfi} " <C-Left>
+    "nmap <C-Right> zo " <C-Right>
+    "nmap <C-Right> vf} " <C-Right>
+    "nmap <C-Left> zo " <C-Left>
 
     " Toggle fold (open/close)
     "inoremap <space> <C-O>za
@@ -1863,25 +1813,22 @@ if version >= 702
     "onoremap <space> <C-C>za
 
     " Close fold
-    "inoremap [D <C-O>zci " <C-Left>
-    "nnoremap [D zc " <C-Left>
-    "onoremap [D <C-C>zc " <C-Left>
+    "inoremap <C-Left> <C-O>zci " <C-Left>
+    "nnoremap <C-Left> zc " <C-Left>
+    "onoremap <C-Left> <C-C>zc " <C-Left>
 
     " Open fold
-    "inoremap [C <C-O>zoi " <C-Right>
-    "nnoremap [C zo " <C-Right>
-    "onoremap [C <C-C>zo " <C-Right>
-
-    " stlrefvim
-    " <F6>
-    autocmd bufenter *.c,*.h,*.cpp,*.hpp vmap <Leader>[11 <Plug>StlRefVimVisual
-    " <F1>
-    autocmd bufenter *.c,*.h,*.cpp,*.hpp nmap <Leader><F1> <Plug>StlRefVimNormal
+    "inoremap <C-Right> <C-O>zoi " <C-Right>
+    "nnoremap <C-Right> zo " <C-Right>
+    "onoremap <C-Right> <C-C>zo " <C-Right>
 
     " crefvim
-    " <F1>
-    autocmd bufenter *.c,*.h,*.cpp,*.hpp vmap <F1> <Plug>CRV_CRefVimVisual
-    autocmd bufenter *.c,*.h,*.cpp,*.hpp nmap <F1> <Plug>CRV_CRefVimNormal
+    autocmd bufenter *.c,*.h,*.cpp,*.hpp vmap <S-F1> <Plug>CRV_CRefVimVisual
+    autocmd bufenter *.c,*.h,*.cpp,*.hpp nmap <S-F1> <Plug>CRV_CRefVimNormal
+
+    " stlrefvim
+    autocmd bufenter *.c,*.h,*.cpp,*.hpp vmap <C-F1> <Plug>StlRefVimVisual
+    autocmd bufenter *.c,*.h,*.cpp,*.hpp nmap <C-F1> <Plug>StlRefVimNormal
 
     function! MergeLeftToRight()
         if !&diff
@@ -1972,7 +1919,8 @@ if version >= 702
     " Lets you type :R <command> to run an external command and give you the
     " results in a small new buffer. Useful for filtering your file and
     " getting the results separately
-    command! -complete=shellcmd -nargs=* R belowright 15new | r ! <args>
+    "command! -complete=shellcmd -nargs=* R belowright 15new | r ! <args>
+    command! -complete=shellcmd -nargs=* R execute 'Sscratch'| r ! <args>
 
     " Keybinds to make the global register less annoying
     noremap <Leader>p :silent set paste<CR>"*]p:set nopaste<CR>
@@ -1983,7 +1931,7 @@ if version >= 702
 
     vnoremap <Leader>p <C-C>:silent set paste<CR>gv"*]p:set nopaste<CR>
     vnoremap <Leader>P <C-C>:silent set paste<CR>gv"*]P:set nopaste<CR>
-    vnoremap <Leader>y "+y
+    vnoremap <Leader>y "*y
     "vnoremap <Leader>y "*ygv:!xclip -d $DISPLAY -o -selection clipboard<CR>
     "vnoremap <Leader>y :!xclip -d $DISPLAY -o -selection clipboard<CR>
     vnoremap <Leader>Y "*Y
@@ -1994,9 +1942,6 @@ if version >= 702
     " (http://www.reddit.com/r/vim/comments/wii9v/try_that_xnoremap_expr_p_vregisterpgvyp/)
     vnoremap P "_dP
 
-    "nnoremap x <C-I>
-    "nnoremap z <C-O>
-
     " Swap two words
     "nmap <silent> Xp :s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR>`':nohlsearch<CR>
     "nmap <silent> Xp dawwP
@@ -2006,7 +1951,11 @@ if version >= 702
     nmap <silent> <Leader>u- :t.\|s/./-/g\|:nohls<cr>
 
     " Identify the syntax highlighting group used at the cursor
-    map [1;3P :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+    command! ShowSyntaxGroup silent call ShowSyntaxGroup()
+    function! ShowSyntaxGroup()
+        echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"
+    endfunction
+    map <Leader>sy :call ShowSyntaxGroup()<CR>
 
     " CtrlP
     nmap <M-m> :CtrlPMRU<CR>
@@ -2017,19 +1966,25 @@ if version >= 702
     " ==========================================================
 
 
-    " Ctags and path {{{
+    " ==========================================================
+    " Ctags, gtags and cscope {{{
 
     " The last semicolon is the key here. When Vim tries to locate the 'tags' file,
     " it first looks at the current directory, then the parent directory, then the parent of the parent, and so on:
     set tags=$HOME/ngi_1/tags
 
-    " }}}
+    " ctags completion
+    set complete=.,t
 
     " gtags
     "map <C-[> :Gtags<CR><CR>
     map <C-\> +:Gtags -r<CR><CR>
 
+    " cscope
+    "  map [I :cs find c <C-r><C-w><CR> 
+    set csto=1
 
+    " }}}
 
 
     " ==========================================================
@@ -2072,6 +2027,7 @@ if version >= 702
         exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
     endfunction
     com! DiffSaved call s:DiffWithSaved()
+    nnoremap <silent> <Leader>ds :call DiffWithSaved()<CR>
 
     function! Bin2Asc()
         %s//+/g
@@ -2140,7 +2096,7 @@ if version >= 702
 
 
     " ==========================================================
-    " Compilation {{{
+    " Compilation, start/stop applications, testing {{{
 
     set makeef=vim.err
 
@@ -2166,43 +2122,16 @@ if version >= 702
         :cf $TMPDIR/$USER/_VIM/restart_logs/logs
     endfunction
 
-    " F9
-    noremap [20~ :call Scons()<CR>:botright copen<CR>
+    " Start compilation
+    noremap <F9> :call Scons()<CR>:botright copen<CR>
 
     call EnsureDirExists($TMPDIR.'/'.$USER.'/_VIM/restart_logs')
-    " ALT-F9
-    noremap [20;3~ :call RestartBE()<CR>:botright copen<CR>
-    "noremap [20;3~ :SyntasticCheck<CR>
-
-    " F10
-    noremap <silent> [21~ :silent botright copen<CR>:silent cg $TMPDIR/$USER/_VIM/scons_errors/scons.err<CR>:silent setlocal autoread<CR>G
-
-    " ATL-F10
-    noremap <silent> [21;3~ :silent botright copen<CR>:silent cg $TMPDIR/$USER/_VIM/restart_logs/logs<CR>:silent setlocal autoread<CR>G
+    noremap <C-F9> :call RestartBE()<CR>:botright copen<CR>
+    "noremap <S-F5> :SyntasticCheck<CR>
     "noremap <silent> [21;3~ :silent botright Errors<CR>
 
-    "au FileChangedShellPost * echo "Warning: File changed on disk"
-    "au FileType *
-    "\ if &buftype == "quickfix" |
-    "\     setlocal statusline+=\ \[quickfix\ window\] |
-    "\     setlocal statusline+=%=%2*\ %<%P |
-    "\ endif
-
-
-    let g:jah_Quickfix_Win_Height = 10
-
-    " allow the . to execute once for each line of a BLOCK visual selection
-    vnoremap . :normal .<CR>
-
-    " Use <F2> for saving, also in Insert mode
-    noremap <F2> :w<CR>
-    vnoremap <F2> <C-C>:w<CR>gv
-    inoremap <F2> <C-O>:w<CR>
-
-    " save to new file and open it
-    "    nnoremap :we :WriteAndEdit 
-    " <F5>
-    noremap <F5> :e!<CR>
+    noremap <silent> <F10> :silent botright copen<CR>:silent cg $TMPDIR/$USER/_VIM/scons_errors/scons.err<CR>:silent setlocal autoread<CR>G
+    noremap <silent> <C-F10> :silent botright copen<CR>:silent cg $TMPDIR/$USER/_VIM/restart_logs/logs<CR>:silent setlocal autoread<CR>G
 
     " Return the hex string of a number.
     func! Nr2hex(nr)
@@ -2251,6 +2180,16 @@ if version >= 702
     endfunction
 
     vnoremap <Leader>ha :call Hex2Dec()<CR>
+
+    function! VimDiffResultTTS()
+        diffthis
+        "execute "rightbelow vsplit " . '%' . ".log"
+        let test_file = expand("%")
+        execute "rightbelow vsplit " . test_file . ".result"
+        execute "r!cat " . test_file . ".log | grep -v 'UN[BNZT]' | grep -v '^\'\'\'\'DCX' | grep -v '\'\'[ -]'"
+        diffthis
+        wincmd h
+    endfunction
 
 
     " }}}
@@ -2412,7 +2351,6 @@ if version >= 702
     autocmd VimLeavePre * SessionSaveAs _LAST_SESSION_
 
     " Warn when opening a file generated during compilation
-    "autocmd BufEnter */replicate/*,*/deliveries/* echohl WarningMsg | echo "W A R N I N G !    Editing a file generated during compilation!" | echohl None
     autocmd BufEnter */replicate/*,*/deliveries/* setlocal readonly
     "Same for tts log files:
     autocmd BufEnter *.edi.log,*.gsv.log,*.play.log,*.sh.log setlocal readonly
@@ -2420,8 +2358,8 @@ if version >= 702
     " Edit a macros in place:
     " - qp ==> paste the macro from the q register into the current buffer
     " - qd ==> copy back the modified macro to the q register
-    noremap qp mqo"qp
-    noremap qd 0"qdd`q
+    "noremap qp mqo"qp
+    "noremap qd 0"qdd`q
 
     " Reformat edi message
     vnoremap <Leader>te :s/'/&\&\r/g<CR>:call histdel("search", -1)<CR>:let @/ = histget("search", -1)<CR>
@@ -2461,6 +2399,9 @@ if version >= 702
     autocmd BufNewFile,BufRead SConscript* setf python
 
     autocmd BufEnter .zsh* setf zsh
+
+
+    " }}}
 
 
     "-----------------------------------------------------------------------------
@@ -2506,18 +2447,6 @@ if version >= 702
     iab Flioght Flight
     iab flioght flight
 
-
-    " Functions BEGIN
-
-    function! VimDiffResultTTS()
-        diffthis
-        "execute "rightbelow vsplit " . '%' . ".log"
-        let test_file = expand("%")
-        execute "rightbelow vsplit " . test_file . ".result"
-        execute "r!cat " . test_file . ".log | grep -v 'UN[BNZT]' | grep -v '^\'\'\'\'DCX' | grep -v '\'\'[ -]'"
-        diffthis
-        wincmd h
-    endfunction
 
     " }}} Functions END
     " ==========================================================
