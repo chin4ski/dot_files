@@ -4,6 +4,7 @@
 # make install
 
 SUSE_VERSION=$( grep -a VERSION /etc/SuSE-release | cut -d " " -f 3)
+EXPECTED_USER="darmand"
 
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
@@ -93,7 +94,7 @@ export SHELL=$ENV_DIR/bin/zsh
 
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib64/engines/
 
-export ECLIPSE_HOME="/gcmtmp/darmand"
+export ECLIPSE_HOME="/gcmtmp/${EXPECTED_USER}"
 
 export HISTFILE=~/.zsh_history
 export HISTSIZE=100000
@@ -147,7 +148,7 @@ OS_NAME=`uname`
 
 export PAGER=less
 
-if [[ "$USER" == "darmand" ]]; then
+if [[ "$USER" == "${EXPECTED_USER}" ]]; then
   #export DISPLAY=nce${USER}:0.0
   #export DISPLAY=NCEL2404:0.0
   export DISPLAY=NCEL2404.iis.amadeus.net:0.0
@@ -171,7 +172,7 @@ alias grep='grep --exclude "*.os"'
 alias adminc='nocorrect adminc'
 alias view_as_state='~/doc/scripts/view_as_state.sh'
 
-if [[ "$USER" == "darmand" ]]
+if [[ "$USER" == "${EXPECTED_USER}" ]]
 then
   #alias vim='nocorrect $HOME/env/bin/vim -u ~/.vim/.vimrc'
   alias vim='nocorrect vim -u ~/.vim/.vimrc'
@@ -201,18 +202,15 @@ alias vod='~/doc/scripts/open_modified_files.zsh'
 alias voc='~/doc/scripts/open_conflicting_files.sh'
 alias vd2='~/doc/scripts/vimdiff_between_to_dir.sh'
 
-#export EDITOR="$HOME/env/bin/vim -u ~/.vim/.vimrc"
 export EDITOR="vim -u ~/.vim/.vimrc"
-# export VIMRUNTIME=/remote/users2/darmand/.vim
-#export VIMRUNTIME=/remote/users2/darmand/doc/vim/vim73/runtime
 export CSCOPE_DB=""
-# export CSCOPE_DB=/remote/users2/darmand/doc/cscope.out
+# export CSCOPE_DB=/remote/users2/${EXPECTED_USER}/doc/cscope.out
 
 
 alias cdr='cd ~/regression'
 alias cdreg='cd ~/regression'
 
-alias cdt='cd /gctmp/darmand/'
+alias cdt='cd /gctmp/${EXPECTED_USER}/'
 
 alias cdaah='cd ~/ngi_1/src/aah'
 alias cdaam='cd ~/ngi_1/src/aam'
@@ -236,8 +234,7 @@ alias cde='cd ~/ngi_1/etc'
 alias cds='cd ~/ngi_1/src'
 alias cdn='cd ~/ngi_1'
 
-#alias vim='/remote/users2/darmand/doc/vim/vim72/src/vim -g -font 6x13'
-alias ctags='/remote/users2/darmand/ctags_5.7/ctags-5.7/ctags'
+alias ctags='$HOME/ctags_5.7/ctags-5.7/ctags'
 
 alias cvscool='$HOME/doc/scripts/cvscool'
 
@@ -257,7 +254,7 @@ export CVSREAD=0
 # export MANPAGER="vim -c '%!col -b' -c 'set ft=man nomod nolist' -c 'set nomodifiable' -"
 
 
-alias apeConnect='~darmand/tools/shell/apeConnect'
+alias apeConnect='$HOME/tools/shell/apeConnect'
 alias golog='cd $HOME/ama/obe/REG/ape/com/log'
 alias cdlog='cd $HOME/ama/obe/REG/ape/com/log'
 alias cdcore='cd $HOME/ama/obe/SLS'
@@ -341,7 +338,7 @@ function update_display() {
 
 # Use xterm (linux):
 #export USING_XTERM_LINUX=1
-#if [ $SHLVL  -le 1 ] && [[ "$USER" == "darmand"  ]]; then
+#if [ $SHLVL  -le 1 ] && [[ "$USER" == "${EXPECTED_USER}"  ]]; then
 #  if [[ "$SUSE_VERSION" == "11" ]]; then
 #    xrdb ~/.Xresources
 #    xterm -u8 &
@@ -375,7 +372,7 @@ function update_display() {
 
 # Use st terminal:
 #export USING_ST_TERMINAL_LINUX=1
-#if [ $SHLVL  -le 1 ] && [[ "$USER" == "darmand"  ]]; then
+#if [ $SHLVL  -le 1 ] && [[ "$USER" == "${EXPECTED_USER}"  ]]; then
 #  xrdb ~/.Xresources
 #  st &
 #  disown
@@ -384,13 +381,17 @@ function update_display() {
 #  [[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
 
 # Use tera term (Windows):
-export USING_TERA_TERM=1
-#[[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
 
-## Use tera term (Windows):
-#[[ $TERM == "screen-256color" ]] && export USING_XTERM_LINUX=1
-#[[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
+if [[ "$USER" != "darmand" ]]; then
+    export USING_XTERM_LINUX=1
+else
+    export USING_TERA_TERM=1
+    #[[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
 
+    ## Use tera term (Windows):
+    #[[ $TERM == "screen-256color" ]] && export USING_XTERM_LINUX=1
+    #[[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
+fi
 
 # Generate a ESC when a Shift key is pressed and released by itself.
 #if [ -z $XCAPE ] ; then

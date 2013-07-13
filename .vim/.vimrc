@@ -1,8 +1,11 @@
 """"""""""""""""""""""""""""
 " Compilation from source:
-" ./configure --with-features=normal --enable-cscope --enable-pythoninterp=yes --enable-rubyinterp=yes --enable-luainterp=no --enable-gui --with-features=huge --prefix=$HOME/env --enable-gtk2-check --enable-gui=gtk2
+"
+" ./configure --enable-cscope --enable-pythoninterp=yes --enable-rubyinterp=yes --enable-luainterp=yes --enable-gui --with-features=huge --enable-gtk2-check --enable-gui=gtk2
+"
+" ./configure --enable-cscope --enable-pythoninterp=yes --enable-rubyinterp=yes --enable-luainterp=no --enable-gui --with-features=huge --enable-gtk2-check --enable-gui=gtk2 --prefix=$HOME/env
 " make
-" make install 
+" make install
 
 set nocompatible
 
@@ -223,12 +226,6 @@ let &rtp= &rtp . ',' . printf('%s,%s,%s/after', s:portable, &runtimepath, s:port
 
 let $VIMHOME=expand("<sfile>:p:h")
 let g:dot_vim_dir = $VIMHOME
-
-"if $USER != "apeoncal"
-"  let g:dot_vim_dir = $HOME.'/.vim'
-"else
-"  let g:dot_vim_dir = $HOME.'/.vim.darmand'
-"endif
 
 let g:bundle_dir = g:dot_vim_dir.'/bundle'
 let g:localbundle_dir = g:dot_vim_dir.'/localbundle'
@@ -1800,7 +1797,7 @@ if version >= 702
     " insert new line without going into insert mode
     au WinEnter *
           \ if &modifiable |
-          \   nnoremap <CR> :put=''<CR> |
+          \   nnoremap <buffer> <CR> :put=''<CR> |
           \ endif
           "\   nnoremap <S-CR> :put!=''<CR> |
     "nnoremap <CR> :put=''<CR>
@@ -1991,8 +1988,8 @@ if version >= 702
     vnoremap <Leader>p <C-C>:silent set paste<CR>gv"*]p:set nopaste<CR>
     vnoremap <Leader>P <C-C>:silent set paste<CR>gv"*]P:set nopaste<CR>
     vnoremap <Leader>y "+y
-    "vnoremap <Leader>y "*ygv:!xclip -d ncedarmand:0.0 -o -selection clipboard<CR>
-    "vnoremap <Leader>y :!xclip -d ncedarmand:0.0 -o -selection clipboard<CR>
+    "vnoremap <Leader>y "*ygv:!xclip -d $DISPLAY -o -selection clipboard<CR>
+    "vnoremap <Leader>y :!xclip -d $DISPLAY -o -selection clipboard<CR>
     vnoremap <Leader>Y "*Y
 
 
@@ -2521,6 +2518,6 @@ if version >= 702
 
 " }}}
 
-"echo "davide: DONE!"
+"echo "DONE!"
 
 endif
