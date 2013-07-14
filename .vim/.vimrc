@@ -351,6 +351,7 @@ if version >= 702
         Bundle 'tagbar'
         Bundle 'taghighlight'
         Bundle 'syntastic'
+        Bundle 'rsi'
 
         Bundle 'localbundle'
         call localbundle#init()
