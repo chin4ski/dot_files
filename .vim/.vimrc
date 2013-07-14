@@ -353,6 +353,7 @@ if version >= 702
         Bundle 'syntastic'
         Bundle 'rsi'
         Bundle 'sleuth'
+        Bundle 'startify'
 
         Bundle 'localbundle'
         call localbundle#init()
@@ -1319,6 +1320,20 @@ if version >= 702
                 \ 'matchers', 'matcher_fuzzy')
     nnoremap <Space> :<C-u>Unite -no-split -buffer-name=files -start-insert file_rec/async<cr>
     nnoremap <Leader>s :Unite grep:.<cr>
+
+    " Startify
+    let g:startify_session_dir = $HOME . '/.vim/sessions'
+    let g:startify_custom_header = [
+                \ '   __      ___            ______ ____   ',
+                \ '   \ \    / (_)           |____  |___ \ ',
+                \ '    \ \  / / _ _ __ ___       / /  __) |',
+                \ '     \ \/ / | | ''_ ` _ \     / /  |__ <',
+                \ '      \  /  | | | | | | |   / /   ___) |',
+                \ '       \/   |_|_| |_| |_|  /_(_) |____/ ',
+                \ '',
+                \ '',
+                \ ]
+
 
 
     " }}} Plugins/Scripts end
