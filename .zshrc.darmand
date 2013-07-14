@@ -3,7 +3,9 @@
 # make
 # make install
 
-SUSE_VERSION=$( grep -a VERSION /etc/SuSE-release | cut -d " " -f 3)
+if [[ -f "/etc/SuSE-release" ]]; then
+    SUSE_VERSION=$( grep -a VERSION /etc/SuSE-release | cut -d " " -f 3)
+fi
 EXPECTED_USER="darmand"
 
 # Path to your oh-my-zsh configuration.
@@ -75,15 +77,17 @@ export PATH=$PATH:/projects/ngi/bin
 export PATH=$PATH:/softntools/opt/devsup/platinum
 export PATH=$PATH:$BIN
 
-if [[ "$SUSE_VERSION" == "10" ]]; then
-  ENV_DIR=$HOME/env_SUSE10
-  # For libevent-1.4.so.2 :
-  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/data3/ngi/soft/tools/onCall/memcached/lib
-elif [[ "$SUSE_VERSION" == "11" ]]; then
-  ENV_DIR=$HOME/env_SUSE11
-else
-  ENV_DIR=/usr
-  echo "Unknown SUSE version!"
+if [[ -f "/etc/SuSE-release" ]]; then
+    if [[ "$SUSE_VERSION" == "10" ]]; then
+        ENV_DIR=$HOME/env_SUSE10
+        # For libevent-1.4.so.2 :
+        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/data3/ngi/soft/tools/onCall/memcached/lib
+    elif [[ "$SUSE_VERSION" == "11" ]]; then
+        ENV_DIR=$HOME/env_SUSE11
+    else
+        ENV_DIR=/usr
+        echo "Unknown SUSE version!"
+    fi
 fi
 
 export PATH=$ENV_DIR/bin:$PATH
@@ -324,6 +328,40 @@ function update_display() {
 ## Terminals ##
 ###############
 
+echo "\$TERM=$TERM"
+case $TERM in
+    *xterm*)
+        # Use xterm (linux):
+        export USING_XTERM_LINUX=1
+        #if [ $SHLVL  -le 1 ] && [[ "$USER" == "${EXPECTED_USER}"  ]]; then
+        #  if [[ "$SUSE_VERSION" == "11" ]]; then
+        #    xrdb ~/.Xresources
+        #    xterm -u8 &
+        #    disown
+        #    logout
+        #  else
+        #    [[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
+        #  fi
+        #else
+        tmux_new_inc_session #&& \exit
+        #fi
+        ;;
+    *rxvt*)
+        export USING_URXVT_LINUX=1
+        echo "Applying rxvt config.."
+        # Use urxvt (linux):
+        echo "\$TERM=$TERM"
+        #if [ $SHLVL  -le 1 ]; then
+        #    xrdb ~/.Xresources
+        #    urxvt&
+        #    disown
+        #    logout
+        #else
+        #tmux_new_inc_session && \exit
+        #fi
+        ;;
+esac
+
 ## Use putty_gdi (windows):
 #export USING_PUTTY_GDI=1
 #[[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
@@ -335,32 +373,6 @@ function update_display() {
 # Use MobaXterm (windows):
 #[[ $TERM == "screen-256color" ]] && export USING_MOBAXTERM=1
 #[[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
-
-# Use xterm (linux):
-#export USING_XTERM_LINUX=1
-#if [ $SHLVL  -le 1 ] && [[ "$USER" == "${EXPECTED_USER}"  ]]; then
-#  if [[ "$SUSE_VERSION" == "11" ]]; then
-#    xrdb ~/.Xresources
-#    xterm -u8 &
-#    disown
-#    logout
-#  else
-#    [[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
-#  fi
-#else
-#  [[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
-#fi
-
-# Use urxvt (linux):
-#if [ $SHLVL  -le 1 ]; then
-#  xrdb ~/.Xresources
-#  urxvt&
-#  disown
-#  logout
-#else
-#  export USING_URXVT_LINUX=1
-#  [[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
-#fi
 
 # Use xterm (cygwin):
 #[[ $TERM == "screen-256color" ]] && export USING_XTERM_CYGWIN=1
@@ -381,15 +393,8 @@ function update_display() {
 #  [[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
 
 # Use tera term (Windows):
-
-if [[ "$USER" != "darmand" ]]; then
-    export USING_XTERM_LINUX=1
-else
+if [[ "$USER" == "darmand" ]]; then
     export USING_TERA_TERM=1
-    #[[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
-
-    ## Use tera term (Windows):
-    #[[ $TERM == "screen-256color" ]] && export USING_XTERM_LINUX=1
     #[[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
 fi
 

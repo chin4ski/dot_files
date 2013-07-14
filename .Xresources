@@ -4,8 +4,8 @@
 ! make install
 
 ! xtem
-xterm*foreground:white
-xterm*background:#222222
+*foreground:white
+*background:#222222
 !!black
 !*color0:     #101010
 !*color8:     #404040
@@ -69,6 +69,46 @@ xterm*cursorColor:        green
 xterm*appkeypadDefault:   true
 xterm*charClass:          33:48,35:48,37:48,43:48,45-47:48,64:48,95:48,126:48
 xterm*VT100.Translations: #override \
+    Meta<Key>d:  string("\033d")\n\
+    Alt<Key>d:  string("\033d")\n\
+    Meta<Key>s:  string("\033s")\n\
+    Alt<Key>s:  string("\033s")\n\
+    Alt<Key>a:  string("\033a")\n\
+    Meta<Key>a:  string("\033a")\n\
+    Alt<Key>1:  string("\0331")\n\
+    Meta<Key>1:  string("\0331")\n\
+    Alt<Key>2:  string("\0332")\n\
+    Meta<Key>2:  string("\0332")\n\
+    Alt<Key>3:  string("\0333")\n\
+    Meta<Key>3:  string("\0333")\n\
+    Alt<Key>4:  string("\0334")\n\
+    Meta<Key>4:  string("\0334")\n\
+    Alt<Key>5:  string("\0335")\n\
+    Meta<Key>5:  string("\0335")\n\
+
+
+urxvt*title: urxvt
+urxvt*font: -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
+xterm*boldFont:  -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
+!urxvt*font: -*-dina-*-*-*-*-*-*-*-*-*-*-*-*
+urxvt*VT100.geometry:     160x60
+urxvt*utf8:              1
+urxvt*VT100*eightBitInput:     true
+urxvt*VT100*eightBitControl:   false
+urxvt*VT100*eightBitOutput:    true
+urxvt*meta8:    true
+urxvt*modifier:    alt|meta
+urxvt*scrollTtyOutput:    false
+urxvt*jumpScroll:         true
+urxvt*multiScroll:        true
+urxvt*scrollBar:          false
+urxvt*rightScrollBar:     false
+urxvt*allowBoldFonts:     true
+urxvt*wideBoldFont:       true
+urxvt*boldMode:           false
+urxvt*saveLines:          1000
+urxvt*cursorColor:        green
+urxvt*appkeypadDefault:   true
     Meta<Key>d:  string("\033d")\n\
     Alt<Key>d:  string("\033d")\n\
     Meta<Key>s:  string("\033s")\n\

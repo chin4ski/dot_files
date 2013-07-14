@@ -81,7 +81,6 @@ if exists("$USING_TERA_TERM")
 
 elseif exists("$USING_XTERM_LINUX") || exists("$USING_XTERM_CYGWIN")
 
-    " set term=xterm-8bit
     set ttymouse=sgr
 
     " Already working keys:
@@ -159,13 +158,10 @@ elseif exists("$USING_XTERM_LINUX") || exists("$USING_XTERM_CYGWIN")
 
 elseif exists( "$USING_URXVT_LINUX" )
 
-    "set term=xterm-256color
-    "set term=rxvt-unicode
-    set termencoding=latin1
-    set fileencoding=utf-8
-    set ttymouse=sgr
-    "set ttymouse=urxvt
-    "set ttymouse=xterm2
+    set term=xterm-256color
+    "set termencoding=latin1
+    "set fileencoding=utf-8
+    set ttymouse=urxvt
 
     echo 'rxvt-linux key mapping applied!'
 
@@ -354,6 +350,7 @@ if version >= 702
         Bundle 'cpp-enhanced-highlight'
         Bundle 'tagbar'
         Bundle 'taghighlight'
+        Bundle 'syntastic'
 
         Bundle 'localbundle'
         call localbundle#init()
@@ -1245,6 +1242,9 @@ if version >= 702
 
     " Syntastic
     let g:syntastic_cpp_check_header = 1
+    let g:syntastic_check_on_open = 1
+    noremap <S-F5> :SyntasticCheck<CR>
+    noremap <silent> <S-F10> :silent botright Errors<CR>
 
 
     " DynamicSigns
@@ -1432,6 +1432,8 @@ if version >= 702
 
     " ====================================
     function! MoveSplitSeparatorToUp()
+
+        echo 'davide'
 
         let origWinNb = winnr()
         wincmd j
@@ -1832,7 +1834,7 @@ if version >= 702
 
     function! MergeLeftToRight()
         if !&diff
-            echo "Cannot merge when not in dif mode!"
+            echo "Cannot merge when not in diff mode!"
             return
         endif
         let origWinNb = winnr()
@@ -1852,7 +1854,7 @@ if version >= 702
 
     function! MergeRightToLeft()
         if !&diff
-            echo "Cannot merge when not in dif mode!"
+            echo "Cannot merge when not in diff mode!"
             return
         endif
         let origWinNb = winnr()
@@ -2127,8 +2129,6 @@ if version >= 702
 
     call EnsureDirExists($TMPDIR.'/'.$USER.'/_VIM/restart_logs')
     noremap <C-F9> :call RestartBE()<CR>:botright copen<CR>
-    "noremap <S-F5> :SyntasticCheck<CR>
-    "noremap <silent> [21;3~ :silent botright Errors<CR>
 
     noremap <silent> <F10> :silent botright copen<CR>:silent cg $TMPDIR/$USER/_VIM/scons_errors/scons.err<CR>:silent setlocal autoread<CR>G
     noremap <silent> <C-F10> :silent botright copen<CR>:silent cg $TMPDIR/$USER/_VIM/restart_logs/logs<CR>:silent setlocal autoread<CR>G
