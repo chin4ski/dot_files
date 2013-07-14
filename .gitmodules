@@ -227,3 +227,6 @@
 [submodule ".vim/bundle/rsi"]
 	path = .vim/bundle/rsi
 	url = https://github.com/tpope/vim-rsi.git
+[submodule ".vim/bundle/sleuth"]
+	path = .vim/bundle/sleuth
+	url = https://github.com/tpope/vim-sleuth.git
