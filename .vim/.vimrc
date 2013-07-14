@@ -352,6 +352,7 @@ if version >= 702
         Bundle 'taghighlight'
         Bundle 'syntastic'
         Bundle 'rsi'
+        Bundle 'sleuth'
 
         Bundle 'localbundle'
         call localbundle#init()
@@ -1196,6 +1197,13 @@ if version >= 702
     nnoremap <C-]> g<C-]>zvzz
     nnoremap g<C-]> g<C-]>zvzz
 
+    " Search for word under cursor, without adding it to search history
+    "nnoremap * :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>
+
+    " Same as above, but with adding the word to search history
+    nnoremap * :let curwd='\<<C-R>=expand("<cword>")<CR>\>'<CR> :let @/=curwd<CR>:call histadd("search", curwd)<CR>:set hls<CR>
+
+    " Search for visually selected text
     vnoremap <silent> * :<C-U>
                 \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
                 \gvy/<C-R><C-R>=substitute(
@@ -1206,40 +1214,6 @@ if version >= 702
                 \gvy?<C-R><C-R>=substitute(
                 \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
                 \gV:call setreg('"', old_reg, old_regtype)<CR>
-
-    "" Mappings WITHOUT Mark plugin:
-    "nnoremap <unique> <silent>  :nohlsearch<CR>
-    "nnoremap <unique> <silent>  :nohlsearch<CR>
-    "" keep searched word in the middle of the screen
-    "" AND do not move the cursor when highlighting:
-    "nnoremap * :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>
-    "nnoremap g* yiw/^.*\%<C-r>=col('.')<CR>c\zs<C-r>"<CR>
-    "nnoremap g# yiw?^.*\%<C-r>=col('.')<CR>c\zs<C-r>"<CR>
-    "" Search for visually selected text:
-    "vnoremap <silent> * :<C-U>
-    "\let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
-    "\gvy/<C-R><C-R>=substitute(
-    "\escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
-    "\gV:call setreg('"', old_reg, old_regtype)<CR>
-    "vnoremap <silent> # :<C-U>
-    "\let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
-    "\gvy?<C-R><C-R>=substitute(
-    "\escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
-    "\gV:call setreg('"', old_reg, old_regtype)<CR>
-
-
-    " Mappings WITH Mark plugin:
-    "nmap <unique> <silent> <CR> <Plug>MarkClear :nohlsearch<CR><CR>
-    "nnoremap <unique><silent><CR> <Plug>Mark
-    "nmap <unique> <silent> * <Plug>MarkSet
-    "vmap <unique> <silent> <Leader>m <Plug>MarkSet
-    " in normal mode enter clears search highlight
-    "nnoremap <silent><CR> :nohlsearch<CR><CR> 
-    "From "bundle/IndexedSearch/plugin/IndexedSearch.vim" :
-    "nnoremap <silent>* :let v:errmsg=''<cr>:silent! norm! *<cr>:call <SID>ShowCurrentSearchIndex(0,'!')<cr>
-    "From my "bundle/mark/plugin/mark.vim":
-    "nmap <unique> <silent> <Leader>m <Plug>MarkSet
-    "Combination of the 3:
 
     " Syntastic
     let g:syntastic_cpp_check_header = 1
