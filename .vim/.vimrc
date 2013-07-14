@@ -293,7 +293,7 @@ if version >= 702
         Bundle 'Mark--Karkat'
         Bundle 'MatchTag'
         Bundle 'Rename2'
-        Bundle 'TabBar'
+        "Bundle 'TabBar'
         Bundle 'taghighlight'
         Bundle 'Vimball'
         Bundle 'a.vim'
@@ -354,6 +354,7 @@ if version >= 702
         Bundle 'rsi'
         Bundle 'sleuth'
         Bundle 'startify'
+        Bundle 'minibufexpl'
 
         Bundle 'localbundle'
         call localbundle#init()
@@ -612,7 +613,7 @@ if version >= 702
         au WinLeave * set nocursorline
 
         function SetCursorline()
-            if(bufname('%') != '-TabBar-')
+            if(bufname('%') != '-MiniBufExplorer-')
                 set cursorline
             endif
         endfunction
@@ -790,7 +791,7 @@ if version >= 702
 
     " TABBAR
     " Don't load TabBar
-    "let Tb_loaded= 1
+    let Tb_loaded= 1
     let g:Tb_TabWrap = 1
     " Limit number of line displaying tabs in the tabs window
     let g:Tb_MaxSize = 0
@@ -799,6 +800,42 @@ if version >= 702
     " Only show TabBar if we have a real buffer
     let g:Tb_MoreThanOne = 0
     "let g:Tb_ModSelTarget = 1
+    "noremap <silent> <M-w> :Tbbp<CR>
+    "vnoremap <silent> <M-w> <ESC>:Tbbp<CR>gv
+    "inoremap <silent> <M-w> <ESC>:Tbbp<CR>i
+    "noremap <silent> <M-e> :Tbbn<CR>
+    "noremap <silent> <M-e> :Tbbn<CR>
+    "vnoremap <silent> <M-e> <ESC>:Tbbn<CR>gv
+    "inoremap <silent> <M-e> <ESC>:Tbbn<CR>i
+
+    " MiniBufExpl
+    let g:miniBufExplUseSingleClick = 1
+    let g:miniBufExplBuffersNeeded = 0
+    " Previous buffer
+    noremap    <silent>   <M-w>   :MBEbp<CR>
+    vnoremap   <silent>   <M-w>   <ESC>:MBEbp<CR>
+    inoremap   <silent>   <M-w>   <ESC>:MBEbp<CR>i
+    " Next buffer
+    noremap    <silent>   <M-e>   :MBEbn<CR>
+    noremap    <silent>   <M-e>   :MBEbn<CR>
+    vnoremap   <silent>   <M-e>   <ESC>:MBEbn<CR>
+    inoremap   <silent>   <M-e>   <ESC>:MBEbn<CR>i
+    " Next buffer (mru)
+    noremap    <silent>   <S-x>   :MBEbf<CR>
+    vnoremap   <silent>   <S-x>   <ESC>:MBEbf<CR>
+    inoremap   <silent>   <S-x>   <ESC>:MBEbf<CR>i
+    " Previous buffer (mru)
+    noremap    <silent>   <S-z>   :MBEbb<CR>
+    vnoremap   <silent>   <S-z>   <ESC>:MBEbb<CR>
+    inoremap   <silent>   <S-z>   <ESC>:MBEbb<CR>i
+
+    "" Jump back to mru file
+    "nmap <S-Z> <Plug>(exjumplist-previous-buffer)
+    "" Same, but forward
+    "nmap <S-X> <Plug>(exjumplist-next-buffer)
+
+
+
 
     "autocmd bufenter exe "normal \<c-w>\<c-w>\<c-w>\<c-w>"
 
@@ -1411,13 +1448,13 @@ if version >= 702
 
     "Move split window:
     "" up
-    "nmap <C-W><Up> <C-W>K
+    "nmap <C-w><C-Up> <C-w>K
     "" down
-    "nmap <C-W><Down> <C-W>J
+    "nmap <C-w><C-Down> <C-w>J
     ""left
-    "nmap <C-W><Left> <C-W>H
+    "nmap <C-w><C-Left> <C-w>H
     "" right
-    "nmap <C-W><Right> <C-W>L
+    "nmap <C-w><C-Right> <C-w>L
 
 
     " ====================================
@@ -1428,7 +1465,7 @@ if version >= 702
         let origWinNb = winnr()
         wincmd j
 
-        if(bufname('%') == '-TabBar-')
+        if(bufname('%') == '-MiniBufExplorer-')
             let downWinNb = origWinNb
         else
             let downWinNb = winnr()
@@ -1451,7 +1488,7 @@ if version >= 702
         let origWinNb = winnr()
         wincmd k
 
-        if(bufname('%') == '-TabBar-')
+        if(bufname('%') == '-MiniBufExplorer-')
             let upWinNb = origWinNb
         else
             let upWinNb = winnr()
@@ -1474,7 +1511,7 @@ if version >= 702
         let origWinNb = winnr()
         wincmd k
 
-        if(bufname('%') == '-TabBar-')
+        if(bufname('%') == '-MiniBufExplorer-')
             let leftWinNb = origWinNb
         else
             let leftWinNb = winnr()
@@ -1497,7 +1534,7 @@ if version >= 702
         let origWinNb = winnr()
         wincmd k
 
-        if(bufname('%') == '-TabBar-')
+        if(bufname('%') == '-MiniBufExplorer-')
             let rightWinNb = origWinNb
         else
             let rightWinNb = winnr()
@@ -1524,25 +1561,25 @@ if version >= 702
     nmap <silent> <C-S-Left> :silent call MoveSplitSeparatorToRight()<CR>
     nmap <silent> <C-S-Right> :silent call MoveSplitSeparatorToLeft()<CR>
 
-    function! CloseBuffer()
-        if &buftype == '-TabBar-'
-            return
-        elseif &buftype == 'quickfix'
-            exec "silent :cclose"
-        elseif bufname('%') == '[Command Line]'
-            quit
-        else
-            let last_buffer = bufnr('%')
-            "set nobuflisted
-            Tbbp
-            "exec "silent bwipeout ".last_buffer
-            exec "silent bdelete ".last_buffer
-        endif
-    endfunction
-    command! CloseBuffer call CloseBuffer()
+    "function! CloseBuffer()
+    "    if &buftype == '-MiniBufExplorer-'
+    "        return
+    "    elseif &buftype == 'quickfix'
+    "        exec "silent :cclose"
+    "    elseif bufname('%') == '[Command Line]'
+    "        quit
+    "    else
+    "        let last_buffer = bufnr('%')
+    "        "set nobuflisted
+    "        Tbbp
+    "        "exec "silent bwipeout ".last_buffer
+    "        exec "silent bdelete ".last_buffer
+    "    endif
+    "endfunction
+    "command! CloseBuffer call CloseBuffer()
 
     function! CloseBufferAndSplit()
-        if &buftype == '-TabBar-'
+        if &buftype == '-MiniBufExplorer-'
             return
         elseif &buftype == 'quickfix'
             exec "silent :cclose"
@@ -1551,23 +1588,24 @@ if version >= 702
         else
             let last_buffer = bufnr('%')
             "set nobuflisted
-            quit
-            "exec "silent bwipeout ".last_buffer
-            exec "silent bdelete ".last_buffer
+            "quit
+            "exec "silent! bdelete ".last_buffer
+            wincmd q
+            exec "MBEbd ".last_buffer
             diffoff
         endif
     endfunction
     command! CloseBufferAndSplit call CloseBufferAndSplit()
 
     " close current buffer, keep current split open
-    noremap <silent> <M-q> :CloseBuffer<CR><C-C>
-    vnoremap <silent> <M-q> <ESC>:CloseBuffer<CR>gv
-    inoremap <silent> <M-q> <ESC>:CloseBuffer<CR>i
+    noremap <silent> <M-q> :MBEbd<CR><C-C>
+    vnoremap <silent> <M-q> <ESC>:MBEbd<CR>
+    inoremap <silent> <M-q> <ESC>:MBEbd<CR>i
 
     " close current buffer and current split
-    noremap <silent> <C-Q> :CloseBufferAndSplit<CR>
-    vnoremap <silent> <C-Q> <ESC>:CloseBufferAndSplit<CR>
-    inoremap <silent> <C-Q> <ESC>:CloseBufferAndSplit<CR>i
+    noremap <silent> <C-q> :CloseBufferAndSplit<CR>
+    vnoremap <silent> <C-q> <ESC>:CloseBufferAndSplit<CR>
+    inoremap <silent> <C-q> <ESC>:CloseBufferAndSplit<CR>i
 
     "From http://stackoverflow.com/questions/3984544/skipping-a-window-in-vim-with-ctrl-w-w
     function! s:NextWindowBut(skip,dir)
@@ -1587,23 +1625,11 @@ if version >= 702
         endif
     endfunction
 
-    nnoremap <silent> <leader><leader> :call <sid>NextWindowBut('-TabBar-','w')<cr>
+    nnoremap <silent> <leader><leader> :call <sid>NextWindowBut('-MiniBufExplorer-','w')<cr>
 
     "noremap <silent> <M-`> :b#<CR>
     "vnoremap <silent> <M-`> <ESC>:b#<CR>gv
     "inoremap <silent> <M-`> <ESC>:b#<CR>i
-
-    " Tabbar mappings
-    " Switch to next/previous buffer
-    noremap <silent> <M-w> :Tbbp<CR>
-    vnoremap <silent> <M-w> <ESC>:Tbbp<CR>gv
-    inoremap <silent> <M-w> <ESC>:Tbbp<CR>i
-    "    map <silent> <M-e> exec "silent Tbbn"
-    noremap <silent> <M-e> :Tbbn<CR>
-    noremap <silent> <M-e> :Tbbn<CR>
-    vnoremap <silent> <M-e> <ESC>:Tbbn<CR>gv
-    inoremap <silent> <M-e> <ESC>:Tbbn<CR>i
-
 
     " to go back to exact place
     nnoremap ' `
@@ -1755,11 +1781,6 @@ if version >= 702
     cnoremap <C-A> <Home>
     cnoremap <C-E> <End>
     cnoremap <C-K> <C-U>
-
-    " Jump back to mru file
-    nmap <S-Z> <Plug>(exjumplist-previous-buffer)
-    " Same, but forward
-    nmap <S-X> <Plug>(exjumplist-next-buffer)
 
     " Move to next/previous method
     "nmap ] ]m

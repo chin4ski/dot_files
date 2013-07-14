@@ -233,3 +233,6 @@
 [submodule ".vim/bundle/startify"]
 	path = .vim/bundle/startify
 	url = https://github.com/mhinz/vim-startify.git
+[submodule ".vim/bundle/minibufexpl"]
+	path = .vim/bundle/minibufexpl
+	url = https://github.com/fholgado/minibufexpl.vim.git

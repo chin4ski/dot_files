@@ -37,12 +37,20 @@ let ColourAssignment['DiffDelete']         = {"CTERMFG": '255',    "CTERMBG": '1
 "let ColourAssignment['DiffDelete']         = {"CTERMFG": '232',    "CTERMBG": '209'}
 
 " Tabbar
-let ColourAssignment['Tb_Normal']         = {"CTERMFG": '253',    "CTERMBG": '241'}
-let ColourAssignment['Tb_Changed']         = {"CTERMFG": '216',    "CTERMBG": '241'}
-let ColourAssignment['Tb_VisibleNormal']         = {"CTERMFG": '232',    "CTERMBG": '250'}
-let ColourAssignment['Tb_VisibleChanged']         = {"CTERMFG": '124',    "CTERMBG": '250'}
-let ColourAssignment['VisualNOS']         = {"CTERMFG": '232',    "CTERMBG": '255', "TERM": 'None'}
-let ColourAssignment['CursorIM']         = {"CTERMFG": '124',    "CTERMBG": '255', "TERM": 'None'}
+let ColourAssignment['Tb_Normal']               = {"CTERMFG": '253',    "CTERMBG": '241'}
+let ColourAssignment['Tb_Changed']              = {"CTERMFG": '216',    "CTERMBG": '241'}
+let ColourAssignment['Tb_VisibleNormal']        = {"CTERMFG": '232',    "CTERMBG": '250'}
+let ColourAssignment['Tb_VisibleChanged']       = {"CTERMFG": '124',    "CTERMBG": '250'}
+let ColourAssignment['VisualNOS']               = {"CTERMFG": '232',    "CTERMBG": '255', "TERM": 'None'}
+let ColourAssignment['CursorIM']                = {"CTERMFG": '124',    "CTERMBG": '255', "TERM": 'None'}
+
+" MiniBufExpl
+let ColourAssignment['MBENormal']               = {"CTERMFG": '253',    "CTERMBG": '241'}
+let ColourAssignment['MBEChanged']              = {"CTERMFG": '216',    "CTERMBG": '241'}
+let ColourAssignment['MBEVisibleNormal']        = {"CTERMFG": '232',    "CTERMBG": '250'}
+let ColourAssignment['MBEVisibleChanged']       = {"CTERMFG": '124',    "CTERMBG": '250'}
+let ColourAssignment['MBEVisibleActiveNormal']  = {"CTERMFG": '232',    "CTERMBG": '255', "TERM": 'None'}
+let ColourAssignment['MBEVisibleActiveChanged'] = {"CTERMFG": '124',    "CTERMBG": '255', "TERM": 'None'}
 
 " Warning
 let ColourAssignment['ErrorMsg']         = {"CTERMFG": '255',    "CTERMBG": '1'}

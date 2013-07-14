@@ -343,7 +343,7 @@ case $TERM in
         #    [[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
         #  fi
         #else
-        tmux_new_inc_session #&& \exit
+        tmux_new_inc_session && \exit
         #fi
         ;;
     *rxvt*)
