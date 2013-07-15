@@ -333,6 +333,7 @@ case $TERM in
     *xterm*)
         # Use xterm (linux):
         export USING_XTERM_LINUX=1
+        echo "Applying xterm config.."
         #if [ $SHLVL  -le 1 ] && [[ "$USER" == "${EXPECTED_USER}"  ]]; then
         #  if [[ "$SUSE_VERSION" == "11" ]]; then
         #    xrdb ~/.Xresources
@@ -395,7 +396,8 @@ esac
 # Use tera term (Windows):
 if [[ "$USER" == "darmand" ]]; then
     export USING_TERA_TERM=1
-    #[[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
+    echo "Applying Tera Term config.."
+    [[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
 fi
 
 # Generate a ESC when a Shift key is pressed and released by itself.

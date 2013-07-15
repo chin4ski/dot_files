@@ -6,6 +6,17 @@
 " make
 " make install
 
+function! EnsureDirExists (dir)
+	if !isdirectory(a:dir)
+		if exists("*mkdir")
+			echo "Creating directory: " . a:dir
+			call mkdir(a:dir,'p')
+			echo "Done!"
+		else
+			echo "Please create directory: " . a:dir
+		endif
+	endif
+endfunction
 
 " =============================
 set nocompatible
@@ -46,7 +57,7 @@ endfunction
 
 if exists("$USING_TERA_TERM")
 
-    "set term=xterm-8bit
+    "set term=xterm-256color
     set ttymouse=sgr
 
     " Already working keys:
@@ -382,19 +393,6 @@ if version >= 702
             echo 'Error! Could no find any temp dir to use!'
         endif
     endif
-
-
-    function! EnsureDirExists (dir)
-        if !isdirectory(a:dir)
-            if exists("*mkdir")
-                echo "Creating directory: " . a:dir
-                call mkdir(a:dir,'p')
-                echo "Done!"
-            else
-                echo "Please create directory: " . a:dir
-            endif
-        endif
-    endfunction
 
     call EnsureDirExists($TMPDIR.'/'.$USER.'/_VIM')
 
@@ -1255,7 +1253,8 @@ if version >= 702
 
     " Syntastic
     let g:syntastic_cpp_check_header = 1
-    let g:syntastic_check_on_open = 1
+    let g:syntastic_check_on_open = 0
+    let g:syntastic_check_on_wq = 1
     noremap <S-F5> :SyntasticCheck<CR>
     noremap <silent> <S-F10> :silent botright Errors<CR>
 
@@ -1371,6 +1370,8 @@ if version >= 702
                 \ '',
                 \ ]
 
+    " LargeFile
+    let g:LargeFile = '100MB'
 
 
     " }}} Plugins/Scripts end
