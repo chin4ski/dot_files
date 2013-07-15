@@ -293,8 +293,6 @@ if version >= 702
         " required! 
         Bundle 'vundle'
 
-        " My Bundles here:
-
         Bundle 'CVSconflict'
         Bundle 'Color-Sampler-Pack'
         Bundle 'DirDiff'
@@ -366,6 +364,9 @@ if version >= 702
         Bundle 'sleuth'
         Bundle 'startify'
         Bundle 'minibufexpl'
+        Bundle 'airline'
+        " Add new bundles here
+
 
         Bundle 'localbundle'
         call localbundle#init()
@@ -1153,7 +1154,8 @@ if version >= 702
     call EnsureDirExists($TMPDIR.'/'.$USER.'/_VIM/Powerline_cache')
     let Powerline_cache_file = $TMPDIR.'/'.$USER.'/_VIM/Powerline_cache/Powerline.cache'
     let Powerline_cache_enabled = 1
-    "let Powerline_symbols="unicode"
+    let Powerline_symbols="fancy"
+
     " powerline (new)
     "let pl_dir = g:bundle_dir . '/powerline'
     "if isdirectory(pl_dir)
@@ -1164,14 +1166,11 @@ if version >= 702
     if ! exists('g:TagHighlightSettings')          
         let g:TagHighlightSettings = {}
     endif
-
     let g:TagHighlightSettings['LanguageDetectionMethods'] =
                 \ ['Extension', 'FileType']
     let g:TagHighlightSettings['FileTypeLanguageOverrides'] =
                 \ {'tagbar': 'cpp'}
     let g:TagHighlightSettings['CtagsExecutable'] = 'etags'
-
-
     let g:TagHighlightSettings['IncludeLocals'] = 'False'
     let g:TagHighlightSettings['IncludeSynMatches'] = 'False'
     let g:TagHighlightSettings['DoNotGenerateTagsIfPresent'] = 'True'
@@ -1372,6 +1371,25 @@ if version >= 702
 
     " LargeFile
     let g:LargeFile = '100MB'
+
+    " airline
+    let g:airline_section_b = '%{getcwd()}'
+    "let g:airline_left_sep = '◆' 
+    "let g:airline_left_sep = '】' 
+    "let g:airline_left_sep = '〉' 
+    let g:airline_left_sep = '》' 
+    "let g:airline_right_sep = '◆'
+    "let g:airline_right_sep = '【'
+    "let g:airline_right_sep = '〈'
+    let g:airline_right_sep = '《'
+    "let g:airline_linecolumn_prefix = '␊ '
+    let g:airline_linecolumn_prefix = '␤ '
+    "let g:airline_linecolumn_prefix = '¶ '
+    let g:airline_fugitive_prefix = 'Þ'
+    "let g:airline_paste_symbol = 'ρ'
+    "let g:airline_paste_symbol = 'Þ'
+    "let g:airline_paste_symbol = '∥'
+
 
 
     " }}} Plugins/Scripts end
@@ -1611,22 +1629,33 @@ if version >= 702
     "From http://stackoverflow.com/questions/3984544/skipping-a-window-in-vim-with-ctrl-w-w
     function! s:NextWindowBut(skip,dir)
         let w0 = winnr()
+        let wp = w0
         let nok = 1
         while nok
-            " exe "normal! \<c-W>w"
-            " or better
             exe 'wincmd '.a:dir
             let w = winnr()
             let n = bufname('%')
-            let nok = (n=~a:skip) && (w != w0)
-            " echo "skip(".n."):".(n=~a:skip)." w!=w0:".(w != w0)." --> ".nok
+            let nok = (n=~a:skip) && (w != w0) && (w != wp)
+            if nok
+                let wp = w
+            endif
+            "echo "skip(".n."):".(n=~a:skip)." w!=w0:".(w != w0)."(w != wp)".(w != wp)." --> ".nok
         endwhile
-        if w == w0
-            echomsg "No other acceptable window"
+        if (w == wp) && (w != w0)
+            exe 'wincmd p'
+            echomsg "No further window!"
+        elseif (w == w0)
+            echomsg "No further window!"
         endif
     endfunction
 
-    nnoremap <silent> <leader><leader> :call <sid>NextWindowBut('-MiniBufExplorer-','w')<cr>
+    nnoremap <silent> <leader><leader> :call <sid>NextWindowBut('-MiniBufExplorer-','w')<CR>
+
+    nnoremap <silent> <C-w><C-w> :call <sid>NextWindowBut('-MiniBufExplorer-','w')<CR>
+    nnoremap <silent> <C-w><Up> :call <sid>NextWindowBut('-MiniBufExplorer-','k')<CR>
+    nnoremap <silent> <C-w><Down> :call <sid>NextWindowBut('-MiniBufExplorer-','j')<CR>
+    nnoremap <silent> <C-w><Left> :call <sid>NextWindowBut('-MiniBufExplorer-','h')<CR>
+    nnoremap <silent> <C-w><Right> :call <sid>NextWindowBut('-MiniBufExplorer-','l')<CR>
 
     "noremap <silent> <M-`> :b#<CR>
     "vnoremap <silent> <M-`> <ESC>:b#<CR>gv
