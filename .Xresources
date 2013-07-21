@@ -34,21 +34,11 @@
 
 
 xterm*title: xterm
-!xterm*faceName:        DejaVu Sans Mono
-!xterm*faceName:        Terminus
-!xterm*faceName:        anonymous pro for powerline
-!xterm*faceName:        Inconsolata dz Powerline
-!xterm*faceName:        fixed
 xterm*Font: fixed
 xterm*boldFont: fixed
 !xterm*font: -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
 !xterm*font: -*-dejavu sans mono-*-*-*-*-*-*-*-*-*-*-*-*
 !xterm*font: -*-dina-*-*-*-*-*-*-*-*-*-*-*-*
-!xterm*font: -*-terminusmodx.icons-*-*-*-*-*-*-*-*-*-*-*-*
-!xterm*font: -*-terminus for powerline-*-*-*-*-*-*-*-*-*-*-*-*
-!xterm*font: -*-anonymous pro for powerline-*-*-*-*-*-*-*-*-*-*-*-*
-!xterm*faceName:        dina
-!xterm*faceSize:         8
 xterm*VT100.geometry:     160x60
 xterm*utf8:              1
 xterm*VT100*eightBitInput:     true

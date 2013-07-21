@@ -10,6 +10,7 @@
 " Helper functions {{{
 
 function! EnsureDirExists (dir) " {{{
+
     if !isdirectory(a:dir)
         if exists("*mkdir")
             echo "Creating directory: " . a:dir
@@ -19,6 +20,7 @@ function! EnsureDirExists (dir) " {{{
             echo "Please create directory: " . a:dir
         endif
     endif
+
 endfunction " }}}
 
 " }}}
@@ -57,9 +59,11 @@ endif
 
 set timeout timeoutlen=1000 ttimeoutlen=1
 
-function Allmap(mapping) " {{{
+function! Allmap(mapping) " {{{
+
     execute 'map' a:mapping
     execute 'map!' a:mapping
+
 endfunction " }}}
 
 if exists("$USING_TERA_TERM")
@@ -166,6 +170,11 @@ elseif exists("$USING_XTERM_LINUX") || exists("$USING_XTERM_CYGWIN")
     call Allmap('  [1;5B <C-Down>')
     call Allmap('  [1;5D <C-Left>')
     call Allmap('  [1;5C <C-Right>')
+
+    call Allmap('  [1;2A <S-Up>')
+    call Allmap('  [1;2B <S-Down>')
+    call Allmap('  [1;2D <S-Left>')
+    call Allmap('  [1;2C <S-Right>')
 
     call Allmap('  [1;6A <C-S-Up>')
     call Allmap('  [1;6B <C-S-Down>')
@@ -329,7 +338,7 @@ if isdirectory(g:vundle_dir)
     Bundle 'marvim'
     Bundle 'matchit'
     Bundle 'matchit.zip'
-    Bundle 'neocomplcache'
+    "Bundle 'neocomplcache'
     Bundle 'neosnippet'
     Bundle 'nerdcommenter'
     Bundle 'sessionman'
@@ -369,9 +378,13 @@ if isdirectory(g:vundle_dir)
     Bundle 'syntastic'
     Bundle 'rsi'
     Bundle 'sleuth'
-    Bundle 'startify'
+    "Bundle 'startify'
     Bundle 'minibufexpl'
     Bundle 'airline'
+    Bundle 'neocomplete'
+    Bundle 'context_filetype'
+    Bundle 'snippets'
+    Bundle 'unite-help'
     " Add new bundles here
 
     Bundle 'localbundle'
@@ -469,7 +482,7 @@ augroup JumpCursorOnEdit
     " Need to postpone using "zv" until after reading the modelines.
     autocmd BufWinEnter *
                 \ if exists("b:doopenfold") |
-                \     exe "normal zv" |
+                \     exe "normal zvzz" |
                 \     if(b:doopenfold > 1) |
                 \         exe "+".1 |
                 \     endif |
@@ -503,6 +516,26 @@ vnoremap . :normal .<CR>
 " (see :h write_c)
 map <Leader>ee :w !sh<CR>
 vmap <Leader>ee :w !sh<CR>
+
+autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+
+nnoremap <silent> <BS> :nohlsearch<CR>
+
+" Serch for work under cursor, but do not jump to next occurrence
+nnoremap * :let curwd='\<<C-R>=expand("<cword>")<CR>\>'<CR> :let @/=curwd<CR>:call histadd("search", curwd)<CR>:set hls<CR>
+
+" Search for visually selected text, but do not jump to next occurrence
+vnoremap <silent> * :<C-U>
+            \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+            \gvy/<C-R><C-R>=substitute(
+            \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+            \gV:call setreg('"', old_reg, old_regtype)<CR>
+vnoremap <silent> # :<C-U>
+            \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+            \gvy?<C-R><C-R>=substitute(
+            \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+            \gV:call setreg('"', old_reg, old_regtype)<CR>
 
 " }}}
 " Tabs and indentation {{{
@@ -557,31 +590,85 @@ else
     au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
 endif
 
-
 " }}}
 " Folding {{{
 
-function! MyFoldText() " {{{
-    let line = getline(v:foldstart)
+"function! MyFoldText() " {{{
 
-    let nucolwidth = &fdc + &number * &numberwidth
-    let windowwidth = winwidth(0) - nucolwidth - 3
-    let foldedlinecount = v:foldend - v:foldstart
+"    let line = getline(v:foldstart)
 
-    " expand tabs into spaces
-    let onetab = strpart('          ', 0, &tabstop)
-    let line = substitute(line, '\t', onetab, 'g')
+"    let nucolwidth = &fdc + &number * &numberwidth
+"    let windowwidth = winwidth(0) - nucolwidth - 3
+"    let foldedlinecount = v:foldend - v:foldstart
 
-    let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
-    let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
-    return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
-endfunction " }}}
-set foldtext=MyFoldText()
+"    " expand tabs into spaces
+"    let onetab = strpart('          ', 0, &tabstop)
+"    let line = substitute(line, '\t', onetab, 'g')
+
+"    let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
+"    let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
+"    return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
+
+"endfunction " }}}
+
+"function MyFoldText() " {{{
+
+"  let nucolwidth = &fdc + &number*&numberwidth
+"  let winwd = winwidth(0) - nucolwidth - 5
+"  let foldlinecount = foldclosedend(v:foldstart) - foldclosed(v:foldstart) + 1
+"  let prefix = " _______>>> "
+"  let fdnfo = prefix . string(v:foldlevel) . "," . string(foldlinecount)
+"  let line =  strpart(getline(v:foldstart), 0 , winwd - len(fdnfo))
+"  let fillcharcount = winwd - len(line) - len(fdnfo)
+"  return line . repeat(" ",fillcharcount) . fdnfo
+
+"endfunction " }}}
+"set foldtext=MyFoldText()
+
+"if has("folding")
+"  set foldtext=MyFoldText()
+"  function! MyFoldText()
+"    " for now, just don't try if version isn't 7 or higher
+"    if v:version < 701
+"      return foldtext()
+"    endif
+"    " clear fold from fillchars to set it up the way we want later
+"    let &l:fillchars = substitute(&l:fillchars,',\?fold:.','','gi')
+"    let l:numwidth = (v:version < 701 ? 8 : &numberwidth)
+"    if &fdm=='diff'
+"      let l:linetext=''
+"      let l:foldtext='---------- '.(v:foldend-v:foldstart+1).' lines the same ----------'
+"      let l:align = winwidth(0)-&foldcolumn-(&nu ? Max(strlen(line('$'))+1, l:numwidth) : 0)
+"      let l:align = (l:align / 2) + (strlen(l:foldtext)/2)
+"      " note trailing space on next line
+"      setlocal fillchars+=fold:\ 
+"    elseif !exists('b:foldpat') || b:foldpat==0
+"      let l:foldtext = ' '.(v:foldend-v:foldstart).' lines folded'.v:folddashes.'|'
+"      let l:endofline = (&textwidth>0 ? &textwidth : 80)
+"      let l:linetext = strpart(getline(v:foldstart),0,l:endofline-strlen(l:foldtext))
+"      let l:align = l:endofline-strlen(l:linetext)
+"      setlocal fillchars+=fold:-
+"    elseif b:foldpat==1
+"      let l:align = winwidth(0)-&foldcolumn-(&nu ? Max(strlen(line('$'))+1, l:numwidth) : 0)
+"      let l:foldtext = ' '.v:folddashes
+"      let l:linetext = substitute(getline(v:foldstart),'\s\+$','','')
+"      let l:linetext .= ' ---'.(v:foldend-v:foldstart-1).' lines--- '
+"      let l:linetext .= substitute(getline(v:foldend),'^\s\+','','')
+"      let l:linetext = strpart(l:linetext,0,l:align-strlen(l:foldtext))
+"      let l:align -= strlen(l:linetext)
+"      setlocal fillchars+=fold:-
+"    endif
+"    return printf('%s%*s', l:linetext, l:align, l:foldtext)
+"  endfunction
+"endif
+
 
 " Open all folds when opening a file. Note, perl automatically sets foldmethod in the syntax file
 "function! SetFoldingOptions() " {{{
+
     "setlocal foldmethod=syntax
     "setlocal foldlevelstart=4
+
 "endfunction " }}}
 "autocmd FileType c,cpp,vim,xml,html,xhtml call SetFoldingOptions()
 
@@ -669,7 +756,7 @@ if has("statusline")
     au WinEnter,BufEnter * call SetCursorline()
     au WinLeave * set nocursorline
 
-    function SetCursorline()
+    function! SetCursorline()
         if(bufname('%') != '-MiniBufExplorer-')
             set cursorline
         endif
@@ -758,16 +845,18 @@ set number
 
 filetype plugin on
 
-" Alternate plugin: switch cpp <--> hpp, edi <--> gsv, ...
-"map <M-a> :A<CR>
-"vmap <M-a> <C-C>:A<CR>gv
-"imap <M-a> <C-C>:A<CR>i
+" Alternate plugin {{{
+
+let g:alternateNoDefaultAlternate = 1
+let g:alternateSearchPath = 'reg:|src/\([^/]*\)/.*|src/\1/include/\1||,reg:|src/\([^/]*\)/.*|src/\1/entry||,reg:|src/\([^/]*\)/.*|src/\1/command||,reg:|src/\([^/]*\)/.*|src/\1/basic||,reg:|src/\([^/]*\)/.*|src/\1/field||,reg:|src/\([^/]*\)/.*|src/\1/gdminterface||,reg:|src/\([^/]*\)/.*|src/\1/msgencoder||,reg:|src/\([^/]*\)/.*|src/\1/msginterface||,reg:|src/\([^/]*\)/.*|src/\1/test||,reg:|src/\([^/]*\)/.*|src/\1/server||,reg:|src/\([^/]*\)/.*|src/\1/proxy_core||,reg:|src/\([^/]*\)/.*|src/\1/common||,reg:|src/\([^/]*\)/.*|src/\1/dbadaptor||,reg:|src/\([^/]*\)/.*|src/\1/dbrequest||,reg:|src/\([^/]*\)/.*|src/\1/bointerface||,reg:|src/\([^/]*\)/.*|src/\1/factory||,reg:|src/\([^/]*\)/.*|src/\1/bom||'
+
 map <Leader>a :A<CR>
 vmap <Leader>a <C-C>:A<CR>gv
 imap <Leader>a <C-C>:A<CR>i
 
+" }}}
+" TabBar {{{
 
-" TABBAR
 " Don't load TabBar
 let Tb_loaded= 1
 let g:Tb_TabWrap = 1
@@ -786,7 +875,9 @@ let g:Tb_MoreThanOne = 0
 "vnoremap <silent> <M-e> <ESC>:Tbbn<CR>gv
 "inoremap <silent> <M-e> <ESC>:Tbbn<CR>i
 
-" MiniBufExpl
+" }}}
+" MiniBufExpl {{{
+
 let g:miniBufExplUseSingleClick = 1
 let g:miniBufExplBuffersNeeded = 0
 " Previous buffer
@@ -807,22 +898,10 @@ noremap    <silent>   <S-z>   :MBEbb<CR>
 vnoremap   <silent>   <S-z>   <ESC>:MBEbb<CR>
 inoremap   <silent>   <S-z>   <ESC>:MBEbb<CR>i
 
-"" Jump back to mru file
-"nmap <S-Z> <Plug>(exjumplist-previous-buffer)
-"" Same, but forward
-"nmap <S-X> <Plug>(exjumplist-next-buffer)
+" }}}
+" Omnicppcomplete {{{
 
-
-
-
-"autocmd bufenter exe "normal \<c-w>\<c-w>\<c-w>\<c-w>"
-
-" key maps are in the plugin file ===>
-"    noremap <unique> <M-w> :call <SID>Bf_Cycle(0)<CR>:<BS>
-"    noremap <unique> <M-e> :call <SID>Bf_Cycle(1)<CR>:<BS>
-
-" Omnicppcomplete 
-"imap <TAB> <C-x><C-o>
+"imap <Tab> <C-x><C-o>
 " imap <C-Space> <C-x><C-o>
 let OmniCpp_NamespaceSearch = 1
 let OmniCpp_GlobalScopeSearch = 0
@@ -830,47 +909,53 @@ let OmniCpp_DisplayMode = 0
 let OmniCpp_ShowScopeInAbbr = 1
 let OmniCpp_ShowPrototypeInAbbr = 1
 let OmniCpp_ShowAccess = 1
-
 let OmniCpp_DefaultNamespaces = []
 " let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
-
 let OmniCpp_MayCompleteDot = 0
 let OmniCpp_MayCompleteArrow = 0
 let OmniCpp_MayCompleteScope = 0
-
 let OmniCpp_SelectFirstItem = 0
-
 let OmniCpp_LocalSearchDecl = 1
 
-autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
-autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+"set completeopt=menu,preview  " default
+"set completeopt=menu
 
-"    set completeopt=menu,preview  " default
-set completeopt=menu
+" }}}
+" Doxygen {{{
 
+"let g:DoxygenToolkit_briefTag_pre="\brief  " 
+"let g:DoxygenToolkit_paramTag_pre="\param " 
+"let g:DoxygenToolkit_returnTag="\returns   "
 
+" }}}
+" Grep {{{
 
-"DOXYGEN
-"    let g:DoxygenToolkit_briefTag_pre="\brief  " 
-"    let g:DoxygenToolkit_paramTag_pre="\param " 
-"    let g:DoxygenToolkit_returnTag="\returns   "
-
-" grep.vim
 let Grep_Skip_Dirs = 'RCS CVS SCCS objLinux64Rel objLinux64Dbg L64D342 L64R342 deliveries'
 let Grep_Skip_Files = '*~ *,v s.* *.os .*.swp core.* .#* vim.err build.log'
 
-" sessionma.vim
-let sessionman_save_on_exit = 1
+" }}}
+" Neosnippet {{{
 
-" a.vim (switch between hpp and cpp)
-let g:alternateNoDefaultAlternate = 1
-let g:alternateSearchPath = 'reg:|src/\([^/]*\)/.*|src/\1/include/\1||,reg:|src/\([^/]*\)/.*|src/\1/entry||,reg:|src/\([^/]*\)/.*|src/\1/command||,reg:|src/\([^/]*\)/.*|src/\1/basic||,reg:|src/\([^/]*\)/.*|src/\1/field||,reg:|src/\([^/]*\)/.*|src/\1/gdminterface||,reg:|src/\([^/]*\)/.*|src/\1/msgencoder||,reg:|src/\([^/]*\)/.*|src/\1/msginterface||,reg:|src/\([^/]*\)/.*|src/\1/test||,reg:|src/\([^/]*\)/.*|src/\1/server||,reg:|src/\([^/]*\)/.*|src/\1/proxy_core||,reg:|src/\([^/]*\)/.*|src/\1/common||,reg:|src/\([^/]*\)/.*|src/\1/dbadaptor||,reg:|src/\([^/]*\)/.*|src/\1/dbrequest||,reg:|src/\([^/]*\)/.*|src/\1/bointerface||,reg:|src/\([^/]*\)/.*|src/\1/factory||,reg:|src/\([^/]*\)/.*|src/\1/bom||'
+let g:neosnippet#disable_select_mode_mappings = 0
 
+" For snippet_complete marker.
+if has('conceal')
+  set conceallevel=2 concealcursor=i
+endif
 
-" neocomplcache.vim"{{{
+" Enable snipMate compatibility feature.
+let g:neosnippet#enable_snipmate_compatibility = 1
+
+" Use sippets from https://github.com/honza/vim-snippets
+let g:neosnippet#snippets_directory = g:bundle_dir . '/snippets/snippets'
+
+" Tab completion --> see neocomplete mapping
+
+" }}}
+" Neocomplcache {{{
 
 " Use neocomplcache.
-let g:neocomplcache_enable_at_startup = 1
+let g:neocomplcache_enable_at_startup = 0
 " Use smartcase.
 let g:neocomplcache_enable_smart_case = 1
 let g:neocomplcache_auto_completion_start_length = 1
@@ -906,37 +991,40 @@ if !exists('g:neocomplcache_keyword_patterns')
 endif
 let g:neocomplcache_keyword_patterns['default'] = '\v\h\w*'
 
-"imap <C-E>     g:neocomplcache_snippets_expand
-imap <expr><C-s> neocomplcache#sources#snippets_complete#expandable() ?
-            \ "\<Plug>(neocomplcache_snippets_expand)" : "\<C-n>"
+"" Using omni-completion:
+"function! SuperCleverTab()              " {{{
 
-" Using omni-completion:
-function! SuperCleverTab()              " {{{
-    "check if at beginning of line or after a space
-    if strpart( getline('.'), 0, col('.')-1 ) =~ '^\s*$'
-        return "\<Tab>"
-    endif
-    if pumvisible()
-        "return "\<C-K>"
-        return "\<C-E>"
-    endif
-    " do we have omni completion available
-    if &omnifunc != ''
-        "use omni-completion 1. priority
-        return "\<C-X>\<C-O>"
-    elseif &ft != 'cpp'
-        inoremap <expr><silent>L  neocomplcache#manual_omni_complete()
-        if &dictionary != ''
-            " no omni completion, try dictionary completion
-            return "\<C-K>"
-        else
-            "use omni completion or dictionary completion
-            "use known-word completion
-            return "\<C-N>"
-        endif
-    endif
-endfunction " }}}
-inoremap <Tab> <C-R>=SuperCleverTab()<CR>
+"    "check if at beginning of line or after a space
+"    if strpart( getline('.'), 0, col('.')-1 ) =~ '^\s*$'
+"        return "\<Tab>"
+"    endif
+"    if pumvisible()
+"        "return "\<C-K>"
+"        return "\<C-E>"
+"    endif
+"    " do we have omni completion available
+"    if &omnifunc != ''
+"        "use omni-completion 1. priority
+"        return "\<C-X>\<C-O>"
+"    elseif &ft != 'cpp'
+"        inoremap <expr><silent>L  neocomplcache#manual_omni_complete()
+"        if &dictionary != ''
+"            " no omni completion, try dictionary completion
+"            return "\<C-K>"
+"        else
+"            "use omni completion or dictionary completion
+"            "use known-word completion
+"            return "\<C-N>"
+"        endif
+"    endif
+
+"endfunction " }}}
+"
+"inoremap <Tab> <C-R>=SuperCleverTab()<CR>
+
+"" SuperTab like snippets behavior.
+"imap <expr><Tab> neocomplcache#sources#snippets_complete#expandable() ?
+"            \ "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<Tab>"
 
 
 "func! EnterIndent()
@@ -945,6 +1033,7 @@ inoremap <Tab> <C-R>=SuperCleverTab()<CR>
 "\ {'left' : '<[^>]*>', 'right' : '</[^>]*>'},
 "\ {'left' : '<?\(php\)\?', 'right' : '?>'},
 "\ {'left' : '<%', 'right' : '%>'},
+
 "\ {'left' : '\[[^\]]*\]', 'right' : '\[/[^\]]*\]'},
 "\ {'left' : '<!--', 'right' : '-->'},
 "\ {'left' : '\(#\)\?{[^\}]*\}', 'right' : '\(#\)\?{[^\}]*\}'},
@@ -988,35 +1077,48 @@ inoremap <Tab> <C-R>=SuperCleverTab()<CR>
 "return ''
 "endf
 
-"" davide
-""inoremap <silent> <cr> <c-r>=EnterIndent()<cr>
-"inoremap <silent> <CR> <C-R>=pumvisible() ? "\<Plug>(neocomplcache_snippets_expand)" : "\<C-R>=EnterIndent()\<CR>"
-
-"imap <CR>     <Plug>(neocomplcache_snippets_expand)
-"smap <CR>     <Plug>(neocomplcache_snippets_expand)
-
-" SuperTab like snippets behavior.
-imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ?
-            \ "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
-
-" For snippet_complete marker.
-if has('conceal')
-    set conceallevel=2 concealcursor=i
-endif
-
-" For snippet_complete marker.
-if has('conceal')
-    set conceallevel=2 concealcursor=i
-endif
-
-
-let g:neocomplcache_snippets_dir = $HOME.'/snippets'
-let g:neocomplcache_disable_select_mode_mappings = 1
+"let g:neocomplcache_snippets_dir = $HOME.'/snippets'
+"let g:neocomplcache_disable_select_mode_mappings = 1
 
 " }}}
+" Neocomplete {{{
 
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_ignore_case = 1
 
-" indent guide
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" Enable heavy omni completion.
+if !exists('g:neocomplete#sources#omni#input_patterns')
+  let g:neocomplete#sources#omni#input_patterns = {}
+endif
+let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+
+" Tab completion for neosnippet and neocomplete
+imap <expr><Tab> neosnippet#expandable_or_jumpable() ?
+ \ "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ?
+ \ "\<Plug>(neosnippet_expand_or_jump)" : <SID>check_back_space() ?
+ \ "\<Tab>" : neocomplete#start_manual_complete()
+
+smap <expr><Tab> neosnippet#expandable_or_jumpable() ?
+ \ "\<Plug>(neosnippet_expand_or_jump)" : <SID>check_back_space() ?
+ \ "\<Tab>" : neocomplete#start_manual_complete()
+
+function! s:check_back_space() "{{{
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction"}}}                              
+
+" }}}
+" Indent guide {{{
+
 let g:indent_guides_enable_on_vim_startup = 1
 "autocmd BufWinEnter *.cpp :IndentGuidesEnable
 "autocmd BufWinEnter *.hpp :IndentGuidesEnable
@@ -1027,8 +1129,9 @@ let g:indent_guides_auto_colors = 0
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=237 ctermfg=240
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=238 ctermfg=242
 
+" }}}
+" Yankring {{{
 
-" Yankring
 "nnoremap Y y$
 "let g:yankring_n_keys = 'Y D x K'
 "function! YRRunAfterMaps()
@@ -1039,7 +1142,9 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=238 ctermfg=242
 "let g:yankring_replace_n_pkey = '<Tab>'
 "let g:yankring_replace_n_nkey = '<S-Tab>'
 
-" Yankstack
+" }}}
+" Yankstack {{{
+
 "let g:yankstack_map_keys = 0
 " The following needs to be called before any mapping redefining yank
 " actions (e.g. 'nmap Y y$' )
@@ -1051,30 +1156,45 @@ if isdirectory(g:yankstack_dir)
     nnoremap <F3> :Yanks<CR>
 endif
 
-" Mark : moved to mark.vim
+" }}}
+" Mark {{{
+
+" Some stuff moved to mark.vim
 let g:mwDefaultHighlightingPalette = 'maximum'
 
-"" gundo
+" }}}
+" Gundo {{{
+
 "nnoremap <silent> <F8> :GundoToggle<CR>
 
-" undotree
+" }}}
+" Undotree {{{
+
 nnoremap <silent> <F8>  :UndotreeToggle<cr>
 
-" Enhanced Commentify
+" }}}
+" Enhanced Commentify {{{
+
 "let g:EnhCommentifyTraditionalMode = 'no'
 "let g:EnhCommentifyFirstLineMode = 'no'
 "let g:EnhCommentifyUserBindings = 'no'
 "let g:EnhCommentifyUserMode = 'yes'
 
-" xml.vim
+" }}}
+" Xml {{{
+
 let g:xml_syntax_folding = 1
 "au FileType xml setlocal foldmethod=syntax
 "set foldmethod=syntax
 
-" Tagbar
+" }}}
+" Tagbar {{{
+
 nnoremap <silent> <F4> :TagbarToggle<CR>
 
-" rainbow_parenthesis
+" }}}
+" Rainbow_parenthesis {{{
+
 "let g:rbpt_colorpairs = [
 "\ ['202', '202'],
 "\ ['208', '208'],
@@ -1093,14 +1213,22 @@ nnoremap <silent> <F4> :TagbarToggle<CR>
 "\ ['2', '2'],
 "\ ['1', '1'],
 "\ ]
-" vcscommand
+
+" }}}
+" Vcscommand {{{
+
 au FileType cvslog set syntax=rcslog
 nmap <Leader>C <Plug>VCSCommit
 
-" Sessionman
+" }}}
+" Sessionman {{{
+
+let sessionman_save_on_exit = 1
 noremap <silent> <F12> :SessionList<CR>
 
-" quickfixsigns
+" }}}
+" Quickfixsigns {{{
+
 " default is 4000 ms
 " makes quickfixsigns plugin faster to refresh
 "set updatetime=500
@@ -1128,19 +1256,25 @@ noremap <silent> <F12> :SessionList<CR>
 
 "let g:quickfixsigns_events = ['BufWritePost']
 
-" vim-powerline (old)
+" }}}
+" Vim-powerline (old) {{{
+
 call EnsureDirExists($TMPDIR.'/'.$USER.'/_VIM/Powerline_cache')
 let Powerline_cache_file = $TMPDIR.'/'.$USER.'/_VIM/Powerline_cache/Powerline.cache'
 let Powerline_cache_enabled = 1
 let Powerline_symbols="fancy"
 
-" powerline (new)
+" }}}
+" powerline (new) {{{
+
 "let pl_dir = g:bundle_dir . '/powerline'
 "if isdirectory(pl_dir)
 "  let &rtp = &rtp . ',' . pl_dir . '/powerline/bindings/vim'
 "endif
 
-" TagHighlight
+" }}}
+" TagHighlight {{{
+
 if ! exists('g:TagHighlightSettings')          
     let g:TagHighlightSettings = {}
 endif
@@ -1167,9 +1301,9 @@ let g:TagHighlightSettings['DisableTagManager'] = 'True'
 "let g:TagHighlightSettings['DebugFile'] = '~/TagHL_debug.txt'
 "let g:TagHighlightSettings['DebugLevel'] = 'Information'
 
-"TPlugin abudden-taghighlight-f58e4fd24d1e
+" }}}
+" Easytag {{{
 
-" easytag
 ""let g:easytags_file = '$HOME/ngi_1/tags'
 "let g:easytags_include_members = 1
 "let g:easytags_suppress_ctags_warning = 0
@@ -1177,7 +1311,9 @@ let g:TagHighlightSettings['DisableTagManager'] = 'True'
 "let g:easytags_by_filetype = 1
 "let g:easytags_python_enabled = 1
 
-" Marks (simultaneous multiple highlights)
+" }}}
+" Marks {{{
+
 let g:mwAutoSaveMarks = 1
 let g:mwAutoLoadMarks = 1
 " I already use <Leader>r to repalce words..
@@ -1202,41 +1338,18 @@ nmap <Plug>IgnoreMarkSearchPrev <Plug>MarkSearchPrev
 "highlight MarkWord2 ctermbg=119 ctermfg=black
 "highlight MarkWord3 ctermbg=220 ctermfg=black
 
-nnoremap <silent> <BS> :nohlsearch<CR>
+" }}}
+" Syntastic {{{
 
-"nnoremap <C-]> +g<C-]>zvzz
-"nnoremap g<C-]> +g<C-]>zvzz
-
-nnoremap <C-]> g<C-]>zvzz
-nnoremap g<C-]> g<C-]>zvzz
-
-" Search for word under cursor, without adding it to search history
-"nnoremap * :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>
-
-" Same as above, but with adding the word to search history
-nnoremap * :let curwd='\<<C-R>=expand("<cword>")<CR>\>'<CR> :let @/=curwd<CR>:call histadd("search", curwd)<CR>:set hls<CR>
-
-" Search for visually selected text
-vnoremap <silent> * :<C-U>
-            \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
-            \gvy/<C-R><C-R>=substitute(
-            \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
-            \gV:call setreg('"', old_reg, old_regtype)<CR>
-vnoremap <silent> # :<C-U>
-            \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
-            \gvy?<C-R><C-R>=substitute(
-            \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
-            \gV:call setreg('"', old_reg, old_regtype)<CR>
-
-" Syntastic
 let g:syntastic_cpp_check_header = 1
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 1
 noremap <S-F5> :SyntasticCheck<CR>
 noremap <silent> <S-F10> :silent botright Errors<CR>
 
+" }}}
+" DynamicSigns {{{
 
-" DynamicSigns
 ""let g:Signs_IndentationLevel = 1
 "":let g:SignsMixedIndentation = 1
 ":let g:Signs_Bookmarks = 1
@@ -1244,8 +1357,8 @@ noremap <silent> <S-F10> :silent botright Errors<CR>
 ":let g:Signs_Diff = 1
 ":let g:Signs_Scrollbar = 1
 
-
-" Clang complete
+" }}}
+" Clang complete {{{
 
 "let g:clang_use_library = 1
 
@@ -1262,30 +1375,37 @@ noremap <silent> <S-F10> :silent botright Errors<CR>
 "set runtimepath+=/remote/intdeliv/sscdelde/clang/vim
 "nnoremap <F4> :call g:ClangUpdateQuickFix()<CR>:cw<CR>
 
+" }}}
+" CCTree {{{
 
-" CCTree
 "let g:CCTreeMinVisibleDepth = 1
 
-" AsNeeded
+" }}}
+" Marvim {{{
 
-
-" Marvim (macros management)
-" to change the macro storage location use the following 
+" To change the macro storage location use the following
 call EnsureDirExists($HOME.'/.vimmacros')
 let marvim_store = $HOME.'/.vimmacros' 
+
 let marvim_find_key = '<leader>mm'
 let marvim_store_key = '<leader>ms'
 let marvim_register = 'q'
 "let marvim_prefix = 0           " disable default syntax based prefix
 
-"Scratch
+" }}}
+"Scratch {{{
+
 nnoremap <silent> <Leader>sc :Sscratch<CR>
 
-" errormarker
+" }}}
+" errormarker {{{
+
 "nmap <silent> <unique> <Leader>cc :ErrorAtCursor<CR>
 let g:errormarker_disablemappings = 1
 
-" EasyGrep
+" }}}
+" EasyGrep {{{
+
 "set grepprg=grep\ -R
 " 0 - vimgrep
 " 1 - grep (follows grepprg)
@@ -1298,7 +1418,9 @@ let EasyGrepAllOptionsInExplorer = 1
 " 1 - location list
 let EasyGrepWindow = 0
 
-" VimOrganizer
+" }}}
+" VimOrganizer {{{
+
 let g:org_todo_setup='TODO WAITING ON-GOING COMMITTED REQ_LOAD_TST LOADED_IN_TST REQ_LOAD_PRD | DONE'
 "let g:org_todo_custom_highlights =
 "      \ {
@@ -1308,33 +1430,67 @@ let g:org_todo_setup='TODO WAITING ON-GOING COMMITTED REQ_LOAD_TST LOADED_IN_TST
 "      \   'DONE': { 'ctermfg':'white', 'ctermbg':'green' }
 "      \ }
 
-" operator-camelize
+" }}}
+" operator-camelize {{{
+
 map <Leader>tc <Plug>(operator-camelize-toggle)
 
+" }}}
+"Signify {{{
 
-"Signify
 "let g:signify_disable_by_default = 0
 let g:signify_vcs_list = ['cvs', 'hg', 'git']
 "let g:signify_line_highlight = 1
 "let g:signify_mapping_next_hunk = '<C-Down>'
 "let g:signify_mapping_prev_hunk = '<C-Up>'
 
+" }}}
+" Easyclip {{{
 
-" Easyclip
 let g:EasyClipUseYankDefaults = 0
 let g:EasyClipUseCutDefaults = 0
 let g:EasyClipUseBlackholeDefaults = 0
 let g:EasyClipUsePasteDefaults = 0
 let g:EasyClipUseSubstituteDefaults = 1
 
+" }}}
+" Unite {{{
 
-" Unite
-call unite#custom#source('file,file/new,buffer,file_rec',
+let g:unite_source_grep_max_candidates = 1000
+let g:unite_source_find_max_candidates = 100000
+
+call unite#custom#source('file,file/new,buffer,file_rec,grep,command,buffer,function,jump,launcher,mapping,output,process,register,help',
             \ 'matchers', 'matcher_fuzzy')
-nnoremap <Space> :<C-u>Unite -no-split -buffer-name=files -start-insert file_rec/async<cr>
-nnoremap <Leader>s :Unite grep:.<cr>
+" Mappings
+nnoremap <C-p> :<C-u>Unite -no-split -start-insert file_rec/async<CR>
+nnoremap <Leader>us :Unite -no-split -start-insert grep:.<CR>
+nnoremap <Leader>uc :Unite -no-split -start-insert command<CR>
+nnoremap <Leader>ub :Unite -no-split -start-insert buffer<CR>
+nnoremap <Leader>uf :Unite -no-split -start-insert function<CR>
+nnoremap <Leader>uj :Unite -no-split -start-insert jump<CR>
+nnoremap <Leader>ul :Unite -no-split -start-insert launcher<CR>
+nnoremap <Leader>um :Unite -no-split -start-insert mapping<CR>
+nnoremap <Leader>uo :Unite -no-split -start-insert output<CR>
+nnoremap <Leader>up :Unite -no-split -start-insert process<CR>
+nnoremap <Leader>ur :Unite -no-split -start-insert register<CR>
+nnoremap <Leader>uh :Unite -no-split -start-insert help<CR>
 
-" Startify
+if executable('ag')
+  " Use ag in unite grep source
+  let g:unite_source_grep_command = 'ag'
+  let g:unite_source_grep_default_opts = '--nocolor --nogroup --hidden'
+  let g:unite_source_grep_recursive_opt = ''
+elseif executable('ack-grep')
+  " Use ack in unite grep source
+  let g:unite_source_grep_command = 'ack-grep'
+  let g:unite_source_grep_default_opts =
+        \ '--no-heading --no-color -a -H'
+  let g:unite_source_grep_recursive_opt = ''
+endif
+
+" }}}
+" Startify {{{
+
 let g:startify_session_dir = $HOME . '/.vim/sessions'
 let g:startify_custom_header = [
             \ '   __      ___            ______ ____   ',
@@ -1347,10 +1503,14 @@ let g:startify_custom_header = [
             \ '',
             \ ]
 
-" LargeFile
+" }}}
+" LargeFile {{{
+
 let g:LargeFile = '100MB'
 
-" airline
+" }}}
+" Airline {{{
+
 let g:airline_section_b = '%{getcwd()}'
 "let g:airline_left_sep = '◆' 
 "let g:airline_left_sep = '】' 
@@ -1368,12 +1528,12 @@ let g:airline_fugitive_prefix = 'Þ'
 "let g:airline_paste_symbol = 'Þ'
 "let g:airline_paste_symbol = '∥'
 
+" }}}
 
-
-" }}} Plugins/Scripts end
+" }}}
 " Mappings {{{
 
- " Sudo to write
+" Sudo to write
 cnoremap w!! w !sudo tee % >/dev/null
 
 " select the last changed text (or the text that was just pasted)
@@ -1595,21 +1755,25 @@ nmap <silent> <C-S-Right> :silent call MoveSplitSeparatorToLeft()<CR>
 "command! CloseBuffer call CloseBuffer()
 
 function! CloseBufferAndSplit() " {{{
-    if &buftype == '-MiniBufExplorer-'
-        return
-    elseif &buftype == 'quickfix'
-        exec "silent :cclose"
-    elseif bufname('%') == '[Command Line]'
-        quit
-    else
-        let last_buffer = bufnr('%')
-        "set nobuflisted
-        "quit
-        "exec "silent! bdelete ".last_buffer
-        wincmd q
-        exec "MBEbd ".last_buffer
-        diffoff
+
+  if &buftype == '-MiniBufExplorer-'
+    return
+  elseif &buftype == 'quickfix'
+    exec "silent :cclose"
+  elseif bufname('%') == '[Command Line]'
+    quit
+  else
+    let last_buffer = bufnr('%')
+    "set nobuflisted
+    "quit
+    "exec "silent! bdelete ".last_buffer
+    wincmd q
+    exec "MBEbd ".last_buffer
+    if &diff
+      diffoff
     endif
+  endif
+
 endfunction " }}}
 command! CloseBufferAndSplit call CloseBufferAndSplit()
 
@@ -1625,6 +1789,7 @@ inoremap <silent> <C-q> <ESC>:CloseBufferAndSplit<CR>i
 
 "From http://stackoverflow.com/questions/3984544/skipping-a-window-in-vim-with-ctrl-w-w
 function! s:NextWindowBut(skip,dir) " {{{
+
     let w0 = winnr()
     let wp = w0
     let nok = 1
@@ -1644,6 +1809,7 @@ function! s:NextWindowBut(skip,dir) " {{{
     elseif (w == w0)
         echomsg "No further window!"
     endif
+
 endfunction " }}}
 
 nnoremap <silent> <leader><leader> :call <sid>NextWindowBut('-MiniBufExplorer-','w')<CR>
@@ -1843,11 +2009,11 @@ let g:NERDCustomDelimiters = {
 " Highlight current block of code
 nmap <Leader>b va{
 
-" Move to next/previous fold
-"nmap <C-Up> zkzz  " <C-Up>
-"nmap <C-Down> zjzz  " <C-Down>
-"imap <C-Up> <C-O>zkzz  " <C-Up>
-"imap <C-Down> <C-O>zjzz  " <C-Down>
+" Jump to previous/next fold point
+nmap <S-Up> zk
+nmap <S-Down> zj
+imap <S-Up> <C-C>zki
+imap <S-Down> <C-C>zji
 
 " Fold current block of code
 "nmap <C-Left> zfi} " <C-Left>
@@ -1860,15 +2026,15 @@ nmap <Leader>b va{
 "nnoremap <space> za
 "onoremap <space> <C-C>za
 
-" Close fold
-"inoremap <C-Left> <C-O>zci " <C-Left>
-"nnoremap <C-Left> zc " <C-Left>
-"onoremap <C-Left> <C-C>zc " <C-Left>
-
 " Open fold
-"inoremap <C-Right> <C-O>zoi " <C-Right>
-"nnoremap <C-Right> zo " <C-Right>
-"onoremap <C-Right> <C-C>zo " <C-Right>
+nnoremap <S-Right> zozz
+inoremap <S-Right> <C-c>zozzi
+onoremap <S-Right> <C-c>zozz
+
+" Close fold
+nnoremap <S-Left> zczz
+inoremap <S-Left> <C-c>zczzi
+onoremap <S-Left> <C-c>zczz
 
 " crefvim
 autocmd bufenter *.c,*.h,*.cpp,*.hpp vmap <S-F1> <Plug>CRV_CRefVimVisual
@@ -1879,6 +2045,7 @@ autocmd bufenter *.c,*.h,*.cpp,*.hpp vmap <C-F1> <Plug>StlRefVimVisual
 autocmd bufenter *.c,*.h,*.cpp,*.hpp nmap <C-F1> <Plug>StlRefVimNormal
 
 function! MergeLeftToRight() " {{{
+
     if !&diff
         echo "Cannot merge when not in diff mode!"
         return
@@ -1896,9 +2063,11 @@ function! MergeLeftToRight() " {{{
         echo "diffget!"
         normal do]czz
     endif
+
 endfunction " }}}
 
 function! MergeRightToLeft() " {{{
+
     if !&diff
         echo "Cannot merge when not in diff mode!"
         return
@@ -1916,6 +2085,7 @@ function! MergeRightToLeft() " {{{
         echo "diffget!"
         normal do]czz
     endif
+
 endfunction " }}}
 
 noremap <silent> <C-Right> :call MergeLeftToRight()<CR>
@@ -1931,11 +2101,14 @@ noremap <silent> <C-Left> :call MergeRightToLeft()<CR>
 "            \   map <silent> <C-Up> :<c-u>execute v:count .'SignifyJumpToPrevHunk'<cr>|
 "            \ endif
 
-map <C-Up> [czz
-map <C-Down> ]czz
 
-map <M-z> :silent cprev<CR>zz
-map <M-x> :silent cnext<CR>zz
+" Jump to previous/next diff
+map <C-Up> [czvzz
+map <C-Down> ]czvzz
+
+" Jump to previous/next quickfix location
+map <M-z> :silent cprev<CR>zvzz
+map <M-x> :silent cnext<CR>zvzz
 
 " Resize splits:
 " vertical
@@ -1956,6 +2129,14 @@ autocmd VimResized * :wincmd =
 " Move to prev/next jump
 nnoremap <M--> <C-O>
 nnoremap <M-+> <C-I>
+
+" Jump prev/next mru file --> Replaced by minibufexpl plugin
+"nmap <S-Z> <Plug>(exjumplist-previous-buffer)
+"nmap <S-X> <Plug>(exjumplist-next-buffer)
+
+" Move to prev/next change
+nnoremap <M-o> g;zvzz
+nnoremap <M-i> g,zvzz
 
 " original
 "nnoremap <leader>h       "_yiw?\w\+\_W\+\%#<CR>:s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR><C-o><C-l>
@@ -2004,7 +2185,9 @@ nmap <silent> <Leader>u- :t.\|s/./-/g\|:nohls<cr>
 " Identify the syntax highlighting group used at the cursor
 command! ShowSyntaxGroup silent call ShowSyntaxGroup()
 function! ShowSyntaxGroup() " {{{
+
     echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"
+
 endfunction " }}}
 map <Leader>sy :call ShowSyntaxGroup()<CR>
 
@@ -2017,7 +2200,10 @@ nmap <M-.> :CtrlPChange<CR>
 vnoremap <leader>S y:execute @@<cr>:echo 'Sourced selection.'<cr>
 nnoremap <leader>S ^vg_y:execute @@<cr>:echo 'Sourced line.'<cr>
 
-" }}} Mappings end
+nnoremap <C-]> g<C-]>zvzz
+nnoremap g<C-]> g<C-]>zvzz
+
+" }}}
 " Ctags, gtags and cscope {{{
 
 " The last semicolon is the key here. When Vim tries to locate the 'tags' file,
@@ -2039,17 +2225,20 @@ set csto=1
 " Functions {{{
 
 function! DiffToggle() " {{{
+
     if &diff
         windo diffoff
     else
         windo diffthis
     endif
+
 endfunction " }}}
 nnoremap <silent> <Leader>df :call DiffToggle()<CR>
 
 " CVSdiff branch_name
 command! -nargs=* CVSdiff silent call CVSdiff("<args>")
 function! CVSdiff(cvsversion) " {{{
+
     "TbToggle
     "TbStop
     "noremap <M-z> [czz
@@ -2064,27 +2253,33 @@ function! CVSdiff(cvsversion) " {{{
     let Tb_loaded=1
     diffthis
     set nomodified
+
 endfunction " }}}
 
 " View diff of modification done on file since last save
 function! s:DiffWithSaved() " {{{
+
     let filetype=&ft
     diffthis
     vnew | r # | normal! 1Gdd
     diffthis
     exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
+
 endfunction " }}}
 com! DiffSaved call s:DiffWithSaved()
 nnoremap <silent> <Leader>ds :call DiffWithSaved()<CR>
 
 function! Bin2Asc() " {{{
+
     %s//+/g
     %s//:/g
     %s//'\&\r/g
     %s//*/g
+
 endfunction " }}}
 
 function! CleanTTLog() " {{{
+
     g/^'[^']/d
     g/^UNB/d
     g/^UNZ/d
@@ -2094,20 +2289,25 @@ function! CleanTTLog() " {{{
     %s/^\(UNT.*'\)&/\1/
     %s/^\(''UNT.*'\)&/\1/
     %s/esponse\nUNH/esponse\r\r\rUNH/
+
 endfunction " }}}
 
 function! DeleteHiddenBuffers() " {{{
+
     let tpbl=[]
     call map(range(1, tabpagenr('$')), 'extend(tpbl, tabpagebuflist(v:val))')
     for buf in filter(range(1, bufnr('$')), 'bufexists(v:val) && index(tpbl, v:val)==-1')
         silent execute 'bwipeout' buf
     endfor
+
 endfunction " }}}
 
 function! Refactor() " {{{
+
     call inputsave()
     let @z=input("Replace local var " . @z . "' with: ")
     call inputrestore()
+
 endfunction " }}}
 " Locally (local to block) rename a variable
 nmap <Leader>rv "zyiw:call Refactor()<cr>mx:silent! norm gd<cr>[V%:s/<C-R>//<c-r>z/gc<cr>`x
@@ -2120,6 +2320,7 @@ nmap <Leader>rv "zyiw:call Refactor()<cr>mx:silent! norm gd<cr>[V%:s/<C-R>//<c-r
 " Delete '<whitespace><number>:<whitespace>' from start of each line.
 " Display result in a scratch buffer.
 function! s:Filter_lines(cmd, filter) " {{{
+
     let save_more = &more
     set nomore
     redir => lines
@@ -2135,9 +2336,9 @@ function! s:Filter_lines(cmd, filter) " {{{
         execute 'v/' . a:filter . '/d'
     endif
     0
+
 endfunction " }}}
 command! -nargs=? Scriptnames call s:Filter_lines('scriptnames', <q-args>)
-
 
 " }}} Functions end
 " Compilation, start/stop applications, testing {{{
@@ -2146,6 +2347,7 @@ set makeef=vim.err
 
 call EnsureDirExists($TMPDIR.'/'.$USER.'/_VIM/scons_errors')
 function! Scons() " {{{
+
     let l:save_shellcmdflag = &shellcmdflag
     set shellcmdflag=-ic
     :cd ~/ngi_1
@@ -2154,16 +2356,19 @@ function! Scons() " {{{
     ":cd -
     exe 'set shellcmdflag='.escape(l:save_shellcmdflag,' ')
     :cf $TMPDIR/$USER/_VIM/scons_errors/scons.err
+
 endfunction " }}}
 
 noremap <F7> :!~/doc/scripts/kill_scons.sh<CR>
 
 function! RestartBE() " {{{
+
     let l:save_shellcmdflag = &shellcmdflag
     set shellcmdflag=-ic
     :!~/doc/scripts/restartBEs.sh LINUX AGS_SvrAVL_APE 2>&1 >| $TMPDIR/$USER/_VIM/restart_logs/logs&
     exe 'set shellcmdflag='.escape(l:save_shellcmdflag,' ')
     :cf $TMPDIR/$USER/_VIM/restart_logs/logs
+
 endfunction " }}}
 
 " Start compilation
@@ -2198,6 +2403,7 @@ func! String2hex(str)
 endfunc
 
 function! Dec2Hex() " {{{
+
     let lstr = getline(".")
     let decstr = matchstr(lstr, '\<[0-9]\+\>')
     while decstr != ""
@@ -2206,11 +2412,13 @@ function! Dec2Hex() " {{{
         let lstr = getline(".")
         let decstr = matchstr(lstr, '\<[0-9]\+\>')
     endwhile
+
 endfunction " }}}
 
 vnoremap <Leader>th :call Dec2Hex()<CR>
 
 function! Hex2Dec() " {{{
+
     let lstr = getline(".")
     let hexstr = matchstr(lstr, '0x[a-fA-F0-9]\+')
     while hexstr != ""
@@ -2219,11 +2427,13 @@ function! Hex2Dec() " {{{
         let lstr = substitute(lstr, '0x[a-fA-F0-9]\+', hexstr, "")
         let hexstr = matchstr(lstr, '0x[a-fA-F0-9]\+')
     endwhile
+
 endfunction " }}}
 
 vnoremap <Leader>ha :call Hex2Dec()<CR>
 
 function! VimDiffResultTTS() " {{{
+
     diffthis
     "execute "rightbelow vsplit " . '%' . ".log"
     let test_file = expand("%")
@@ -2231,8 +2441,8 @@ function! VimDiffResultTTS() " {{{
     execute "r!cat " . test_file . ".log | grep -v 'UN[BNZT]' | grep -v '^\'\'\'\'DCX' | grep -v '\'\'[ -]'"
     diffthis
     wincmd h
-endfunction " }}}
 
+endfunction " }}}
 
 " }}}
 " Macros {{{
@@ -2249,11 +2459,11 @@ endfunction " }}}
 " searches line-by-line.
 
 "nnoremap <silent> <leader>A :set opfunc=<SID>AckMotion<CR>g@
-nnoremap <leader>A :set opfunc=<SID>AckMotion<CR>g@
-xnoremap <silent> <leader>A :<C-U>call <SID>AckMotion(visualmode())<CR>
+"nnoremap <leader>A :set opfunc=<SID>AckMotion<CR>g@
+"xnoremap <silent> <leader>A :<C-U>call <SID>AckMotion(visualmode())<CR>
 
-nnoremap <bs> :Ack! '\b<c-r><c-w>\b'<cr>
-xnoremap <silent> <bs> :<C-U>call <SID>AckMotion(visualmode())<CR>
+"nnoremap <bs> :Ack! '\b<c-r><c-w>\b'<cr>
+"xnoremap <silent> <bs> :<C-U>call <SID>AckMotion(visualmode())<CR>
 
 function! s:CopyMotionForType(type)
     if a:type ==# 'v'
@@ -2278,7 +2488,7 @@ endfunction
 " Target string unfilled
 " ***********************************************
 " Recursive search in file tree
-nnoremap  <Leader>s :Rgrep -i  *pp<Left><Left><Left><Left>
+"nnoremap  <Leader>s :Rgrep -i  *pp<Left><Left><Left><Left>
 " Search in open buffers
 nnoremap  <Leader>sb :Bgrep -i 
 " Search in files matching the regex, save matching filenames in args
