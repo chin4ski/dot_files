@@ -39,11 +39,11 @@ xterm*boldFont: fixed
 !xterm*font: -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
 !xterm*font: -*-dejavu sans mono-*-*-*-*-*-*-*-*-*-*-*-*
 !xterm*font: -*-dina-*-*-*-*-*-*-*-*-*-*-*-*
-xterm*VT100.geometry:     160x60
+xterm*geometry:     160x60
 xterm*utf8:              1
-xterm*VT100*eightBitInput:     true
-xterm*VT100*eightBitControl:   false
-xterm*VT100*eightBitOutput:    true
+xterm*eightBitInput:     true
+xterm*eightBitControl:   false
+xterm*eightBitOutput:    true
 xterm*metaSendsEscape:    false
 xterm*altSendsEscape:     false
 xterm*scrollTtyOutput:    false
@@ -57,8 +57,9 @@ xterm*boldMode:           false
 xterm*saveLines:          1000
 xterm*cursorColor:        green
 xterm*appkeypadDefault:   true
+xterm*oldXtermFKeys:      true
 xterm*charClass:          33:48,35:48,37:48,43:48,45-47:48,64:48,95:48,126:48
-xterm*VT100.Translations: #override \
+xterm*Translations: #override \
     Meta<Key>d:  string("\033d")\n\
     Alt<Key>d:  string("\033d")\n\
     Meta<Key>s:  string("\033s")\n\
@@ -79,7 +80,7 @@ xterm*VT100.Translations: #override \
 
 urxvt*title: urxvt
 urxvt*font: -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
-xterm*boldFont:  -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
+urxvt*boldFont:  -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
 !urxvt*font: -*-dina-*-*-*-*-*-*-*-*-*-*-*-*
 urxvt*VT100.geometry:     160x60
 urxvt*utf8:              1
