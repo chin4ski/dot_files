@@ -7,15 +7,15 @@
 " make install
 
 function! EnsureDirExists (dir)
-	if !isdirectory(a:dir)
-		if exists("*mkdir")
-			echo "Creating directory: " . a:dir
-			call mkdir(a:dir,'p')
-			echo "Done!"
-		else
-			echo "Please create directory: " . a:dir
-		endif
-	endif
+    if !isdirectory(a:dir)
+        if exists("*mkdir")
+            echo "Creating directory: " . a:dir
+            call mkdir(a:dir,'p')
+            echo "Done!"
+        else
+            echo "Please create directory: " . a:dir
+        endif
+    endif
 endfunction
 
 " =============================
@@ -809,24 +809,24 @@ if version >= 702
 
     " MiniBufExpl
     let g:miniBufExplUseSingleClick = 1
-    let g:miniBufExplBuffersNeeded = 0
+    let g:miniBufExplBuffersNeeded = 2
     " Previous buffer
     noremap    <silent>   <M-w>   :MBEbp<CR>
-    vnoremap   <silent>   <M-w>   <ESC>:MBEbp<CR>
-    inoremap   <silent>   <M-w>   <ESC>:MBEbp<CR>i
+    vnoremap   <silent>   <M-w>   <C-C>:MBEbp<CR>
+    inoremap   <silent>   <M-w>   <C-C>:MBEbp<CR>i
     " Next buffer
     noremap    <silent>   <M-e>   :MBEbn<CR>
     noremap    <silent>   <M-e>   :MBEbn<CR>
-    vnoremap   <silent>   <M-e>   <ESC>:MBEbn<CR>
-    inoremap   <silent>   <M-e>   <ESC>:MBEbn<CR>i
+    vnoremap   <silent>   <M-e>   <C-C>:MBEbn<CR>
+    inoremap   <silent>   <M-e>   <C-C>:MBEbn<CR>i
     " Next buffer (mru)
     noremap    <silent>   <S-x>   :MBEbf<CR>
-    vnoremap   <silent>   <S-x>   <ESC>:MBEbf<CR>
-    inoremap   <silent>   <S-x>   <ESC>:MBEbf<CR>i
+    vnoremap   <silent>   <S-x>   <C-C>:MBEbf<CR>
+    "inoremap   <silent>   <S-x>   <C-C>:MBEbf<CR>i
     " Previous buffer (mru)
     noremap    <silent>   <S-z>   :MBEbb<CR>
-    vnoremap   <silent>   <S-z>   <ESC>:MBEbb<CR>
-    inoremap   <silent>   <S-z>   <ESC>:MBEbb<CR>i
+    vnoremap   <silent>   <S-z>   <C-C>:MBEbb<CR>
+    "inoremap   <silent>   <S-z>   <C-C>:MBEbb<CR>i
 
     "" Jump back to mru file
     "nmap <S-Z> <Plug>(exjumplist-previous-buffer)
@@ -1251,7 +1251,8 @@ if version >= 702
                 \gV:call setreg('"', old_reg, old_regtype)<CR>
 
     " Syntastic
-    let g:syntastic_cpp_check_header = 1
+    let g:syntastic_cpp_check_header = 0
+    "let g:syntastic_cpp_include_dirs = [ 'ace/include']
     let g:syntastic_check_on_open = 0
     let g:syntastic_check_on_wq = 1
     noremap <S-F5> :SyntasticCheck<CR>
@@ -1351,10 +1352,10 @@ if version >= 702
 
 
     " Unite
-    call unite#custom#source('file,file/new,buffer,file_rec',
-                \ 'matchers', 'matcher_fuzzy')
-    nnoremap <Space> :<C-u>Unite -no-split -buffer-name=files -start-insert file_rec/async<cr>
-    nnoremap <Leader>s :Unite grep:.<cr>
+    "call unite#custom#source('file,file/new,buffer,file_rec',
+    "            \ 'matchers', 'matcher_fuzzy')
+    "nnoremap <Space> :<C-u>Unite -no-split -buffer-name=files -start-insert file_rec/async<cr>
+    "nnoremap <Leader>s :Unite grep:.<cr>
 
     " Startify
     let g:startify_session_dir = $HOME . '/.vim/sessions'
@@ -1373,6 +1374,7 @@ if version >= 702
     let g:LargeFile = '100MB'
 
     " airline
+    "let g:airline_theme = 'powerlineish'
     let g:airline_section_b = '%{getcwd()}'
     "let g:airline_left_sep = '◆' 
     "let g:airline_left_sep = '】' 
@@ -1458,6 +1460,9 @@ if version >= 702
 
     map <C-K> <C-W>k<C-W>_
 
+    " Change windows layout: vertical split <--> horizontal split
+    "nmap <C-Space> ....
+
     " window splitting maps
     "nmap <leader>v :vsplit<CR><C-w><C-w>:Tbbl<CR>zz<C-w><C-w><C-w><C-w>zz
     "nmap <leader>v :vertical wincmd ^<CR>:wincmd w<CR>
@@ -1478,8 +1483,6 @@ if version >= 702
 
     " ====================================
     function! MoveSplitSeparatorToUp()
-
-        echo 'davide'
 
         let origWinNb = winnr()
         wincmd j
@@ -2004,6 +2007,10 @@ if version >= 702
     nmap <M-m> :CtrlPMRU<CR>
     nmap <M-u> :CtrlPUndo<CR>
     nmap <M-.> :CtrlPChange<CR>
+
+    " Ctags
+    "nmap <C-]> :ptag <C-r><C-w><CR>
+    nmap <Leader>] :ltag <C-r><C-w><CR>:lopen<CR>:CloseBufferAndSplit<CR>
 
     " }}} Mappings end
     " ==========================================================

@@ -64,6 +64,8 @@ let ColourAssignment['Directory']         = {"CTERMFG": '117'}
 
 let ColourAssignment['WildMenu']         = {"CTERMBG": '27', "CTERMFG": '255'}
 
+" quickfix
+let ColourAssignment['qfLineNr']         = {"GUIFG": '228'}
 
 " spelling
 let ColourAssignment['SpellBad']         = {"ctermfg": '255',    "CTERMBG": '124',     "CTERM":  'Underline'}
@@ -148,7 +150,7 @@ let ColourAssignment['Structure']       = {"GUIFG": '225', "GUI":  'Bold'} " str
 " Special Stuff
 let ColourAssignment['Special']         = {"GUIFG": '151',         "TERM":    'None'}
 let ColourAssignment['SpecialChar']     = {"GUIFG": '151'}     " special character in a constant
-let ColourAssignment['SpecialKey']      = {"GUIFG": '241'}     " special highlighting for 'listchars' etc
+let ColourAssignment['SpecialKey']      = {"GUIFG": '244'}     " special highlighting for 'listchars' etc
 let ColourAssignment['NonText']         = {"GUIFG": '250'}     " special highlighting for 'listchars' etc
 let ColourAssignment['MatchParen']      = {"GUI":   'Underline',   "GUIFG": '255', "GUIBG": '9'}   " Highlighting of matching parentheses
 

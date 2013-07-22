@@ -98,6 +98,11 @@ export SHELL=$ENV_DIR/bin/zsh
 #export PATH=$HOME/.cw/def:$PATH
 
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib64/engines/
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/ama/obe/REG/ape/cfg/pack/MDW/lib/
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/ama/obe/REG/ape/cfg/pack/OSP/lib/
+
+# From Nordyne:
+#export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/gcc-4.3.2/lib64:/opt/gcc/lib64:/opt/python-2.6-64/lib:/opt/gcc-4.3.2/lib64:/nastools/oracle/products/11.2.0.2/lib:/data3/ngi/soft/lib64:/nastools/oracle/products/11.2.0.2/lib:/nastools/oracle/products/9.2.0.8/lib:/remote/users2/darmand/env/lib:/usr/lib64/engines/
 
 export ECLIPSE_HOME="/gcmtmp/${EXPECTED_USER}"
 
@@ -136,7 +141,7 @@ select-word-style bash
 setopt dotglob
 
 # allow approximate
-zstyle ':completion:*' completer _complete _match _approximate indexes
+zstyle ':completion:*' completer _complete _match _approximate
 zstyle ':completion:*:match:*' original only
 # offer indexes before parameters in subscripts
 #zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
@@ -378,7 +383,23 @@ function update_display() {
 ## Terminals ##
 ###############
 
-echo "\$TERM=$TERM"
+if [ $SHLVL  -le 1 ] && [[ "$USER" == "${EXPECTED_USER}" ]]; then
+  if [[ "$SUSE_VERSION" == "11" ]]; then
+    xrdb ~/.Xresources
+    xterm -u8 &
+    if [ $? -eq 0 ]; then
+      disown
+      logout
+    else
+      echo "ERROR: Xterm failed to start! Check that you have an Xserver running"
+      alias v='v -X'
+      \exit
+    fi
+  fi
+fi
+
+
+#echo "\$TERM=$TERM"
 case $TERM in
     *xterm*)
         # Use xterm (linux):
@@ -390,8 +411,6 @@ case $TERM in
         #    xterm -u8 &
         #    disown
         #    logout
-        #  else
-        #    [[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
         #  fi
         #else
         tmux_new_inc_session && \exit
@@ -412,6 +431,13 @@ case $TERM in
         #fi
         ;;
 esac
+
+## Use tera term (Windows):
+#if [[ "$USER" == "darmand" ]]; then
+#    export USING_TERA_TERM=1
+#    echo "Applying Tera Term config.."
+#    [[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
+#fi
 
 ## Use putty_gdi (windows):
 #export USING_PUTTY_GDI=1
@@ -442,13 +468,6 @@ esac
 #  logout
 #else
 #  [[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
-
-# Use tera term (Windows):
-if [[ "$USER" == "darmand" ]]; then
-    export USING_TERA_TERM=1
-    echo "Applying Tera Term config.."
-    [[ $TERM != "screen-256color" ]] && tmux_new_inc_session && \exit
-fi
 
 # Generate a ESC when a Shift key is pressed and released by itself.
 #if [ -z $XCAPE ] ; then
