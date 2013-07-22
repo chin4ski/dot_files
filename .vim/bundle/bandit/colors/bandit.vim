@@ -148,10 +148,10 @@ let ColourAssignment['StorageClass']    = {"GUIFG": '225', "GUI":  'Bold'} " sta
 let ColourAssignment['Structure']       = {"GUIFG": '225', "GUI":  'Bold'} " struct, union, enum, etc.
 
 " Special Stuff
-let ColourAssignment['Special']         = {"GUIFG": '151',         "TERM":    'None'}
-let ColourAssignment['SpecialChar']     = {"GUIFG": '151'}     " special character in a constant
-let ColourAssignment['SpecialKey']      = {"GUIFG": '244'}     " special highlighting for 'listchars' etc
-let ColourAssignment['NonText']         = {"GUIFG": '250'}     " special highlighting for 'listchars' etc
+let ColourAssignment['Special']         = {"GUIFG": '171',         "TERM":    'None'}
+let ColourAssignment['SpecialChar']     = {"GUIFG": '171'}     " special character in a constant
+let ColourAssignment['SpecialKey']      = {"GUIFG": '243'}     " special highlighting for 'listchars' etc
+let ColourAssignment['NonText']         = {"GUIFG": '243'}     " special highlighting for 'listchars' etc
 let ColourAssignment['MatchParen']      = {"GUI":   'Underline',   "GUIFG": '255', "GUIBG": '9'}   " Highlighting of matching parentheses
 
 " Errors
@@ -162,8 +162,12 @@ let ColourAssignment['NonIndentTabError']={"GUIFG": '255',        "GUIBG":   '16
 let ColourAssignment['Todo']            = {"GUIFG": '255',        "GUIBG":   '1',    "CTERM":  'Underline'}
 
 " Folding
-let ColourAssignment['FoldColumn']      = {"GUIFG": '227',    "GUIBG":   '244'}
-let ColourAssignment['Folded']      = {"GUIFG": '228',    "GUIBG":   '59'}
+let ColourAssignment['FoldColumn']      = {"GUIFG": '227',    "GUIBG":   '247'}
+let ColourAssignment['Folded']      = {"GUIFG": '255',    "GUIBG":   '66'}
+
+if exists('+colorcolumn')
+  let ColourAssignment['ColorColumn']      = {"GUIFG": '227',    "GUIBG":   '238'}
+endif
 
 " Popup Menu
 let ColourAssignment['Pmenu']           = {"GUIFG": '255',     "GUIBG": '27'}
@@ -181,7 +185,7 @@ let ColourAssignment['StatusLineNC']    = {"GUIFG": '254',       "GUIBG": '242'}
 let ColourAssignment['VertSplit']       = {"GUIFG": '11',       "GUIBG": '244'}
 
 " Signs Column
-let ColourAssignment['SignColumn']      = {"GUIFG": '118', "GUIBG": '238'}
+let ColourAssignment['SignColumn']      = {"GUIFG": '118', "GUIBG": '239'}
 
 " Text Titles
 let ColourAssignment['Title']           = {"GUIFG": '147',        "GUI": "None"}
