@@ -1,4 +1,4 @@
-" vim: tw=0 ts=4 sw=4 noet ft=colours_bandit foldmethod=diff
+" vim: tw=0 ts=4 sw=4 noet ft=colours_bandit
 
 " vIM COLOUr file
 " Maintainer:	A. S. Budden
@@ -160,11 +160,11 @@ let ColourAssignment['NonIndentTabError']={"GUIFG": '255',        "GUIBG":   '16
 let ColourAssignment['Todo']            = {"GUIFG": '255',        "GUIBG":   '1',    "CTERM":  'Underline'}
 
 " Folding
-let ColourAssignment['FoldColumn']      = {"GUIFG": '227',    "GUIBG":   '247'}
-let ColourAssignment['Folded']      = {"GUIFG": '255',    "GUIBG":   '66'}
+let ColourAssignment['FoldColumn']      = {"GUIFG": '74', "GUIBG": '240'}
+let ColourAssignment['Folded']      = {"GUIFG": '74',    "GUIBG":   '240'}
 
 if exists('+colorcolumn')
-  let ColourAssignment['ColorColumn']      = {"GUIFG": '227',    "GUIBG":   '238'}
+  let ColourAssignment['ColorColumn']      = {"GUIBG":   '238'}
 endif
 
 " Popup Menu

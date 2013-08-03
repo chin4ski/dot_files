@@ -57,6 +57,18 @@ else
     let &t_EI .= "\e[1 q"
 endif
 
+" Set a nicer cursor in insert mode (from terryma on github)
+" Tmux will only forward escape sequences to the terminal if surrounded by
+" a DCS sequence
+if exists('$TMUX')
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+  else
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+endif
+
+
 set timeout timeoutlen=1000 ttimeoutlen=1
 
 function! Allmap(mapping) " {{{
@@ -423,8 +435,6 @@ filetype plugin indent on     " required!
 " }}}
 " Various settings and init {{{
 
-filetype on
-filetype indent on 
 filetype plugin indent on
 
 " Auto reload various config files when modified
@@ -614,6 +624,23 @@ endif
 
 " }}}
 " Folding {{{
+
+" Show fold column
+set foldcolumn=1
+
+" Allow manual folding
+set foldmethod=manual
+
+" Do not expand folds when searching
+"set foldopen-=search
+
+" Execute command on open folds only
+nnoremap <Leader>f :folddoopen 
+
+inoremap <Leader>f <C-O>za
+"nnoremap <Leader>f za
+onoremap <Leader>f <C-C>za
+vnoremap <Leader>f zf
 
 "function! MyFoldText() " {{{
 
@@ -1192,7 +1219,7 @@ let g:mwDefaultHighlightingPalette = 'maximum'
 " }}}
 " Undotree {{{
 
-nnoremap <silent> <F8>  :UndotreeToggle<cr>
+nnoremap <silent> <F8>  :UndotreeToggle<CR>
 
 " }}}
 " Enhanced Commentify {{{
@@ -1890,7 +1917,7 @@ let g:ctrlp_prompt_mappings = {
             \ 'PrtSelectMove("d")':   ['<PageDown>', '<kPageDown>'],
             \ 'PrtHistory(-1)':       ['<M-x>'],
             \ 'PrtHistory(1)':        ['<M-z>'],
-            \ 'AcceptSelection("e")': ['<cr>', '<2-LeftMouse>'],
+            \ 'AcceptSelection("e")': ['<CR>', '<2-LeftMouse>'],
             \ 'AcceptSelection("h")': ['<c-x>', '<c-cr>', '<c-s>'],
             \ 'AcceptSelection("t")': ['<c-t>'],
             \ 'AcceptSelection("v")': ['<c-v>', '<RightMouse>'],
@@ -2119,8 +2146,8 @@ noremap <silent> <C-Left> :call MergeRightToLeft()<CR>
 "            \   map <C-Down> [czz|
 "            \   map <C-Up> ]czz|
 "            \ else |
-"            \   map <silent> <C-Down> :<c-u>execute v:count .'SignifyJumpToNextHunk'<cr>|
-"            \   map <silent> <C-Up> :<c-u>execute v:count .'SignifyJumpToPrevHunk'<cr>|
+"            \   map <silent> <C-Down> :<c-u>execute v:count .'SignifyJumpToNextHunk'<CR>|
+"            \   map <silent> <C-Up> :<c-u>execute v:count .'SignifyJumpToPrevHunk'<CR>|
 "            \ endif
 
 
@@ -2200,9 +2227,16 @@ vnoremap P "_dP
 "nmap <silent> Xp :s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR>`':nohlsearch<CR>
 "nmap <silent> Xp dawwP
 
-" Underline the current line with '=' or '-'
-nmap <silent> <Leader>u= :t.\|s/./=/g\|:nohls<cr>
-nmap <silent> <Leader>u- :t.\|s/./-/g\|:nohls<cr>
+" Underline the current line with a char, and comment it
+nmap <silent> <Leader>o= yyp:silent s/./=/g\|:nohls<CR><plug>NERDCommenterAlignBoth
+nmap <silent> <Leader>o- yyp:silent s/./-/g\|:nohls<CR><plug>NERDCommenterAlignBoth
+nmap <silent> <Leader>o* yyp:silent s/./*/g\|:nohls<CR><plug>NERDCommenterAlignBoth
+nmap <silent> <Leader>o/ yyp:silent s/./\//g\|:nohls<CR><plug>NERDCommenterAlignBoth
+" Same, but overline
+nmap <silent> <Leader>O- yyP:silent s/./-/g\|:nohls<CR><plug>NERDCommenterAlignBoth
+nmap <silent> <Leader>O= yyP:silent s/./=/g\|:nohls<CR><plug>NERDCommenterAlignBoth
+nmap <silent> <Leader>O* yyP:silent s/./*/g\|:nohls<CR><plug>NERDCommenterAlignBoth
+nmap <silent> <Leader>O/ yyP:silent s/./\//g\|:nohls<CR><plug>NERDCommenterAlignBoth
 
 " Identify the syntax highlighting group used at the cursor
 command! ShowSyntaxGroup silent call ShowSyntaxGroup()
@@ -2219,8 +2253,8 @@ nmap <M-u> :CtrlPUndo<CR>
 nmap <M-.> :CtrlPChange<CR>
 
 " Source lines from current file
-vnoremap <leader>S y:execute @@<cr>:echo 'Sourced selection.'<cr>
-nnoremap <leader>S ^vg_y:execute @@<cr>:echo 'Sourced line.'<cr>
+vnoremap <leader>S y:silent execute @@<CR>:echo 'Sourced selection.'<CR>
+nnoremap <leader>S ^vg_y:silent execute @@<CR>:echo 'Sourced line.'<CR>
 
 nnoremap <C-]> g<C-]>zvzz
 nnoremap g<C-]> g<C-]>zvzz
@@ -2332,7 +2366,7 @@ function! Refactor() " {{{
 
 endfunction " }}}
 " Locally (local to block) rename a variable
-nmap <Leader>rv "zyiw:call Refactor()<cr>mx:silent! norm gd<cr>[V%:s/<C-R>//<c-r>z/gc<cr>`x
+nmap <Leader>rv "zyiw:call Refactor()<CR>mx:silent! norm gd<CR>[V%:s/<C-R>//<c-r>z/gc<CR>`x
 
 
 
@@ -2473,6 +2507,10 @@ endfunction " }}}
 " *********** SEARCH *************
 " ********************************
 
+" Open quickfix window after grep commands
+autocmd QuickFixCmdPost *grep* cwindow
+
+
 " === ACK ===
 " Motions to Ack for things.  Works with pretty much everything, including:
 "  w, W, e, E, b, B, t*, f*, i*, a*, and custom text objects
@@ -2484,7 +2522,7 @@ endfunction " }}}
 "nnoremap <leader>A :set opfunc=<SID>AckMotion<CR>g@
 "xnoremap <silent> <leader>A :<C-U>call <SID>AckMotion(visualmode())<CR>
 
-"nnoremap <bs> :Ack! '\b<c-r><c-w>\b'<cr>
+"nnoremap <bs> :Ack! '\b<c-r><c-w>\b'<CR>
 "xnoremap <silent> <bs> :<C-U>call <SID>AckMotion(visualmode())<CR>
 
 function! s:CopyMotionForType(type)
@@ -2500,11 +2538,12 @@ function! s:AckMotion(type) abort
 
     call s:CopyMotionForType(a:type)
 
-    execute "normal! :Ack! --literal " . shellescape(@@) . "\<cr>"
+    execute "normal! :Ack! --literal " . shellescape(@@) . "\<CR>"
 
     let @@ = reg_save
 endfunction
 " ===========
+
 
 " ***********************************************
 " Target string unfilled
@@ -2516,6 +2555,8 @@ nnoremap  <Leader>sb :Bgrep -i
 " Search in files matching the regex, save matching filenames in args
 "nnoremap <Leader>sa :args `grep -Ril \"\" *`<Left><Left><Left><Left><Left>
 nnoremap <Leader>sa :args `find . -name \"*\" -exec grep -il \"\" '{}' \;`<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
+" Search in vim help pages
+nnoremap  <Leader>sh :helpgrep 
 
 " ***********************************************
 " Target string is the word under the cursor
@@ -2529,6 +2570,8 @@ nnoremap  <Leader>ss :Rgrep -i \<<C-r><C-w>\> *pp
 nnoremap  <Leader>ssb :Bgrep -i \<<C-r><C-w>\>
 " Search in files matching the regex, save matching filenames in args
 nnoremap <Leader>ssa :args `grep -Ril \"\<<C-r><C-w>\>\" *`<Left>
+" Search in vim help pages
+nnoremap  <Leader>ssh :helpgrep \<<C-r><C-w>\>
 
 " ***********************************************
 " Target string is the visually selected area
@@ -2541,6 +2584,8 @@ vnoremap <Leader>ss y:Rgrep -i <C-R>=escape(@",'\\/.*$^~[]')<CR> *pp<Left><Left>
 vnoremap <Leader>sb y:Bgrep -i <C-R>=escape(@",'\\/.*$^~[]')<CR>
 " Search in files matching the regex, save matching filenames in args
 vnoremap <Leader>sa y:args `grep -Ril \"<C-R>=escape(@",'\\/.*$^~[]')<CR>\" *`<Left>
+" Search in vim help pages
+vnoremap  <Leader>sh y:helpgrep <C-R>=escape(@",'\\/.*$^~[]')<CR>
 
 
 " ********************************
