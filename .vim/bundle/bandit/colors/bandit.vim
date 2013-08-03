@@ -64,6 +64,8 @@ let ColourAssignment['Directory']         = {"CTERMFG": '117'}
 
 let ColourAssignment['WildMenu']         = {"CTERMBG": '27', "CTERMFG": '255'}
 
+" quickfix
+let ColourAssignment['qfLineNr']         = {"GUIFG": '228'}
 
 " spelling
 let ColourAssignment['SpellBad']         = {"ctermfg": '255',    "CTERMBG": '124',     "CTERM":  'Underline'}
