@@ -1,8 +1,6 @@
 " Compilation from source {{{
 
-" ./configure --enable-cscope --enable-pythoninterp=yes --enable-rubyinterp=yes --enable-luainterp=yes --enable-gui --with-features=huge --enable-gtk2-check --enable-gui=gtk2
-"
-" ./configure --enable-cscope --enable-pythoninterp=yes --enable-rubyinterp=yes --enable-luainterp=no --enable-gui --with-features=huge --enable-gtk2-check --enable-gui=gtk2 --prefix=$HOME/env
+" ./configure --with-features=normal --enable-cscope --enable-pythoninterp=yes --enable-rubyinterp=yes --enable-luainterp=yes  --with-lua-prefix=$HOME/env --enable-gui --with-features=huge --prefix=$HOME/env --enable-gtk2-check --enable-gui=gtk2
 " make
 " make install
 
@@ -43,6 +41,9 @@ set t_Co=256
 " Enable cursor shape control (Tera Term)
 set t_SI=[6\ q
 set t_EI=[1\ q
+
+" Do not set the title in terminal window
+set notitle
 
 " Restore window title when exiting vim
 let &t_ti .= "\e[22;0t"
@@ -112,7 +113,9 @@ elseif exists("$USING_XTERM_LINUX") || exists("$USING_XTERM_CYGWIN")
     " <Tab>
 
     " Keys need a manual map:
-    call Allmap('            <Del>')
+    call Allmap('            <BS>')
+    "call Allmap('            <Del>')
+
     call Allmap('    <C-@>      <C-Space>')
     call Allmap('   [27;5;13~ <C-CR>')
     call Allmap('   [27;2;13~ <S-CR>')
@@ -126,20 +129,25 @@ elseif exists("$USING_XTERM_LINUX") || exists("$USING_XTERM_CYGWIN")
     call Allmap('   [27;5;46~ <C-.>')
     call Allmap('   [27;5;44~ <C-,>')
 
-    call Allmap('   [11~      <F1>')
-    call Allmap('   [12~      <F2>')
-    call Allmap('   [13~      <F3>')
-    call Allmap('   [14~      <F4>')
+    call Allmap('   OP      <F1>')
+    call Allmap('   OQ      <F2>')
+    call Allmap('   OR      <F3>')
+    call Allmap('   OS      <F4>')
 
-    "call Allmap('   [1;5P    <C-F1>')
-    "call Allmap('   [1;5Q    <C-F2>')
-    "call Allmap('   [1;5R    <C-F3>')
-    "call Allmap('   [1;5S    <C-F4>')
+    "call Allmap('   [11~      <F1>')
+    "call Allmap('   [12~      <F2>')
+    "call Allmap('   [13~      <F3>')
+    "call Allmap('   [14~      <F4>')
 
-    call Allmap('   [23~    <C-F1>')
-    call Allmap('   [24~    <C-F2>')
-    call Allmap('   [25~    <C-F3>')
-    call Allmap('   [26~    <C-F4>')
+    call Allmap('   [1;5P    <C-F1>')
+    call Allmap('   [1;5Q    <C-F2>')
+    call Allmap('   [1;5R    <C-F3>')
+    call Allmap('   [1;5S    <C-F4>')
+
+    "call Allmap('   [23~    <C-F1>')
+    "call Allmap('   [24~    <C-F2>')
+    "call Allmap('   [25~    <C-F3>')
+    "call Allmap('   [26~    <C-F4>')
 
     call Allmap('   [15;5~   <C-F5>')
     call Allmap('   [17;5~   <C-F6>')
@@ -150,15 +158,15 @@ elseif exists("$USING_XTERM_LINUX") || exists("$USING_XTERM_CYGWIN")
     call Allmap('   [23;5~   <C-F11>')
     call Allmap('   [24;5~   <C-F12>')
 
-    "call Allmap('   [1;2P    <S-F1>')
-    "call Allmap('   [1;2Q    <S-F2>')
-    "call Allmap('   [1;2R    <S-F3>')
-    "call Allmap('   [1;2S    <S-F4>')
+    call Allmap('   [1;2P    <S-F1>')
+    call Allmap('   [1;2Q    <S-F2>')
+    call Allmap('   [1;2R    <S-F3>')
+    call Allmap('   [1;2S    <S-F4>')
 
-    call Allmap('   [11;2~    <S-F1>')
-    call Allmap('   [12;2~    <S-F2>')
-    call Allmap('   [13;2~    <S-F3>')
-    call Allmap('   [14;2~    <S-F4>')
+    "call Allmap('   [11;2~    <S-F1>')
+    "call Allmap('   [12;2~    <S-F2>')
+    "call Allmap('   [13;2~    <S-F3>')
+    "call Allmap('   [14;2~    <S-F4>')
 
     call Allmap('   [15;2~   <S-F5>')
     call Allmap('   [17;2~   <S-F6>')
@@ -169,15 +177,15 @@ elseif exists("$USING_XTERM_LINUX") || exists("$USING_XTERM_CYGWIN")
     call Allmap('   [23;2~   <S-F11>')
     call Allmap('   [24;2~   <S-F12>')
 
-    "call Allmap('   [1;6P    <C-S-F1>')
-    "call Allmap('   [1;6Q    <C-S-F2>')
-    "call Allmap('   [1;6R    <C-S-F3>')
-    "call Allmap('   [1;6S    <C-S-F4>')
+    call Allmap('   [1;6P    <C-S-F1>')
+    call Allmap('   [1;6Q    <C-S-F2>')
+    call Allmap('   [1;6R    <C-S-F3>')
+    call Allmap('   [1;6S    <C-S-F4>')
 
-    call Allmap('   [23;2~    <C-S-F1>')
-    call Allmap('   [24;2~    <C-S-F2>')
-    call Allmap('   [25;2~    <C-S-F3>')
-    call Allmap('   [26;2~    <C-S-F4>')
+    "call Allmap('   [23;2~    <C-S-F1>')
+    "call Allmap('   [24;2~    <C-S-F2>')
+    "call Allmap('   [25;2~    <C-S-F3>')
+    "call Allmap('   [26;2~    <C-S-F4>')
 
     call Allmap('   [15;6~   <C-S-F5>')
     call Allmap('   [17;6~   <C-S-F6>')
@@ -407,6 +415,7 @@ if isdirectory(g:vundle_dir)
     Bundle 'context_filetype'
     Bundle 'snippets'
     Bundle 'unite-help'
+    Bundle 'YouCompleteMe'
     " Add new bundles here
 
     Bundle 'localbundle'
@@ -432,6 +441,8 @@ filetype plugin indent on
 autocmd BufWritePost,FileWritePost ~/.Xdefaults,~/.Xresources silent! !xrdb -load % >/dev/null 2>&1
 
 set linespace=0
+
+set shortmess=filnxtToOaI
 
 " Store swap files in fixed location, not current directory, with full path
 " For Unix and Win32, if a directory ends in two path separators "//" or
@@ -545,7 +556,7 @@ autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 nnoremap <silent> <BS> :nohlsearch<CR>
 
 " Serch for work under cursor, but do not jump to next occurrence
-nnoremap * :let curwd='\<<C-R>=expand("<cword>")<CR>\>'<CR> :let @/=curwd<CR>:call histadd("search", curwd)<CR>:set hls<CR>
+nnoremap * :let curwd='\<<C-R>=expand("<cword>")<CR>\>'<CR> :let @/=curwd<CR>:call histadd("search", curwd)<CR>:set hls<CR>b
 
 " Search for visually selected text, but do not jump to next occurrence
 vnoremap <silent> * :<C-U>
@@ -561,8 +572,6 @@ vnoremap <silent> # :<C-U>
 
 " }}}
 " Tabs and indentation {{{
-
- set textwidth=80
 
 " insert spaces instead of real tabs
 set expandtab
@@ -605,11 +614,14 @@ set cinoptions=s,e0,n0,f0,{0,}0,^0,:s,=s,l0,b0,gs,hs,ps,ts,is,+s,c3,C0,/0,(0,us,
 
 set comments=sl:/*,mb:\ *,elx:\ */
 
-" Highlight 80th column
+" Go to new line when reaching max line lenght
+set textwidth=130
+
+" Highlight 130th column
 if exists('+colorcolumn')
-    set colorcolumn=80
+    set colorcolumn=130
 else
-    au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
+    au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>130v.\+', -1)
 endif
 
 " }}}
@@ -900,25 +912,27 @@ let g:Tb_MoreThanOne = 0
 " }}}
 " MiniBufExpl {{{
 
+"let g:miniBufExplorerDebugLevel = 5
+"let g:miniBufExplDebugMode = 1
 let g:miniBufExplUseSingleClick = 1
 let g:miniBufExplBuffersNeeded = 0
 " Previous buffer
 noremap    <silent>   <M-w>   :MBEbp<CR>
-vnoremap   <silent>   <M-w>   <ESC>:MBEbp<CR>
-inoremap   <silent>   <M-w>   <ESC>:MBEbp<CR>i
+vnoremap   <silent>   <M-w>   <C-c>:MBEbp<CR>
+inoremap   <silent>   <M-w>   <C-c>:MBEbp<CR>i
 " Next buffer
 noremap    <silent>   <M-e>   :MBEbn<CR>
 noremap    <silent>   <M-e>   :MBEbn<CR>
-vnoremap   <silent>   <M-e>   <ESC>:MBEbn<CR>
-inoremap   <silent>   <M-e>   <ESC>:MBEbn<CR>i
+vnoremap   <silent>   <M-e>   <C-c>:MBEbn<CR>
+inoremap   <silent>   <M-e>   <C-c>:MBEbn<CR>i
 " Next buffer (mru)
 noremap    <silent>   <S-x>   :MBEbf<CR>
-vnoremap   <silent>   <S-x>   <ESC>:MBEbf<CR>
-inoremap   <silent>   <S-x>   <ESC>:MBEbf<CR>i
+vnoremap   <silent>   <S-x>   <C-c>:MBEbf<CR>
+"inoremap   <silent>   <S-x>   <C-c>:MBEbf<CR>i
 " Previous buffer (mru)
 noremap    <silent>   <S-z>   :MBEbb<CR>
-vnoremap   <silent>   <S-z>   <ESC>:MBEbb<CR>
-inoremap   <silent>   <S-z>   <ESC>:MBEbb<CR>i
+vnoremap   <silent>   <S-z>   <C-c>:MBEbb<CR>
+"inoremap   <silent>   <S-z>   <C-c>:MBEbb<CR>i
 
 " }}}
 " Omnicppcomplete {{{
@@ -1013,99 +1027,26 @@ if !exists('g:neocomplcache_keyword_patterns')
 endif
 let g:neocomplcache_keyword_patterns['default'] = '\v\h\w*'
 
-"" Using omni-completion:
-"function! SuperCleverTab()              " {{{
+"" Tab completion for neosnippet and neocomplete
+"imap <expr><Tab> neosnippet#expandable_or_jumpable() ?
+" \ "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ?
+" \ "\<Plug>(neosnippet_expand_or_jump)" : <SID>check_back_space() ?
+" \ "\<Tab>" : neocomplcache#start_manual_complete()
 
-"    "check if at beginning of line or after a space
-"    if strpart( getline('.'), 0, col('.')-1 ) =~ '^\s*$'
-"        return "\<Tab>"
-"    endif
-"    if pumvisible()
-"        "return "\<C-K>"
-"        return "\<C-E>"
-"    endif
-"    " do we have omni completion available
-"    if &omnifunc != ''
-"        "use omni-completion 1. priority
-"        return "\<C-X>\<C-O>"
-"    elseif &ft != 'cpp'
-"        inoremap <expr><silent>L  neocomplcache#manual_omni_complete()
-"        if &dictionary != ''
-"            " no omni completion, try dictionary completion
-"            return "\<C-K>"
-"        else
-"            "use omni completion or dictionary completion
-"            "use known-word completion
-"            return "\<C-N>"
-"        endif
-"    endif
+"smap <expr><Tab> neosnippet#expandable_or_jumpable() ?
+" \ "\<Plug>(neosnippet_expand_or_jump)" : <SID>check_back_space() ?
+" \ "\<Tab>" : neocomplcache#start_manual_complete()
 
-"endfunction " }}}
-"
-"inoremap <Tab> <C-R>=SuperCleverTab()<CR>
-
-"" SuperTab like snippets behavior.
-"imap <expr><Tab> neocomplcache#sources#snippets_complete#expandable() ?
-"            \ "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<Tab>"
-
-
-"func! EnterIndent()
-"let EnterIndentActive = [
-"\ {'left' : '[\{\[\(]','right' : '[\)\]\}]'},
-"\ {'left' : '<[^>]*>', 'right' : '</[^>]*>'},
-"\ {'left' : '<?\(php\)\?', 'right' : '?>'},
-"\ {'left' : '<%', 'right' : '%>'},
-
-"\ {'left' : '\[[^\]]*\]', 'right' : '\[/[^\]]*\]'},
-"\ {'left' : '<!--', 'right' : '-->'},
-"\ {'left' : '\(#\)\?{[^\}]*\}', 'right' : '\(#\)\?{[^\}]*\}'},
-"\ ]
-
-"let GetLine = getline('.')
-"let ColNow = col('.') - 1
-
-"let RightGetLine = substitute(
-"\ strpart(GetLine, ColNow, col('$')),
-"\ '^[ ]*', '', ''
-"\ )
-
-"if RightGetLine == "" | call feedkeys("\<CR>", 'n') | return '' | endif
-
-"for value in EnterIndentActive
-"if matchstr(RightGetLine, '^' . value.right) != ""
-"let EnterIndentRun = 1 | break
-"endif
-"endfor
-
-"if !exists('EnterIndentRun') | call feedkeys("\<CR>", 'n') | return '' | endif
-
-"let LeftGetLine = substitute(
-"\ strpart(GetLine, 0, ColNow),
-"\ '[ ]*$', '', ''
-"\ )
-
-"if matchstr(LeftGetLine, value.left . '$') == ""
-"call feedkeys("\<CR>", 'n') | return ''
-"endif
-
-"let LineNow = line('.')
-"let Indent = substitute(LeftGetLine, '^\([ |\t]*\).*$', '\1', '')
-
-"call setline(LineNow, LeftGetLine)
-"call append(LineNow, Indent . RightGetLine)
-"call append(LineNow, Indent)
-"call feedkeys("\<Down>\<Esc>\A\<Tab>", 'n')
-
-"return ''
-"endf
-
-"let g:neocomplcache_snippets_dir = $HOME.'/snippets'
-"let g:neocomplcache_disable_select_mode_mappings = 1
+function! s:check_back_space() "{{{
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+"}}}
 
 " }}}
 " Neocomplete {{{
 
-let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_at_startup = 0
 let g:neocomplete#enable_ignore_case = 1
 
 " Enable omni completion.
@@ -1124,19 +1065,22 @@ let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
 let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 
 " Tab completion for neosnippet and neocomplete
-imap <expr><Tab> neosnippet#expandable_or_jumpable() ?
- \ "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ?
- \ "\<Plug>(neosnippet_expand_or_jump)" : <SID>check_back_space() ?
- \ "\<Tab>" : neocomplete#start_manual_complete()
+"imap <expr><Tab> neosnippet#expandable_or_jumpable() ?
+" \ "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ?
+" \ "\<Plug>(neosnippet_expand_or_jump)" : <SID>check_back_space() ?
+" \ "\<Tab>" : neocomplete#start_manual_complete()
 
-smap <expr><Tab> neosnippet#expandable_or_jumpable() ?
- \ "\<Plug>(neosnippet_expand_or_jump)" : <SID>check_back_space() ?
- \ "\<Tab>" : neocomplete#start_manual_complete()
+"smap <expr><Tab> neosnippet#expandable_or_jumpable() ?
+" \ "\<Plug>(neosnippet_expand_or_jump)" : <SID>check_back_space() ?
+" \ "\<Tab>" : neocomplete#start_manual_complete()
 
 function! s:check_back_space() "{{{
+
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~ '\s'
-endfunction"}}}                              
+
+endfunction
+"}}}
 
 " }}}
 " Indent guide {{{
@@ -1239,8 +1183,9 @@ nnoremap <silent> <F4> :TagbarToggle<CR>
 " }}}
 " Vcscommand {{{
 
+"let VCSCommandCommitOnWrite = 0
 au FileType cvslog set syntax=rcslog
-nmap <Leader>C <Plug>VCSCommit
+"nmap <Leader>C <Plug>VCSCommit
 
 " }}}
 " Sessionman {{{
@@ -1303,7 +1248,7 @@ endif
 let g:TagHighlightSettings['LanguageDetectionMethods'] =
             \ ['Extension', 'FileType']
 let g:TagHighlightSettings['FileTypeLanguageOverrides'] =
-            \ {'tagbar': 'cpp'}
+            \ {'tagbar': 'c'}
 let g:TagHighlightSettings['CtagsExecutable'] = 'etags'
 let g:TagHighlightSettings['IncludeLocals'] = 'False'
 let g:TagHighlightSettings['IncludeSynMatches'] = 'False'
@@ -1364,8 +1309,11 @@ nmap <Plug>IgnoreMarkSearchPrev <Plug>MarkSearchPrev
 " Syntastic {{{
 
 let g:syntastic_cpp_check_header = 1
-let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
+
+let b:syntastic_cpp_cflags = ' -I$HOME/ngi_1/src/acp/include'
+
 noremap <S-F5> :SyntasticCheck<CR>
 noremap <silent> <S-F10> :silent botright Errors<CR>
 
@@ -1480,6 +1428,8 @@ let g:EasyClipUseSubstituteDefaults = 1
 
 let g:unite_source_grep_max_candidates = 1000
 let g:unite_source_find_max_candidates = 100000
+let g:unite_source_rec_max_cache_files = 10000
+let g:unite_source_file_rec_max_cache_files = 10000
 
 call unite#custom#source('file,file/new,buffer,file_rec,grep,command,buffer,function,jump,launcher,mapping,output,process,register,help',
             \ 'matchers', 'matcher_fuzzy')
@@ -1550,6 +1500,12 @@ let g:airline_fugitive_prefix = 'Þ'
 "let g:airline_paste_symbol = 'Þ'
 "let g:airline_paste_symbol = '∥'
 
+" }}}
+" YouCompleteMe {{{
+" Compilation:
+"   cmake -G "Unix Makefiles" -DPYTHON_LIBRARY=/softntools/opt/Python-2.7/lib  -DPYTHON_INCLUDE_DIR=/softntools/opt/Python-2.7/include/python2.7 -DPYTHON_EXECUTABLE=/softntools/opt/Python-2.7/bin/python  -DPATH_TO_LLVM_ROOT=~/env . ~/.vim/bundle/YouCompleteMe/cpp
+let g:ycm_confirm_extra_conf = 0
+nnoremap <leader>gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 " }}}
 
 " }}}
@@ -1788,8 +1744,8 @@ function! CloseBufferAndSplit() " {{{
     let last_buffer = bufnr('%')
     "set nobuflisted
     "quit
-    "exec "silent! bdelete ".last_buffer
     wincmd q
+    "exec "silent! bdelete ".last_buffer
     exec "MBEbd ".last_buffer
     if &diff
       diffoff
@@ -2043,10 +1999,10 @@ imap <S-Down> <C-C>zji
 "nmap <C-Right> vf} " <C-Right>
 "nmap <C-Left> zo " <C-Left>
 
-" Toggle fold (open/close)
-"inoremap <space> <C-O>za
-"nnoremap <space> za
-"onoremap <space> <C-C>za
+"" Toggle fold
+"nnoremap <C-Space> zazz
+"inoremap <C-Space> <C-c>zazzi
+"onoremap <C-Space> <C-c>zazz
 
 " Open fold
 nnoremap <S-Right> zozz
@@ -2510,7 +2466,7 @@ endfunction
 " Target string unfilled
 " ***********************************************
 " Recursive search in file tree
-"nnoremap  <Leader>s :Rgrep -i  *pp<Left><Left><Left><Left>
+nnoremap  <Leader>s :Rgrep -i  *pp<Left><Left><Left><Left>
 " Search in open buffers
 nnoremap  <Leader>sb :Bgrep -i 
 " Search in files matching the regex, save matching filenames in args
