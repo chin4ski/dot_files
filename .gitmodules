@@ -224,3 +224,9 @@
 [submodule ".vim/bundle/unite-help"]
 	path = .vim/bundle/unite-help
 	url = https://github.com/tsukkee/unite-help.git
+[submodule ".vim/bundle/YouCompleteMe"]
+	path = .vim/bundle/YouCompleteMe
+	url = https://github.com/Valloric/YouCompleteMe.git
+[submodule ".vim/bundle/UltiSnips"]
+	path = .vim/bundle/UltiSnips
+	url = https://github.com/SirVer/ultisnips.git

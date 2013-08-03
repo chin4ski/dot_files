@@ -371,7 +371,6 @@ if isdirectory(g:vundle_dir)
     Bundle 'marvim'
     Bundle 'matchit'
     Bundle 'matchit.zip'
-    "Bundle 'neocomplcache'
     Bundle 'nerdcommenter'
     Bundle 'sessionman'
     Bundle 'textobj-word-column'
@@ -409,6 +408,8 @@ if isdirectory(g:vundle_dir)
     Bundle 'context_filetype'
     Bundle 'snippets'
     Bundle 'unite-help'
+    Bundle 'UltiSnips'
+    Bundle 'YouCompleteMe'
     " Add new bundles here
 
     Bundle 'localbundle'
@@ -973,187 +974,192 @@ let Grep_Skip_Dirs = 'RCS CVS SCCS objLinux64Rel objLinux64Dbg L64D342 L64R342 d
 let Grep_Skip_Files = '*~ *,v s.* *.os .*.swp core.* .#* vim.err build.log'
 
 " }}}
-" Neosnippet {{{
+" UltiSnips {{{
 
-let g:neosnippet#disable_select_mode_mappings = 0
-
-" For snippet_complete marker.
-if has('conceal')
-  set conceallevel=2 concealcursor=i
-endif
-
-" Enable snipMate compatibility feature.
-let g:neosnippet#enable_snipmate_compatibility = 1
-
-" Use sippets from https://github.com/honza/vim-snippets
-let g:neosnippet#snippets_directory = g:bundle_dir . '/snippets/snippets'
-
-" Tab completion --> see neocomplete mapping
+let g:UltiSnipsSnippetDirectories=["bundle/UltiSnips", "bundle/snippets"]
 
 " }}}
+" Neosnippet {{{
+
+"let g:neosnippet#disable_select_mode_mappings = 0
+
+"" For snippet_complete marker.
+"if has('conceal')
+"  set conceallevel=2 concealcursor=i
+"endif
+
+"" Enable snipMate compatibility feature.
+"let g:neosnippet#enable_snipmate_compatibility = 1
+
+"" Use sippets from https://github.com/honza/vim-snippets
+"let g:neosnippet#snippets_directory = g:bundle_dir . '/snippets/snippets'
+
+"" Tab completion --> see neocomplete mapping
+
+"" }}}
 " Neocomplcache {{{
 
-" Use neocomplcache.
-let g:neocomplcache_enable_at_startup = 0
-" Use smartcase.
-let g:neocomplcache_enable_smart_case = 1
-let g:neocomplcache_auto_completion_start_length = 1
-" Use camel case completion.
-let g:neocomplcache_enable_camel_case_completion = 1
-" Use underbar completion.
-let g:neocomplcache_enable_underbar_completion = 0
-" Set minimum syntax keyword length.
-let g:neocomplcache_min_syntax_length = 1
-" Set manual completion length.
-let g:neocomplcache_manual_completion_start_length = 0
-let g:NeoComplCacheAutoCompletionLength = 1
-"let g:neocomplcache_caching_limit_file_size = 1000000
-" Disable ctags
-let g:neocomplcache_ctags_program = ''
+"" Use neocomplcache.
+"let g:neocomplcache_enable_at_startup = 0
+"" Use smartcase.
+"let g:neocomplcache_enable_smart_case = 1
+"let g:neocomplcache_auto_completion_start_length = 1
+"" Use camel case completion.
+"let g:neocomplcache_enable_camel_case_completion = 1
+"" Use underbar completion.
+"let g:neocomplcache_enable_underbar_completion = 0
+"" Set minimum syntax keyword length.
+"let g:neocomplcache_min_syntax_length = 1
+"" Set manual completion length.
+"let g:neocomplcache_manual_completion_start_length = 0
+"let g:NeoComplCacheAutoCompletionLength = 1
+""let g:neocomplcache_caching_limit_file_size = 1000000
+"" Disable ctags
+"let g:neocomplcache_ctags_program = ''
 
-if !exists('g:neocomplcache_omni_patterns')
-    let g:neocomplcache_omni_patterns = {}
-endif
-"let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
-"let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
-
-" Define dictionary.
-let g:neocomplcache_dictionary_filetype_lists = {
-            \ 'default' : '',
-            \ 'vimshell' : $HOME.'/.vimshell_hist',
-            \ 'scheme' : $HOME.'/.gosh_completions'
-            \ }
-
-" Define keyword.
-if !exists('g:neocomplcache_keyword_patterns')
-    let g:neocomplcache_keyword_patterns = {}
-endif
-let g:neocomplcache_keyword_patterns['default'] = '\v\h\w*'
-
-"" Using omni-completion:
-"function! SuperCleverTab()              " {{{
-
-"    "check if at beginning of line or after a space
-"    if strpart( getline('.'), 0, col('.')-1 ) =~ '^\s*$'
-"        return "\<Tab>"
-"    endif
-"    if pumvisible()
-"        "return "\<C-K>"
-"        return "\<C-E>"
-"    endif
-"    " do we have omni completion available
-"    if &omnifunc != ''
-"        "use omni-completion 1. priority
-"        return "\<C-X>\<C-O>"
-"    elseif &ft != 'cpp'
-"        inoremap <expr><silent>L  neocomplcache#manual_omni_complete()
-"        if &dictionary != ''
-"            " no omni completion, try dictionary completion
-"            return "\<C-K>"
-"        else
-"            "use omni completion or dictionary completion
-"            "use known-word completion
-"            return "\<C-N>"
-"        endif
-"    endif
-
-"endfunction " }}}
-"
-"inoremap <Tab> <C-R>=SuperCleverTab()<CR>
-
-"" SuperTab like snippets behavior.
-"imap <expr><Tab> neocomplcache#sources#snippets_complete#expandable() ?
-"            \ "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<Tab>"
-
-
-"func! EnterIndent()
-"let EnterIndentActive = [
-"\ {'left' : '[\{\[\(]','right' : '[\)\]\}]'},
-"\ {'left' : '<[^>]*>', 'right' : '</[^>]*>'},
-"\ {'left' : '<?\(php\)\?', 'right' : '?>'},
-"\ {'left' : '<%', 'right' : '%>'},
-
-"\ {'left' : '\[[^\]]*\]', 'right' : '\[/[^\]]*\]'},
-"\ {'left' : '<!--', 'right' : '-->'},
-"\ {'left' : '\(#\)\?{[^\}]*\}', 'right' : '\(#\)\?{[^\}]*\}'},
-"\ ]
-
-"let GetLine = getline('.')
-"let ColNow = col('.') - 1
-
-"let RightGetLine = substitute(
-"\ strpart(GetLine, ColNow, col('$')),
-"\ '^[ ]*', '', ''
-"\ )
-
-"if RightGetLine == "" | call feedkeys("\<CR>", 'n') | return '' | endif
-
-"for value in EnterIndentActive
-"if matchstr(RightGetLine, '^' . value.right) != ""
-"let EnterIndentRun = 1 | break
+"if !exists('g:neocomplcache_omni_patterns')
+"    let g:neocomplcache_omni_patterns = {}
 "endif
-"endfor
+""let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
+""let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
 
-"if !exists('EnterIndentRun') | call feedkeys("\<CR>", 'n') | return '' | endif
+"" Define dictionary.
+"let g:neocomplcache_dictionary_filetype_lists = {
+"            \ 'default' : '',
+"            \ 'vimshell' : $HOME.'/.vimshell_hist',
+"            \ 'scheme' : $HOME.'/.gosh_completions'
+"            \ }
 
-"let LeftGetLine = substitute(
-"\ strpart(GetLine, 0, ColNow),
-"\ '[ ]*$', '', ''
-"\ )
-
-"if matchstr(LeftGetLine, value.left . '$') == ""
-"call feedkeys("\<CR>", 'n') | return ''
+"" Define keyword.
+"if !exists('g:neocomplcache_keyword_patterns')
+"    let g:neocomplcache_keyword_patterns = {}
 "endif
+"let g:neocomplcache_keyword_patterns['default'] = '\v\h\w*'
 
-"let LineNow = line('.')
-"let Indent = substitute(LeftGetLine, '^\([ |\t]*\).*$', '\1', '')
+""" Using omni-completion:
+""function! SuperCleverTab()              " {{{
 
-"call setline(LineNow, LeftGetLine)
-"call append(LineNow, Indent . RightGetLine)
-"call append(LineNow, Indent)
-"call feedkeys("\<Down>\<Esc>\A\<Tab>", 'n')
+""    "check if at beginning of line or after a space
+""    if strpart( getline('.'), 0, col('.')-1 ) =~ '^\s*$'
+""        return "\<Tab>"
+""    endif
+""    if pumvisible()
+""        "return "\<C-K>"
+""        return "\<C-E>"
+""    endif
+""    " do we have omni completion available
+""    if &omnifunc != ''
+""        "use omni-completion 1. priority
+""        return "\<C-X>\<C-O>"
+""    elseif &ft != 'cpp'
+""        inoremap <expr><silent>L  neocomplcache#manual_omni_complete()
+""        if &dictionary != ''
+""            " no omni completion, try dictionary completion
+""            return "\<C-K>"
+""        else
+""            "use omni completion or dictionary completion
+""            "use known-word completion
+""            return "\<C-N>"
+""        endif
+""    endif
 
-"return ''
-"endf
+""endfunction " }}}
+""
+""inoremap <Tab> <C-R>=SuperCleverTab()<CR>
 
-"let g:neocomplcache_snippets_dir = $HOME.'/snippets'
-"let g:neocomplcache_disable_select_mode_mappings = 1
+""" SuperTab like snippets behavior.
+""imap <expr><Tab> neocomplcache#sources#snippets_complete#expandable() ?
+""            \ "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<Tab>"
+
+
+""func! EnterIndent()
+""let EnterIndentActive = [
+""\ {'left' : '[\{\[\(]','right' : '[\)\]\}]'},
+""\ {'left' : '<[^>]*>', 'right' : '</[^>]*>'},
+""\ {'left' : '<?\(php\)\?', 'right' : '?>'},
+""\ {'left' : '<%', 'right' : '%>'},
+
+""\ {'left' : '\[[^\]]*\]', 'right' : '\[/[^\]]*\]'},
+""\ {'left' : '<!--', 'right' : '-->'},
+""\ {'left' : '\(#\)\?{[^\}]*\}', 'right' : '\(#\)\?{[^\}]*\}'},
+""\ ]
+
+""let GetLine = getline('.')
+""let ColNow = col('.') - 1
+
+""let RightGetLine = substitute(
+""\ strpart(GetLine, ColNow, col('$')),
+""\ '^[ ]*', '', ''
+""\ )
+
+""if RightGetLine == "" | call feedkeys("\<CR>", 'n') | return '' | endif
+
+""for value in EnterIndentActive
+""if matchstr(RightGetLine, '^' . value.right) != ""
+""let EnterIndentRun = 1 | break
+""endif
+""endfor
+
+""if !exists('EnterIndentRun') | call feedkeys("\<CR>", 'n') | return '' | endif
+
+""let LeftGetLine = substitute(
+""\ strpart(GetLine, 0, ColNow),
+""\ '[ ]*$', '', ''
+""\ )
+
+""if matchstr(LeftGetLine, value.left . '$') == ""
+""call feedkeys("\<CR>", 'n') | return ''
+""endif
+
+""let LineNow = line('.')
+""let Indent = substitute(LeftGetLine, '^\([ |\t]*\).*$', '\1', '')
+
+""call setline(LineNow, LeftGetLine)
+""call append(LineNow, Indent . RightGetLine)
+""call append(LineNow, Indent)
+""call feedkeys("\<Down>\<Esc>\A\<Tab>", 'n')
+
+""return ''
+""endf
+
+""let g:neocomplcache_snippets_dir = $HOME.'/snippets'
+""let g:neocomplcache_disable_select_mode_mappings = 1
 
 " }}}
 " Neocomplete {{{
 
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_ignore_case = 1
+"let g:neocomplete#enable_at_startup = 1
+"let g:neocomplete#enable_ignore_case = 1
 
-" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+"" Enable omni completion.
+"autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+"autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+"autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+"autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+"autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
-" Enable heavy omni completion.
-if !exists('g:neocomplete#sources#omni#input_patterns')
-  let g:neocomplete#sources#omni#input_patterns = {}
-endif
-let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+"" Enable heavy omni completion.
+"if !exists('g:neocomplete#sources#omni#input_patterns')
+"  let g:neocomplete#sources#omni#input_patterns = {}
+"endif
+"let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+"let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+"let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 
-" Tab completion for neosnippet and neocomplete
-imap <expr><Tab> neosnippet#expandable_or_jumpable() ?
- \ "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ?
- \ "\<Plug>(neosnippet_expand_or_jump)" : <SID>check_back_space() ?
- \ "\<Tab>" : neocomplete#start_manual_complete()
+"" Tab completion for neosnippet and neocomplete
+"imap <expr><Tab> neosnippet#expandable_or_jumpable() ?
+" \ "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ?
+" \ "\<Plug>(neosnippet_expand_or_jump)" : <SID>check_back_space() ?
+" \ "\<Tab>" : neocomplete#start_manual_complete()
 
-smap <expr><Tab> neosnippet#expandable_or_jumpable() ?
- \ "\<Plug>(neosnippet_expand_or_jump)" : <SID>check_back_space() ?
- \ "\<Tab>" : neocomplete#start_manual_complete()
+"smap <expr><Tab> neosnippet#expandable_or_jumpable() ?
+" \ "\<Plug>(neosnippet_expand_or_jump)" : <SID>check_back_space() ?
+" \ "\<Tab>" : neocomplete#start_manual_complete()
 
-function! s:check_back_space() "{{{
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
-endfunction"}}}                              
+"function! s:check_back_space() "{{{
+"  let col = col('.') - 1
+"  return !col || getline('.')[col - 1]  =~ '\s'
+"endfunction"}}}                              
 
 " }}}
 " Indent guide {{{
