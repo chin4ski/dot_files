@@ -101,6 +101,10 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib64/engines/
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/ama/obe/REG/ape/cfg/pack/MDW/lib/
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/ama/obe/REG/ape/cfg/pack/OSP/lib/
 
+export PYTHON_LIBRARY=/softntools/opt/Python-2.7/lib
+export PYTHON_INCLUDE_DIR=/softntools/opt/Python-2.7/include/python2.7
+export PYTHON_EXECUTABLE=/softntools/opt/Python-2.7/bin/python
+
 # From Nordyne:
 #export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/gcc-4.3.2/lib64:/opt/gcc/lib64:/opt/python-2.6-64/lib:/opt/gcc-4.3.2/lib64:/nastools/oracle/products/11.2.0.2/lib:/data3/ngi/soft/lib64:/nastools/oracle/products/11.2.0.2/lib:/nastools/oracle/products/9.2.0.8/lib:/remote/users2/darmand/env/lib:/usr/lib64/engines/
 
@@ -208,10 +212,8 @@ OS_NAME=`uname`
 export PAGER=less
 
 if [[ "$USER" == "${EXPECTED_USER}" ]]; then
-  #export DISPLAY=nce${USER}:0.0
-  #export DISPLAY=NCEL2404:0.0
   export DISPLAY=NCEL2404.iis.amadeus.net:0.0
-  #export DISPLAY=172.26.214.147:0.0
+  export DISPLAY=172.26.214.251:0.0
 else
   export DISPLAY=:0.0
 fi
@@ -413,7 +415,8 @@ case $TERM in
         #    logout
         #  fi
         #else
-        tmux_new_inc_session && \exit
+        tmux_new_inc_session
+        #tmux_new_inc_session && \exit
         #fi
         ;;
     *rxvt*)

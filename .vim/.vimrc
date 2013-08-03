@@ -58,6 +58,18 @@ else
     let &t_EI .= "\e[1 q"
 endif
 
+" Set a nicer cursor in insert mode (from terryma on github)
+" Tmux will only forward escape sequences to the terminal if surrounded by
+" a DCS sequence
+if exists('$TMUX')
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+  else
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+endif
+
+
 set timeout timeoutlen=1000 ttimeoutlen=1
 
 function! Allmap(mapping) " {{{
@@ -363,21 +375,16 @@ if isdirectory(g:vundle_dir)
     Bundle 'file-line'
     Bundle 'grep'
     Bundle 'gtags'
-    Bundle 'gundo'
     Bundle 'localbundle'
     Bundle 'marvim'
     Bundle 'matchit'
     Bundle 'matchit.zip'
-    "Bundle 'neocomplcache'
-    Bundle 'neosnippet'
     Bundle 'nerdcommenter'
     Bundle 'sessionman'
     Bundle 'textobj-word-column'
     Bundle 'themes'
     Bundle 'undotree'
-    Bundle 'vim-exjumplist'
     Bundle 'vim-indent-guides'
-    Bundle 'vim-powerline'
     Bundle 'vim-repeat'
     Bundle 'vim-scratch'
     Bundle 'vim-surround'
@@ -398,23 +405,18 @@ if isdirectory(g:vundle_dir)
     Bundle 'operator-camelize'
     Bundle 'operator-user'
     Bundle 'signify'
-    Bundle 'easyclip'
     Bundle 'unite.vim-master'
     Bundle 'recover'
     Bundle 'largefile'
     Bundle 'cpp-enhanced-highlight'
     Bundle 'tagbar'
-    Bundle 'taghighlight'
-    Bundle 'syntastic'
     Bundle 'rsi'
-    Bundle 'sleuth'
-    "Bundle 'startify'
     Bundle 'minibufexpl'
     Bundle 'airline'
-    Bundle 'neocomplete'
     Bundle 'context_filetype'
     Bundle 'snippets'
     Bundle 'unite-help'
+    Bundle 'UltiSnips'
     Bundle 'YouCompleteMe'
     " Add new bundles here
 
@@ -432,8 +434,6 @@ filetype plugin indent on     " required!
 " }}}
 " Various settings and init {{{
 
-filetype on
-filetype indent on 
 filetype plugin indent on
 
 " Auto reload various config files when modified
@@ -626,6 +626,23 @@ endif
 
 " }}}
 " Folding {{{
+
+" Show fold column
+set foldcolumn=1
+
+" Allow manual folding
+set foldmethod=manual
+
+" Do not expand folds when searching
+"set foldopen-=search
+
+" Execute command on open folds only
+nnoremap <Leader>f :folddoopen 
+
+inoremap <Leader>f <C-O>za
+"nnoremap <Leader>f za
+onoremap <Leader>f <C-C>za
+vnoremap <Leader>f zf
 
 "function! MyFoldText() " {{{
 
@@ -970,62 +987,67 @@ let Grep_Skip_Dirs = 'RCS CVS SCCS objLinux64Rel objLinux64Dbg L64D342 L64R342 d
 let Grep_Skip_Files = '*~ *,v s.* *.os .*.swp core.* .#* vim.err build.log'
 
 " }}}
-" Neosnippet {{{
+" UltiSnips {{{
 
-let g:neosnippet#disable_select_mode_mappings = 0
-
-" For snippet_complete marker.
-if has('conceal')
-  set conceallevel=2 concealcursor=i
-endif
-
-" Enable snipMate compatibility feature.
-let g:neosnippet#enable_snipmate_compatibility = 1
-
-" Use sippets from https://github.com/honza/vim-snippets
-let g:neosnippet#snippets_directory = g:bundle_dir . '/snippets/snippets'
-
-" Tab completion --> see neocomplete mapping
+let g:UltiSnipsSnippetDirectories=["bundle/UltiSnips", "bundle/snippets"]
 
 " }}}
+" Neosnippet {{{
+
+"let g:neosnippet#disable_select_mode_mappings = 0
+
+"" For snippet_complete marker.
+"if has('conceal')
+"  set conceallevel=2 concealcursor=i
+"endif
+
+"" Enable snipMate compatibility feature.
+"let g:neosnippet#enable_snipmate_compatibility = 1
+
+"" Use sippets from https://github.com/honza/vim-snippets
+"let g:neosnippet#snippets_directory = g:bundle_dir . '/snippets/snippets'
+
+"" Tab completion --> see neocomplete mapping
+
+"" }}}
 " Neocomplcache {{{
 
-" Use neocomplcache.
-let g:neocomplcache_enable_at_startup = 0
-" Use smartcase.
-let g:neocomplcache_enable_smart_case = 1
-let g:neocomplcache_auto_completion_start_length = 1
-" Use camel case completion.
-let g:neocomplcache_enable_camel_case_completion = 1
-" Use underbar completion.
-let g:neocomplcache_enable_underbar_completion = 0
-" Set minimum syntax keyword length.
-let g:neocomplcache_min_syntax_length = 1
-" Set manual completion length.
-let g:neocomplcache_manual_completion_start_length = 0
-let g:NeoComplCacheAutoCompletionLength = 1
-"let g:neocomplcache_caching_limit_file_size = 1000000
-" Disable ctags
-let g:neocomplcache_ctags_program = ''
+"" Use neocomplcache.
+"let g:neocomplcache_enable_at_startup = 0
+"" Use smartcase.
+"let g:neocomplcache_enable_smart_case = 1
+"let g:neocomplcache_auto_completion_start_length = 1
+"" Use camel case completion.
+"let g:neocomplcache_enable_camel_case_completion = 1
+"" Use underbar completion.
+"let g:neocomplcache_enable_underbar_completion = 0
+"" Set minimum syntax keyword length.
+"let g:neocomplcache_min_syntax_length = 1
+"" Set manual completion length.
+"let g:neocomplcache_manual_completion_start_length = 0
+"let g:NeoComplCacheAutoCompletionLength = 1
+""let g:neocomplcache_caching_limit_file_size = 1000000
+"" Disable ctags
+"let g:neocomplcache_ctags_program = ''
 
-if !exists('g:neocomplcache_omni_patterns')
-    let g:neocomplcache_omni_patterns = {}
-endif
-"let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
-"let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
+"if !exists('g:neocomplcache_omni_patterns')
+"    let g:neocomplcache_omni_patterns = {}
+"endif
+""let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
+""let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
 
-" Define dictionary.
-let g:neocomplcache_dictionary_filetype_lists = {
-            \ 'default' : '',
-            \ 'vimshell' : $HOME.'/.vimshell_hist',
-            \ 'scheme' : $HOME.'/.gosh_completions'
-            \ }
+"" Define dictionary.
+"let g:neocomplcache_dictionary_filetype_lists = {
+"            \ 'default' : '',
+"            \ 'vimshell' : $HOME.'/.vimshell_hist',
+"            \ 'scheme' : $HOME.'/.gosh_completions'
+"            \ }
 
-" Define keyword.
-if !exists('g:neocomplcache_keyword_patterns')
-    let g:neocomplcache_keyword_patterns = {}
-endif
-let g:neocomplcache_keyword_patterns['default'] = '\v\h\w*'
+"" Define keyword.
+"if !exists('g:neocomplcache_keyword_patterns')
+"    let g:neocomplcache_keyword_patterns = {}
+"endif
+"let g:neocomplcache_keyword_patterns['default'] = '\v\h\w*'
 
 "" Tab completion for neosnippet and neocomplete
 "imap <expr><Tab> neosnippet#expandable_or_jumpable() ?
@@ -1049,20 +1071,20 @@ endfunction
 let g:neocomplete#enable_at_startup = 0
 let g:neocomplete#enable_ignore_case = 1
 
-" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+"" Enable omni completion.
+"autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+"autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+"autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+"autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+"autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
-" Enable heavy omni completion.
-if !exists('g:neocomplete#sources#omni#input_patterns')
-  let g:neocomplete#sources#omni#input_patterns = {}
-endif
-let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+"" Enable heavy omni completion.
+"if !exists('g:neocomplete#sources#omni#input_patterns')
+"  let g:neocomplete#sources#omni#input_patterns = {}
+"endif
+"let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+"let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+"let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 
 " Tab completion for neosnippet and neocomplete
 "imap <expr><Tab> neosnippet#expandable_or_jumpable() ?
@@ -1136,7 +1158,7 @@ let g:mwDefaultHighlightingPalette = 'maximum'
 " }}}
 " Undotree {{{
 
-nnoremap <silent> <F8>  :UndotreeToggle<cr>
+nnoremap <silent> <F8>  :UndotreeToggle<CR>
 
 " }}}
 " Enhanced Commentify {{{
@@ -1846,7 +1868,7 @@ let g:ctrlp_prompt_mappings = {
             \ 'PrtSelectMove("d")':   ['<PageDown>', '<kPageDown>'],
             \ 'PrtHistory(-1)':       ['<M-x>'],
             \ 'PrtHistory(1)':        ['<M-z>'],
-            \ 'AcceptSelection("e")': ['<cr>', '<2-LeftMouse>'],
+            \ 'AcceptSelection("e")': ['<CR>', '<2-LeftMouse>'],
             \ 'AcceptSelection("h")': ['<c-x>', '<c-cr>', '<c-s>'],
             \ 'AcceptSelection("t")': ['<c-t>'],
             \ 'AcceptSelection("v")': ['<c-v>', '<RightMouse>'],
@@ -2075,8 +2097,8 @@ noremap <silent> <C-Left> :call MergeRightToLeft()<CR>
 "            \   map <C-Down> [czz|
 "            \   map <C-Up> ]czz|
 "            \ else |
-"            \   map <silent> <C-Down> :<c-u>execute v:count .'SignifyJumpToNextHunk'<cr>|
-"            \   map <silent> <C-Up> :<c-u>execute v:count .'SignifyJumpToPrevHunk'<cr>|
+"            \   map <silent> <C-Down> :<c-u>execute v:count .'SignifyJumpToNextHunk'<CR>|
+"            \   map <silent> <C-Up> :<c-u>execute v:count .'SignifyJumpToPrevHunk'<CR>|
 "            \ endif
 
 
@@ -2156,9 +2178,16 @@ vnoremap P "_dP
 "nmap <silent> Xp :s/\(\%#\w\+\)\(\_W\+\)\(\w\+\)/\3\2\1/<CR>`':nohlsearch<CR>
 "nmap <silent> Xp dawwP
 
-" Underline the current line with '=' or '-'
-nmap <silent> <Leader>u= :t.\|s/./=/g\|:nohls<cr>
-nmap <silent> <Leader>u- :t.\|s/./-/g\|:nohls<cr>
+" Underline the current line with a char, and comment it
+nmap <silent> <Leader>o= yyp:silent s/./=/g\|:nohls<CR><plug>NERDCommenterAlignBoth
+nmap <silent> <Leader>o- yyp:silent s/./-/g\|:nohls<CR><plug>NERDCommenterAlignBoth
+nmap <silent> <Leader>o* yyp:silent s/./*/g\|:nohls<CR><plug>NERDCommenterAlignBoth
+nmap <silent> <Leader>o/ yyp:silent s/./\//g\|:nohls<CR><plug>NERDCommenterAlignBoth
+" Same, but overline
+nmap <silent> <Leader>O- yyP:silent s/./-/g\|:nohls<CR><plug>NERDCommenterAlignBoth
+nmap <silent> <Leader>O= yyP:silent s/./=/g\|:nohls<CR><plug>NERDCommenterAlignBoth
+nmap <silent> <Leader>O* yyP:silent s/./*/g\|:nohls<CR><plug>NERDCommenterAlignBoth
+nmap <silent> <Leader>O/ yyP:silent s/./\//g\|:nohls<CR><plug>NERDCommenterAlignBoth
 
 " Identify the syntax highlighting group used at the cursor
 command! ShowSyntaxGroup silent call ShowSyntaxGroup()
@@ -2175,8 +2204,8 @@ nmap <M-u> :CtrlPUndo<CR>
 nmap <M-.> :CtrlPChange<CR>
 
 " Source lines from current file
-vnoremap <leader>S y:execute @@<cr>:echo 'Sourced selection.'<cr>
-nnoremap <leader>S ^vg_y:execute @@<cr>:echo 'Sourced line.'<cr>
+vnoremap <leader>S y:silent execute @@<CR>:echo 'Sourced selection.'<CR>
+nnoremap <leader>S ^vg_y:silent execute @@<CR>:echo 'Sourced line.'<CR>
 
 nnoremap <C-]> g<C-]>zvzz
 nnoremap g<C-]> g<C-]>zvzz
@@ -2288,7 +2317,7 @@ function! Refactor() " {{{
 
 endfunction " }}}
 " Locally (local to block) rename a variable
-nmap <Leader>rv "zyiw:call Refactor()<cr>mx:silent! norm gd<cr>[V%:s/<C-R>//<c-r>z/gc<cr>`x
+nmap <Leader>rv "zyiw:call Refactor()<CR>mx:silent! norm gd<CR>[V%:s/<C-R>//<c-r>z/gc<CR>`x
 
 
 
@@ -2429,6 +2458,10 @@ endfunction " }}}
 " *********** SEARCH *************
 " ********************************
 
+" Open quickfix window after grep commands
+autocmd QuickFixCmdPost *grep* cwindow
+
+
 " === ACK ===
 " Motions to Ack for things.  Works with pretty much everything, including:
 "  w, W, e, E, b, B, t*, f*, i*, a*, and custom text objects
@@ -2440,7 +2473,7 @@ endfunction " }}}
 "nnoremap <leader>A :set opfunc=<SID>AckMotion<CR>g@
 "xnoremap <silent> <leader>A :<C-U>call <SID>AckMotion(visualmode())<CR>
 
-"nnoremap <bs> :Ack! '\b<c-r><c-w>\b'<cr>
+"nnoremap <bs> :Ack! '\b<c-r><c-w>\b'<CR>
 "xnoremap <silent> <bs> :<C-U>call <SID>AckMotion(visualmode())<CR>
 
 function! s:CopyMotionForType(type)
@@ -2456,11 +2489,12 @@ function! s:AckMotion(type) abort
 
     call s:CopyMotionForType(a:type)
 
-    execute "normal! :Ack! --literal " . shellescape(@@) . "\<cr>"
+    execute "normal! :Ack! --literal " . shellescape(@@) . "\<CR>"
 
     let @@ = reg_save
 endfunction
 " ===========
+
 
 " ***********************************************
 " Target string unfilled
@@ -2472,6 +2506,8 @@ nnoremap  <Leader>sb :Bgrep -i
 " Search in files matching the regex, save matching filenames in args
 "nnoremap <Leader>sa :args `grep -Ril \"\" *`<Left><Left><Left><Left><Left>
 nnoremap <Leader>sa :args `find . -name \"*\" -exec grep -il \"\" '{}' \;`<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
+" Search in vim help pages
+nnoremap  <Leader>sh :helpgrep 
 
 " ***********************************************
 " Target string is the word under the cursor
@@ -2485,6 +2521,8 @@ nnoremap  <Leader>ss :Rgrep -i \<<C-r><C-w>\> *pp
 nnoremap  <Leader>ssb :Bgrep -i \<<C-r><C-w>\>
 " Search in files matching the regex, save matching filenames in args
 nnoremap <Leader>ssa :args `grep -Ril \"\<<C-r><C-w>\>\" *`<Left>
+" Search in vim help pages
+nnoremap  <Leader>ssh :helpgrep \<<C-r><C-w>\>
 
 " ***********************************************
 " Target string is the visually selected area
@@ -2497,6 +2535,8 @@ vnoremap <Leader>ss y:Rgrep -i <C-R>=escape(@",'\\/.*$^~[]')<CR> *pp<Left><Left>
 vnoremap <Leader>sb y:Bgrep -i <C-R>=escape(@",'\\/.*$^~[]')<CR>
 " Search in files matching the regex, save matching filenames in args
 vnoremap <Leader>sa y:args `grep -Ril \"<C-R>=escape(@",'\\/.*$^~[]')<CR>\" *`<Left>
+" Search in vim help pages
+vnoremap  <Leader>sh y:helpgrep <C-R>=escape(@",'\\/.*$^~[]')<CR>
 
 
 " ********************************

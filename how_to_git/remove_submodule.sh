@@ -31,3 +31,12 @@ echo "Press <Ctrl-C> to stop, another key to continue ..."
 read $CMD_IN
 eval $CMD_EXEC
 echo
+
+# 3/ Remove dir
+CMD_EXEC="rm -rf $2"
+
+echo $CMD_EXEC
+echo "Press <Ctrl-C> to stop, another key to continue ..."
+read $CMD_IN
+eval $CMD_EXEC
+echo
