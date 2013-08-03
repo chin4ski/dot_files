@@ -37,13 +37,13 @@ let ColourAssignment['DiffDelete']         = {"CTERMFG": '255',    "CTERMBG": '1
 "let ColourAssignment['DiffDelete']         = {"CTERMFG": '232',    "CTERMBG": '209'}
 
 " Tabbar
-let ColourAssignment['Tb_Normal']               = {"CTERMFG": '253',    "CTERMBG": '241'}
-let ColourAssignment['Tb_Changed']              = {"CTERMFG": '216',    "CTERMBG": '241'}
-let ColourAssignment['Tb_VisibleNormal']        = {"CTERMFG": '232',    "CTERMBG": '250'}
-let ColourAssignment['Tb_VisibleChanged']       = {"CTERMFG": '124',    "CTERMBG": '250'}
-let ColourAssignment['VisualNOS']               = {"CTERMFG": '232',    "CTERMBG": '255', "TERM": 'None'}
-let ColourAssignment['CursorIM']                = {"CTERMFG": '124',    "CTERMBG": '255', "TERM": 'None'}
-
+"let ColourAssignment['Tb_Normal']               = {"CTERMFG": '253',    "CTERMBG": '241'}
+"let ColourAssignment['Tb_Changed']              = {"CTERMFG": '216',    "CTERMBG": '241'}
+"let ColourAssignment['Tb_VisibleNormal']        = {"CTERMFG": '232',    "CTERMBG": '250'}
+"let ColourAssignment['Tb_VisibleChanged']       = {"CTERMFG": '124',    "CTERMBG": '250'}
+"let ColourAssignment['VisualNOS']               = {"CTERMFG": '232',    "CTERMBG": '255', "TERM": 'None'}
+"let ColourAssignment['CursorIM']                = {"CTERMFG": '124',    "CTERMBG": '255', "TERM": 'None'}
+" 
 " MiniBufExpl
 let ColourAssignment['MBENormal']               = {"CTERMFG": '253',    "CTERMBG": '241'}
 let ColourAssignment['MBEChanged']              = {"CTERMFG": '216',    "CTERMBG": '241'}
@@ -152,7 +152,12 @@ let ColourAssignment['Special']         = {"GUIFG": '171',         "TERM":    'N
 let ColourAssignment['SpecialChar']     = {"GUIFG": '171'}     " special character in a constant
 let ColourAssignment['SpecialKey']      = {"GUIFG": '243'}     " special highlighting for 'listchars' etc
 let ColourAssignment['NonText']         = {"GUIFG": '243'}     " special highlighting for 'listchars' etc
-let ColourAssignment['MatchParen']      = {"GUI":   'Underline',   "GUIFG": '255', "GUIBG": '9'}   " Highlighting of matching parentheses
+let ColourAssignment['MatchParen']      = {"GUI":   'Underline',   "GUIFG": '255', "GUIBG": '171'}   " Highlighting of matching parentheses
+let ColourAssignment['cParen']         = {"CTERMFG": '46', "GUIFG": '46'}
+let ColourAssignment['cErrInParen']         = {"CTERMFG": '46', "GUIFG": '46'}
+let ColourAssignment['cBraces']         = {"CTERMFG": '46', "GUIFG": '46'}
+let ColourAssignment['cBlock']         = {"CTERMFG": '46', "GUIFG": '46'}
+let ColourAssignment['cDelimiter']         = {"CTERMFG": '46', "GUIFG": '46'}
 
 " Errors
 let ColourAssignment['Error']           = {"GUIFG": 'White',       "GUIBG":   '160'}
@@ -166,7 +171,7 @@ let ColourAssignment['FoldColumn']      = {"GUIFG": '227',    "GUIBG":   '247'}
 let ColourAssignment['Folded']      = {"GUIFG": '255',    "GUIBG":   '66'}
 
 if exists('+colorcolumn')
-  let ColourAssignment['ColorColumn']      = {"GUIFG": '227',    "GUIBG":   '238'}
+  let ColourAssignment['ColorColumn']      = {"GUIBG":   '238'}
 endif
 
 " Popup Menu
@@ -182,7 +187,7 @@ let ColourAssignment['StatusLine']      = {"GUIFG": '232',       "GUIBG": '254'}
 let ColourAssignment['StatusLineNC']    = {"GUIFG": '254',       "GUIBG": '242'}
 
 " Vertical Splits
-let ColourAssignment['VertSplit']       = {"GUIFG": '11',       "GUIBG": '244'}
+let ColourAssignment['VertSplit']       = {"GUIFG": '11',       "GUIBG": '247'}
 
 " Signs Column
 let ColourAssignment['SignColumn']      = {"GUIFG": '118', "GUIBG": '239'}
@@ -228,6 +233,14 @@ let ColourAssignment['MarkWord7']          = {"CTERMFG": '254', "CTERMBG": '28'}
 let ColourAssignment['MarkWord8']          = {"CTERMFG": '232', "CTERMBG": '214'}
 let ColourAssignment['MarkWord9']          = {"CTERMFG": '254', "CTERMBG": '124'}
 let ColourAssignment['MarkWord10']          = {"CTERMFG": '254', "CTERMBG": '128'}
+
+" Tagbar
+let ColourAssignment['TagbarSignature']          = {"CTERMFG": '195'}
+"let ColourAssignment['TagbarComment']          = {"CTERMFG": '145'}
+let ColourAssignment['TagbarScope']          = {"CTERMFG": '158'}
+
+syn keyword MySpecialChars  <
+let ColourAssignment['MySpecialChars']          = {"CTERMFG": '46'}
 
 " ========================================================================
 " Other available highlighting groups are listed at the bottom of the file
@@ -407,6 +420,6 @@ highlight link cMember Member
 
 
 " davide
-runtime plugin/RainbowParenthsis.vim
+"runtime plugin/RainbowParenthsis.vim
 
 
