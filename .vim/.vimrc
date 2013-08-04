@@ -427,7 +427,7 @@ if isdirectory(g:vundle_dir)
     Bundle 'UltiSnips'
     Bundle 'YouCompleteMe'
     Bundle 'EasyClip'
-    Bundle 'dispatch'
+    Bundle 'Dispatch'
     " Add new bundles here
 
     Bundle 'localbundle'

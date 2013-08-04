@@ -227,3 +227,6 @@
 [submodule ".vim/bundle/MiniBufExpl"]
 	path = .vim/bundle/MiniBufExpl
 	url = https://github.com/chin4ski/minibufexpl.vim.git
+[submodule ".vim/bundle/Dispatch"]
+	path = .vim/bundle/Dispatch
+	url = https://github.com/tpope/vim-dispatch.git
