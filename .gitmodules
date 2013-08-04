@@ -227,3 +227,6 @@
 [submodule ".vim/bundle/UltiSnips"]
 	path = .vim/bundle/UltiSnips
 	url = https://github.com/SirVer/ultisnips.git
+[submodule ".vim/bundle/EasyClip"]
+	path = .vim/bundle/EasyClip
+	url = https://github.com/chin4ski/vim-easyclip.git

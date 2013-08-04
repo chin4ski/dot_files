@@ -426,6 +426,7 @@ if isdirectory(g:vundle_dir)
     Bundle 'unite-help'
     Bundle 'UltiSnips'
     Bundle 'YouCompleteMe'
+    Bundle 'EasyClip'
     " Add new bundles here
 
     Bundle 'localbundle'
@@ -998,6 +999,9 @@ let Grep_Skip_Files = '*~ *,v s.* *.os .*.swp core.* .#* vim.err build.log'
 " UltiSnips {{{
 
 let g:UltiSnipsSnippetDirectories=["bundle/UltiSnips", "bundle/snippets"]
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 " }}}
 " Neosnippet {{{
@@ -1513,15 +1517,16 @@ let g:LargeFile = '100MB'
 " }}}
 " Airline {{{
 
-let g:airline_section_b = '%{getcwd()}'
+"let g:airline_section_b = '%{getcwd()}'
 let g:airline_left_sep = '》' 
 let g:airline_right_sep = '《'
 let g:airline_linecolumn_prefix = '␤ '
-"let g:airline_fugitive_prefix = 'Þ'
+let g:airline_enable_branch = 1
+let g:airline_branch_prefix = '〒 '
 "let g:airline_paste_symbol = 'ρ'
 "let g:airline_paste_symbol = 'Þ'
 "let g:airline_paste_symbol = '∥'
-let g:airline_theme='dark'
+let g:airline_theme='wombat'
 
 " }}}
 " YouCompleteMe {{{
