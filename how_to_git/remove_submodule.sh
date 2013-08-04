@@ -2,7 +2,7 @@
 
 if [ $1 == "-h" ]; then
   echo "Example:"
-  echo "remove_submodule.sh ~/Documents/linux/dot_files .vim/bundle/powerline"
+  echo "remove_submodule.sh ~/Documents/linux/repos/dot_files .vim/bundle/powerline"
   echo
   exit 0
 fi

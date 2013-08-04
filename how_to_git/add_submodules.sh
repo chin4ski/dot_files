@@ -2,7 +2,7 @@
 
 if [ $1 == "-h" ]; then
   echo "Example:"
-  echo "add_submodules.sh ~/Documents/linux/dot_files https://github.com/Lokaltog/powerline.git .vim/bundle/powerline"
+  echo "add_submodules.sh ~/Documents/linux/repos/dot_files https://github.com/Lokaltog/powerline.git .vim/bundle/powerline"
   echo
   exit 0
 fi
@@ -20,7 +20,7 @@ eval $CMD_EXEC
 echo
 
 # 1/ Add submodule:
-CMD_EXEC="git submodule add $2 $3"
+CMD_EXEC="git submodule add --force $2 $3"
 echo $CMD_EXEC
 echo "Press <Ctrl-C> to stop, another key to continue ..."
 read $CMD_IN
