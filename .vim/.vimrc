@@ -128,12 +128,11 @@ elseif exists("$USING_XTERM_LINUX") || exists("$USING_XTERM_CYGWIN")
 
     " Already working keys:
     " <M-Any_key>
-    " <S-F_KEY>
-    " <S-Tab>
     " <Tab>
 
     " Keys need a manual map:
     call Allmap('            <BS>')
+    call Allmap('   [Z       <S-Tab>')
     "call Allmap('            <Del>')
 
     call Allmap('    <C-@>      <C-Space>')
@@ -1000,10 +999,10 @@ let Grep_Skip_Files = '*~ *,v s.* *.os .*.swp core.* .#* vim.err build.log'
 " }}}
 " UltiSnips {{{
 
-let g:UltiSnipsSnippetDirectories=["bundle/UltiSnips", "bundle/snippets"]
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:UltiSnipsSnippetDirectories=["bundle/UltiSnips/UltiSnips", "bundle/snippets"]
+let g:UltiSnipsExpandTrigger="<Tab>"
+let g:UltiSnipsJumpForwardTrigger="<Tab>"
+let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
 
 " }}}
 " Neosnippet {{{
@@ -1536,6 +1535,9 @@ let g:airline_theme='wombat'
 "   cmake -G "Unix Makefiles" -DPYTHON_LIBRARY=/softntools/opt/Python-2.7/lib  -DPYTHON_INCLUDE_DIR=/softntools/opt/Python-2.7/include/python2.7 -DPYTHON_EXECUTABLE=/softntools/opt/Python-2.7/bin/python  -DPATH_TO_LLVM_ROOT=~/env . ~/.vim/bundle/YouCompleteMe/cpp
 let g:ycm_confirm_extra_conf = 0
 nnoremap <leader>gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
+  let g:ycm_key_list_select_completion = ['<Down>']
+  let g:ycm_key_list_previous_completion = ['<Up>']
+
 " }}}
 
 " }}}
