@@ -938,10 +938,11 @@ let g:Tb_MoreThanOne = 0
 " }}}
 " MiniBufExpl {{{
 
-"let g:miniBufExplorerDebugLevel = 5
-"let g:miniBufExplDebugMode = 1
 let g:miniBufExplUseSingleClick = 1
 let g:miniBufExplBuffersNeeded = 0
+" Debugging:
+"let g:miniBufExplorerDebugLevel = 10
+"let g:miniBufExplDebugMode = 1
 " Previous buffer
 noremap    <silent>   <M-w>   :MBEbp<CR>
 vnoremap   <silent>   <M-w>   <C-c>:MBEbp<CR>
