@@ -421,9 +421,9 @@ if isdirectory(g:vundle_dir)
     Bundle 'MiniBufExpl'
     Bundle 'airline'
     Bundle 'context_filetype'
-    Bundle 'snippets'
     Bundle 'unite-help'
     Bundle 'ultisnips'
+    Bundle 'snippets'
     Bundle 'YouCompleteMe'
     Bundle 'EasyClip'
     Bundle 'Dispatch'
@@ -999,7 +999,7 @@ let Grep_Skip_Files = '*~ *,v s.* *.os .*.swp core.* .#* vim.err build.log'
 " }}}
 " UltiSnips {{{
 
-let g:UltiSnipsSnippetDirectories=["bundle/UltiSnips/UltiSnips", "bundle/snippets"]
+let g:UltiSnipsSnippetDirectories=["bundle/ultisnips/UltiSnips"]
 let g:UltiSnipsExpandTrigger="<Tab>"
 let g:UltiSnipsJumpForwardTrigger="<Tab>"
 let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
