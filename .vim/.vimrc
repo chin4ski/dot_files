@@ -1514,21 +1514,14 @@ let g:LargeFile = '100MB'
 " Airline {{{
 
 let g:airline_section_b = '%{getcwd()}'
-"let g:airline_left_sep = '◆' 
-"let g:airline_left_sep = '】' 
-"let g:airline_left_sep = '〉' 
 let g:airline_left_sep = '》' 
-"let g:airline_right_sep = '◆'
-"let g:airline_right_sep = '【'
-"let g:airline_right_sep = '〈'
 let g:airline_right_sep = '《'
-"let g:airline_linecolumn_prefix = '␊ '
 let g:airline_linecolumn_prefix = '␤ '
-"let g:airline_linecolumn_prefix = '¶ '
-let g:airline_fugitive_prefix = 'Þ'
+"let g:airline_fugitive_prefix = 'Þ'
 "let g:airline_paste_symbol = 'ρ'
 "let g:airline_paste_symbol = 'Þ'
 "let g:airline_paste_symbol = '∥'
+let g:airline_theme='dark'
 
 " }}}
 " YouCompleteMe {{{
