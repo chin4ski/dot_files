@@ -423,7 +423,7 @@ if isdirectory(g:vundle_dir)
     Bundle 'context_filetype'
     Bundle 'snippets'
     Bundle 'unite-help'
-    Bundle 'UltiSnips'
+    Bundle 'ultisnips'
     Bundle 'YouCompleteMe'
     Bundle 'EasyClip'
     Bundle 'Dispatch'
