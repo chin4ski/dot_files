@@ -212,15 +212,9 @@
 [submodule ".vim/bundle/context_filetype"]
 	path = .vim/bundle/context_filetype
 	url = https://github.com/Shougo/context_filetype.vim.git
-[submodule ".vim/bundle/snippets"]
-	path = .vim/bundle/snippets
-	url = https://github.com/honza/vim-snippets.git
 [submodule ".vim/bundle/unite-help"]
 	path = .vim/bundle/unite-help
 	url = https://github.com/tsukkee/unite-help.git
-[submodule ".vim/bundle/UltiSnips"]
-	path = .vim/bundle/UltiSnips
-	url = https://github.com/SirVer/ultisnips.git
 [submodule ".vim/bundle/EasyClip"]
 	path = .vim/bundle/EasyClip
 	url = https://github.com/chin4ski/vim-easyclip.git
