@@ -70,7 +70,15 @@ if exists('$TMUX')
 endif
 
 
-set timeout timeoutlen=1000 ttimeoutlen=1
+
+" In insert mode make Esc happen without waiting for timeoutlen
+set ttimeoutlen=10
+augroup FastEscape
+  autocmd!
+  au InsertEnter * set timeoutlen=0
+  au InsertLeave * set timeoutlen=1000
+augroup END
+"set timeout timeoutlen=1000 ttimeoutlen=0
 
 function! Allmap(mapping) " {{{
 
