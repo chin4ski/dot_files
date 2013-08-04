@@ -224,3 +224,6 @@
 [submodule ".vim/bundle/EasyClip"]
 	path = .vim/bundle/EasyClip
 	url = https://github.com/chin4ski/vim-easyclip.git
+[submodule ".vim/bundle/MiniBufExpl"]
+	path = .vim/bundle/MiniBufExpl
+	url = https://github.com/chin4ski/minibufexpl.vim.git

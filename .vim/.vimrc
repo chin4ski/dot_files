@@ -419,7 +419,7 @@ if isdirectory(g:vundle_dir)
     Bundle 'cpp-enhanced-highlight'
     Bundle 'tagbar'
     Bundle 'rsi'
-    Bundle 'minibufexpl'
+    Bundle 'MiniBufExpl'
     Bundle 'airline'
     Bundle 'context_filetype'
     Bundle 'snippets'
