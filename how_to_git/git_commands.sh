@@ -28,7 +28,8 @@ cd submodule_repo
 git add <stuff>
 git commit -m "comment"
 git push
-# 2/ Tell your main project to track the updated version:
+# 2/ Tell your main project to track the updated version.
+#From the main project root dir:
 git add .vim/bundle/submodule
 git commit -m "updated my submodule"
 git push
