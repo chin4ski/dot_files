@@ -114,6 +114,7 @@ let ColourAssignment['Operator']        = {"GUIFG": '226'}
 let ColourAssignment['MyOperators'] = {"GUIFG": '226'}
 let ColourAssignment['RoundSquareBracket'] = {"GUIFG": '46'}
 let ColourAssignment['CurlyBracket'] = {"GUIFG": '46'}
+let ColourAssignment['cErrInBracket'] = {"GUIFG": '46'}
 
 let ColourAssignment['Identifier']      = {"CTERMFG": 'Yellow', "TERM": 'Underline'}
 let ColourAssignment['Function']        = {"CTERMFG": '147'}

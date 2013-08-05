@@ -213,7 +213,7 @@ export PAGER=less
 
 if [[ "$USER" == "${EXPECTED_USER}" ]]; then
   export DISPLAY=NCEL2404.iis.amadeus.net:0.0
-  export DISPLAY=172.26.214.251:0.0
+  #export DISPLAY=172.26.214.251:0.0
 else
   export DISPLAY=:0.0
 fi

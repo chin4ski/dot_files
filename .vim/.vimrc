@@ -367,7 +367,6 @@ if isdirectory(g:vundle_dir)
     Bundle 'Mark--Karkat'
     Bundle 'MatchTag'
     Bundle 'Rename2'
-    "Bundle 'TabBar'
     Bundle 'taghighlight'
     Bundle 'Vimball'
     Bundle 'a.vim'
@@ -382,7 +381,6 @@ if isdirectory(g:vundle_dir)
     Bundle 'file-line'
     Bundle 'grep'
     Bundle 'gtags'
-    Bundle 'localbundle'
     Bundle 'marvim'
     Bundle 'matchit'
     Bundle 'matchit.zip'
@@ -412,7 +410,7 @@ if isdirectory(g:vundle_dir)
     Bundle 'operator-camelize'
     Bundle 'operator-user'
     Bundle 'signify'
-    Bundle 'unite.vim-master'
+    Bundle 'unite'
     Bundle 'recover'
     Bundle 'largefile'
     Bundle 'cpp-enhanced-highlight'
@@ -1226,7 +1224,7 @@ au FileType cvslog set syntax=rcslog
 " Sessionman {{{
 
 let sessionman_save_on_exit = 1
-noremap <silent> <F12> :SessionList<CR>
+noremap <silent> <F12> :silent SessionList<CR>
 
 " }}}
 " Quickfixsigns {{{
