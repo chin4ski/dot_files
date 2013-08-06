@@ -168,8 +168,8 @@ let ColourAssignment['NonIndentTabError']={"GUIFG": '255',        "GUIBG":   '16
 let ColourAssignment['Todo']            = {"GUIFG": '255',        "GUIBG":   '1',    "CTERM":  'Underline'}
 
 " Folding
-let ColourAssignment['FoldColumn']      = {"GUIFG": '74', "GUIBG": '240'}
-let ColourAssignment['Folded']      = {"GUIFG": '74',    "GUIBG":   '240'}
+let ColourAssignment['FoldColumn']      = {"GUIFG": '152', "GUIBG": '240'}
+let ColourAssignment['Folded']      = {"GUIFG": '152',    "GUIBG":   '240'}
 
 if exists('+colorcolumn')
   let ColourAssignment['ColorColumn']      = {"GUIBG":   '238'}
