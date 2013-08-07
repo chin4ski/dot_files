@@ -359,6 +359,7 @@ let &rtp = &rtp . ',' . g:bundle_dir . '/vundle'
 
 if isdirectory(g:localbundle_dir)
     " add localbundle target dir
+    "echo "davide - add localbundle target dir"
     let &rtp = &rtp . ',' . g:dot_vim_dir.','.g:localbundle_dir.','.g:localbundle_dir.'/after'
 endif
 
@@ -438,6 +439,8 @@ if isdirectory(g:vundle_dir)
     Bundle 'Dispatch'
     Bundle 'orgmode'
     Bundle 'speeddating'
+    Bundle 'calendar'
+    Bundle 'simple_bookmarks'
     " Add new bundles here
 
     Bundle 'localbundle'
@@ -1437,10 +1440,15 @@ let EasyGrepWindow = 0
 " }}}
 " orgmode {{{
 
-let g:org_todo_keywords = [['TODO', 'ONGOING', 'WAITING', '|', 'DONE'], ['|', 'CANCELED']]
-"let g:org_todo_keyword_faces = [['DONE', 'green'], ['WAITING', 'cyan'], ['CANCELED',
-            "\   [':foreground red', ':background black', ':weight bold',
-            "\   ':slant italic', ':decoration underline']]]
+let g:org_todo_keywords = ['TODO', 'ONGOING', 'WAITING', '|', 'DONE']
+"let g:org_heading_highlight_colors = 
+            "\ ['Title', 'Constant',  'Statement', 'Identifier', 'PreProc', 'Type', 'Special']
+let g:org_todo_keyword_faces = [
+            \ ['ONGOING', [':foreground black', ':background 178']],
+            \ ['CANCELED', [':foreground white', ':background red']],
+            \ ['DONE', [':foreground black', ':background 82']]
+            \]
+let g:org_agenda_files = ['~/doc/TODO_LIST.org']
 
 autocmd BufEnter TODO_LIST.org nmap <C-Left> @<Plug>OrgTodoBackward
 autocmd BufEnter TODO_LIST.org nmap <C-Right> @<Plug>OrgTodoForward
@@ -1559,6 +1567,26 @@ let g:ycm_confirm_extra_conf = 0
 nnoremap <leader>gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
   let g:ycm_key_list_select_completion = ['<Down>']
   let g:ycm_key_list_previous_completion = ['<Up>']
+
+" }}}
+" Calendar {{{
+let g:calendar_keys = {
+            \ 'goto_next_month': '<PageDown>',
+            \ 'goto_prev_month': '<PageUp>',
+            \ 'goto_next_year': '<C-PageUp>',
+            \ 'goto_prev_year': '<C-PageDown>'
+            \}
+
+" }}}
+" simple-bookmark {{{
+
+let g:simple_bookmarks_filename = '~/.vimbookmarks'
+"let g:simple_bookmarks_long_quickfix = 1
+let g:simple_bookmarks_highlight = 1
+let g:simple_bookmarks_signs = 1
+nmap <Leader>bo :CopenBookmarks<CR>
+nmap <Leader>b :Bookmark 
+nmap <Leader>bb :Bookmark <C-R><C-W>
 
 " }}}
 
@@ -2040,7 +2068,7 @@ let g:NERDCustomDelimiters = {
 "map <Leader>` ysiw`
 
 " Highlight current block of code
-nmap <Leader>b va{
+"nmap <Leader>b va{
 
 " Jump to previous/next fold point
 nmap <S-Up> zk

@@ -236,3 +236,9 @@
 [submodule ".vim/bundle/speeddating"]
 	path = .vim/bundle/speeddating
 	url = https://github.com/tpope/vim-speeddating.git
+[submodule ".vim/bundle/calendar"]
+	path = .vim/bundle/calendar
+	url = https://github.com/mattn/calendar-vim.git
+[submodule ".vim/bundle/simple_bookmarks"]
+	path = .vim/bundle/simple_bookmarks
+	url = https://github.com/AndrewRadev/simple_bookmarks.vim.git
