@@ -1,0 +1,14 @@
+#############################3
+# Brightness:
+sudo echo 1000 | sudo tee /sys/class/backlight/intel_backlight/brightness
+
+In "/etc/default/grub":
+
+#GRUB_CMDLINE_LINUX_DEFAULT="quiet"
+# davide: fix brightness setting
+GRUB_CMDLINE_LINUX_DEFAULT="quiet acpi_osi=Linux acpi_backlight=vendor"
+
+then run:
+
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+
