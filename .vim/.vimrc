@@ -80,6 +80,9 @@ augroup FastEscape
 augroup END
 "set timeout timeoutlen=1000 ttimeoutlen=0
 
+
+set updatetime=500
+
 function! Allmap(mapping) " {{{
 
     execute 'map' a:mapping
@@ -314,6 +317,8 @@ endif
 "map <kPlus> :echo 'ciao'<CR>
 
 " }}}
+
+" }}}
 " Path variables {{{
 
 let &rtp = ''
@@ -367,7 +372,7 @@ if isdirectory(g:vundle_dir)
     call vundle#rc()
 
     " let Vundle manage Vundle
-    " required! 
+    " required!
     Bundle 'vundle'
 
     Bundle 'CVSconflict'
@@ -422,7 +427,7 @@ if isdirectory(g:vundle_dir)
     Bundle 'operator-camelize'
     Bundle 'operator-user'
     Bundle 'signify'
-    Bundle 'unite'
+    "Bundle 'unite'
     Bundle 'recover'
     Bundle 'largefile'
     Bundle 'cpp-enhanced-highlight'
@@ -431,7 +436,7 @@ if isdirectory(g:vundle_dir)
     Bundle 'MiniBufExpl'
     Bundle 'airline'
     Bundle 'context_filetype'
-    Bundle 'unite-help'
+    "Bundle 'unite-help'
     Bundle 'ultisnips'
     Bundle 'snippets'
     Bundle 'YouCompleteMe'
@@ -441,6 +446,13 @@ if isdirectory(g:vundle_dir)
     Bundle 'speeddating'
     Bundle 'calendar'
     Bundle 'simple_bookmarks'
+    Bundle 'obsession'
+    Bundle 'ctrlp-modified'
+    Bundle 'ctrlp-funky'
+    "Bundle 'vim-lawrencium'
+    Bundle 'frawor'
+    Bundle 'ansi_esc_echo'
+    Bundle 'aurum'
     " Add new bundles here
 
     Bundle 'localbundle'
@@ -492,6 +504,7 @@ if version >= 703
 endif
 
 set shell=$SHELL
+"set shellcmdflag=-ci
 
 "Only ignore case when we type lower case when searching
 set ignorecase
@@ -518,6 +531,8 @@ set wildmode=list:longest
 
 "Ignore these files when completing names and in Explorer
 set wildignore=.svn,CVS,.git,*.o,*.os,*.a,*.class,*.mo,*.la,*.so,*.obj,*.swp,*.jpg,*.png,*.xpm,*.gif,.#*,L64*,deliveries
+
+set diffopt=filler,vertical
 
 " when we reload, tell vim to restore the cursor to the saved position
 augroup JumpCursorOnEdit
@@ -593,6 +608,9 @@ vnoremap <silent> # :<C-U>
             \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
             \gV:call setreg('"', old_reg, old_regtype)<CR>
 
+
+autocmd bufenter *.c,*.h,*.cpp,*.hpp setlocal spell spelllang=en_us
+
 " }}}
 " Tabs and indentation {{{
 
@@ -642,10 +660,17 @@ set textwidth=130
 
 " Highlight 130th column
 if exists('+colorcolumn')
-    set colorcolumn=130
-else
-    au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>130v.\+', -1)
+    au WinEnter,BufEnter * call SetHighlightColumn()
+    "au WinLeave * setlocal colorcolumn=
 endif
+
+function! SetHighlightColumn()
+    if(bufname('%') != '-MiniBufExplorer-' && &buftype != 'quickfix')
+        setlocal colorcolumn=130
+    else
+        setlocal colorcolumn=
+    endif
+endfunction
 
 " }}}
 " Folding {{{
@@ -659,10 +684,10 @@ set foldmethod=manual
 " Do not expand folds when searching
 "set foldopen-=search
 
-" Execute command on open folds only
-nnoremap <Leader>f :folddoopen 
+"" Execute command on open folds only
+"nnoremap <Leader>f :folddoopen
 
-inoremap <Leader>f <C-O>za
+"inoremap <Leader>f <C-O>za
 "nnoremap <Leader>f za
 onoremap <Leader>f <C-C>za
 vnoremap <Leader>f zf
@@ -715,7 +740,7 @@ vnoremap <Leader>f zf
 "      let l:align = winwidth(0)-&foldcolumn-(&nu ? Max(strlen(line('$'))+1, l:numwidth) : 0)
 "      let l:align = (l:align / 2) + (strlen(l:foldtext)/2)
 "      " note trailing space on next line
-"      setlocal fillchars+=fold:\ 
+"      setlocal fillchars+=fold:\
 "    elseif !exists('b:foldpat') || b:foldpat==0
 "      let l:foldtext = ' '.(v:foldend-v:foldstart).' lines folded'.v:folddashes.'|'
 "      let l:endofline = (&textwidth>0 ? &textwidth : 80)
@@ -764,7 +789,7 @@ set noflash
 " syntax higlight on
 syntax on
 
-" Syntax coloring lines that are too long just slows down the world
+" Don't try to highlight lines longer than 2048 characters.
 set synmaxcol=2048
 
 set showmatch
@@ -775,13 +800,13 @@ set matchpairs+=<:>
 set comments=s1:/*,mb:*,ex:*/,f://,b:#,:%,:XCOMM,n:>,fb:-
 
 
-if has("statusline") 
+if has("statusline")
 
     " always show the status line
-    set laststatus=2 
+    set laststatus=2
     " now set it up to change the status line based on mode
     "    if version >= 700
-    "      au InsertEnter * hi StatusLine ctermbg=red 
+    "      au InsertEnter * hi StatusLine ctermbg=red
     "      au InsertLeave * hi StatusLine ctermfg=white ctermbg=black
     "    endif
 
@@ -828,16 +853,15 @@ if has("statusline")
 
     " Highlight the current line, except for TabBar win
     au WinEnter,BufEnter * call SetCursorline()
-    au WinLeave * set nocursorline
+    au WinLeave * setlocal nocursorline
 
     function! SetCursorline()
-        if(bufname('%') != '-MiniBufExplorer-')
-            set cursorline
+        if(bufname('%') != '-MiniBufExplorer-' && &buftype != 'quickfix')
+            setlocal cursorline
+        else
+            setlocal nocursorline
         endif
     endfunction
-
-    " Don't try to highlight lines longer than 800 characters.
-    set synmaxcol=800
 
     " For the most accurate but slowest result, set the syntax synchronization method to fromstart. This can be done with an autocmd in your vimrc:
     "autocmd BufEnter * :syntax sync fromstart
@@ -876,7 +900,7 @@ set rulerformat=%15(%c%V\ %p%%%)
 "    set autoindent
 "    set formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
 "    set formatlistpat+=^\\s*\\*\\s*\@\\s*\\w*\\s*
-set formatoptions=rq " Automatically insert comment leader on return, 
+set formatoptions=rq " Automatically insert comment leader on return,
 " and let gq format comments
 
 " Show 80 char limit
@@ -889,11 +913,11 @@ set hlsearch!
 " incremental search
 set incsearch
 
-" Maintain more context around the cursor 
-" When the cursor is moved outside the viewport of the current window, 
-" the buffer is scrolled by a single line. 
-" Setting the option below will start the scrolling three lines before the border, 
-" keeping more context around where you're working. 
+" Maintain more context around the cursor
+" When the cursor is moved outside the viewport of the current window,
+" the buffer is scrolled by a single line.
+" Setting the option below will start the scrolling three lines before the border,
+" keeping more context around where you're working.
 "set scrolloff=5
 "set sidescrolloff=10
 
@@ -907,8 +931,8 @@ set wrap " wrap line
 
 set showmode " Show the current mode
 
-" By default, vim doesn't let the cursor stray beyond the defined text. This 
-" setting allows the cursor to freely roam anywhere it likes in command mode. 
+" By default, vim doesn't let the cursor stray beyond the defined text. This
+" setting allows the cursor to freely roam anywhere it likes in command mode.
 " It feels weird at first but is quite useful.
 set virtualedit=all
 
@@ -1000,8 +1024,8 @@ let OmniCpp_LocalSearchDecl = 1
 " }}}
 " Doxygen {{{
 
-"let g:DoxygenToolkit_briefTag_pre="\brief  " 
-"let g:DoxygenToolkit_paramTag_pre="\param " 
+"let g:DoxygenToolkit_briefTag_pre="\brief  "
+"let g:DoxygenToolkit_paramTag_pre="\param "
 "let g:DoxygenToolkit_returnTag="\returns   "
 
 " }}}
@@ -1141,7 +1165,7 @@ let g:indent_guides_indent_levels = 8
 let g:indent_guides_start_level = 2
 let g:indent_guides_guide_size = 1
 let g:indent_guides_auto_colors = 0
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=237 ctermfg=240
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=238 ctermfg=240
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=238 ctermfg=242
 
 " }}}
@@ -1291,7 +1315,7 @@ let Powerline_symbols="fancy"
 " }}}
 " TagHighlight {{{
 
-if ! exists('g:TagHighlightSettings')          
+if ! exists('g:TagHighlightSettings')
     let g:TagHighlightSettings = {}
 endif
 let g:TagHighlightSettings['LanguageDetectionMethods'] =
@@ -1358,8 +1382,8 @@ nmap <Plug>IgnoreMarkSearchPrev <Plug>MarkSearchPrev
 " Syntastic {{{
 
 let g:syntastic_cpp_check_header = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 1
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq =  0
 
 let b:syntastic_cpp_cflags = ' -I$HOME/ngi_1/src/acp/include'
 
@@ -1404,7 +1428,7 @@ noremap <silent> <S-F10> :silent botright Errors<CR>
 
 " To change the macro storage location use the following
 call EnsureDirExists($HOME.'/.vimmacros')
-let marvim_store = $HOME.'/.vimmacros' 
+let marvim_store = $HOME.'/.vimmacros'
 
 let marvim_find_key = '<leader>mm'
 let marvim_store_key = '<leader>ms'
@@ -1441,7 +1465,7 @@ let EasyGrepWindow = 0
 " orgmode {{{
 
 let g:org_todo_keywords = ['TODO', 'ONGOING', 'WAITING', '|', 'DONE']
-"let g:org_heading_highlight_colors = 
+"let g:org_heading_highlight_colors =
             "\ ['Title', 'Constant',  'Statement', 'Identifier', 'PreProc', 'Type', 'Special']
 let g:org_todo_keyword_faces = [
             \ ['ONGOING', [':foreground black', ':background 178']],
@@ -1450,8 +1474,10 @@ let g:org_todo_keyword_faces = [
             \]
 let g:org_agenda_files = ['~/doc/TODO_LIST.org']
 
-autocmd BufEnter TODO_LIST.org nmap <C-Left> @<Plug>OrgTodoBackward
-autocmd BufEnter TODO_LIST.org nmap <C-Right> @<Plug>OrgTodoForward
+autocmd BufRead *.org nmap <buffer> <C-Left> <Plug>OrgTodoBackward
+autocmd BufRead *.org nmap <buffer> <C-Right> <Plug>OrgTodoForward
+autocmd BufRead *.org nmap <buffer> <CR> <Plug>OrgNewHeadingBelowNormal
+autocmd BufRead *.org nmap <buffer> <S-CR> <Plug>OrgNewHeadingAboveNormal
 
 " }}}
 " VimOrganizer {{{
@@ -1474,7 +1500,7 @@ map <Leader>tc <Plug>(operator-camelize-toggle)
 "Signify {{{
 
 "let g:signify_disable_by_default = 0
-let g:signify_vcs_list = ['cvs', 'hg', 'git']
+let g:signify_vcs_list = ['hg', 'git', 'cvs']
 "let g:signify_line_highlight = 1
 "let g:signify_mapping_next_hunk = '<C-Down>'
 "let g:signify_mapping_prev_hunk = '<C-Up>'
@@ -1491,39 +1517,39 @@ let g:EasyClipUseSubstituteDefaults = 1
 " }}}
 " Unite {{{
 
-let g:unite_source_grep_max_candidates = 1000
-let g:unite_source_find_max_candidates = 100000
-let g:unite_source_rec_max_cache_files = 10000
-let g:unite_source_file_rec_max_cache_files = 10000
+"let g:unite_source_grep_max_candidates = 1000
+"let g:unite_source_find_max_candidates = 100000
+"let g:unite_source_rec_max_cache_files = 10000
+"let g:unite_source_file_rec_max_cache_files = 10000
 
-call unite#custom#source('file,file/new,buffer,file_rec,grep,command,buffer,function,jump,launcher,mapping,output,process,register,help',
-            \ 'matchers', 'matcher_fuzzy')
-" Mappings
-nnoremap <C-p> :<C-u>Unite -no-split -start-insert file_rec/async<CR>
-nnoremap <Leader>us :Unite -no-split -start-insert grep:.<CR>
-nnoremap <Leader>uc :Unite -no-split -start-insert command<CR>
-nnoremap <Leader>ub :Unite -no-split -start-insert buffer<CR>
-nnoremap <Leader>uf :Unite -no-split -start-insert function<CR>
-nnoremap <Leader>uj :Unite -no-split -start-insert jump<CR>
-nnoremap <Leader>ul :Unite -no-split -start-insert launcher<CR>
-nnoremap <Leader>um :Unite -no-split -start-insert mapping<CR>
-nnoremap <Leader>uo :Unite -no-split -start-insert output<CR>
-nnoremap <Leader>up :Unite -no-split -start-insert process<CR>
-nnoremap <Leader>ur :Unite -no-split -start-insert register<CR>
-nnoremap <Leader>uh :Unite -no-split -start-insert help<CR>
+"call unite#custom#source('file,file/new,buffer,file_rec,grep,command,buffer,function,jump,launcher,mapping,output,process,register,help',
+"            \ 'matchers', 'matcher_fuzzy')
+"" Mappings
+"nnoremap <C-p> :<C-u>Unite -no-split -start-insert file_rec/async<CR>
+"nnoremap <Leader>us :Unite -no-split -start-insert grep:.<CR>
+"nnoremap <Leader>uc :Unite -no-split -start-insert command<CR>
+"nnoremap <Leader>ub :Unite -no-split -start-insert buffer<CR>
+"nnoremap <Leader>uf :Unite -no-split -start-insert function<CR>
+"nnoremap <Leader>uj :Unite -no-split -start-insert jump<CR>
+"nnoremap <Leader>ul :Unite -no-split -start-insert launcher<CR>
+"nnoremap <Leader>um :Unite -no-split -start-insert mapping<CR>
+"nnoremap <Leader>uo :Unite -no-split -start-insert output<CR>
+"nnoremap <Leader>up :Unite -no-split -start-insert process<CR>
+"nnoremap <Leader>ur :Unite -no-split -start-insert register<CR>
+"nnoremap <Leader>uh :Unite -no-split -start-insert help<CR>
 
-if executable('ag')
-  " Use ag in unite grep source
-  let g:unite_source_grep_command = 'ag'
-  let g:unite_source_grep_default_opts = '--nocolor --nogroup --hidden'
-  let g:unite_source_grep_recursive_opt = ''
-elseif executable('ack-grep')
-  " Use ack in unite grep source
-  let g:unite_source_grep_command = 'ack-grep'
-  let g:unite_source_grep_default_opts =
-        \ '--no-heading --no-color -a -H'
-  let g:unite_source_grep_recursive_opt = ''
-endif
+"if executable('ag')
+"  " Use ag in unite grep source
+"  let g:unite_source_grep_command = 'ag'
+"  let g:unite_source_grep_default_opts = '--nocolor --nogroup --hidden'
+"  let g:unite_source_grep_recursive_opt = ''
+"elseif executable('ack-grep')
+"  " Use ack in unite grep source
+"  let g:unite_source_grep_command = 'ack-grep'
+"  let g:unite_source_grep_default_opts =
+"        \ '--no-heading --no-color -a -H'
+"  let g:unite_source_grep_recursive_opt = ''
+"endif
 
 " }}}
 " Startify {{{
@@ -1549,7 +1575,7 @@ let g:LargeFile = '100MB'
 " Airline {{{
 
 "let g:airline_section_b = '%{getcwd()}'
-let g:airline_left_sep = '》' 
+let g:airline_left_sep = '》'
 let g:airline_right_sep = '《'
 let g:airline_linecolumn_prefix = '␤ '
 let g:airline_enable_branch = 1
@@ -1560,10 +1586,16 @@ let g:airline_branch_prefix = '〒 '
 let g:airline_theme='wombat'
 
 " }}}
-" YouCompleteMe {{{
+" YouCompleteMe YCM {{{
+
 " Compilation:
 "   cmake -G "Unix Makefiles" -DPYTHON_LIBRARY=/softntools/opt/Python-2.7/lib  -DPYTHON_INCLUDE_DIR=/softntools/opt/Python-2.7/include/python2.7 -DPYTHON_EXECUTABLE=/softntools/opt/Python-2.7/bin/python  -DPATH_TO_LLVM_ROOT=~/env . ~/.vim/bundle/YouCompleteMe/cpp
+
+let g:syntastic_always_populate_loc_list = 1
 let g:ycm_confirm_extra_conf = 0
+
+nnoremap <S-F5> :YcmForceCompileAndDiagnostics<CR>
+noremap <silent> <S-F10> :silent botright lopen<CR>
 nnoremap <leader>gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
   let g:ycm_key_list_select_completion = ['<Down>']
   let g:ycm_key_list_previous_completion = ['<Up>']
@@ -1585,11 +1617,25 @@ let g:simple_bookmarks_filename = '~/.vimbookmarks'
 let g:simple_bookmarks_highlight = 1
 let g:simple_bookmarks_signs = 1
 nmap <Leader>bo :CopenBookmarks<CR>
-nmap <Leader>b :Bookmark 
+nmap <Leader>b :Bookmark
 nmap <Leader>bb :Bookmark <C-R><C-W>
 
 " }}}
+" Obsession {{{
 
+noremap <S-F12> :Obsess
+
+" }}}
+" Lawrencium {{{
+
+silent doautocmd User Lawrencium
+
+" }}}
+" Fugitive {{{
+
+let &rtp = &rtp . ',/data3/ngi/soft/git-1.7.1.1/bin'
+
+" }}}
 " }}}
 " Mappings {{{
 
@@ -1622,7 +1668,7 @@ vnoremap <F2> <C-C>:w<CR>gv
 inoremap <F2> <C-O>:w<CR>
 
 " save to new file and open it
-"    nnoremap :we :WriteAndEdit 
+"    nnoremap :we :WriteAndEdit
 " <F5>
 noremap <F5> :e!<CR>
 
@@ -1637,6 +1683,8 @@ nmap <silent> <Leader>ez :cd ~/.oh-my-zsh<CR>:execute "e ~/.zshrc.".$USER<CR>
 nmap <silent> <Leader>ex :e ~/.Xresources<CR>
 nmap <silent> <Leader>ef :e ~/.fonts.conf<CR>
 nmap <silent> <Leader>ei :e ~/.inputrc<CR>
+nmap <silent> <Leader>eh :e ~/.hgrc<CR>
+nmap <silent> <Leader>ep :e ~/.ptrc<CR>
 nmap <silent> <Leader>et :execute "e ~/.tmux.conf"<CR>
 "nmap <silent> <Leader>eto :execute "e ~/doc/TODO_LIST.org"<CR>:let g:quickfixsigns#marks#marks = []<CR>:let g:quickfixsigns_class_vcsdiff = {}<CR>
 nmap <silent> <Leader>ed :execute "e ~/doc/TODO_LIST.org"<CR>
@@ -1655,18 +1703,18 @@ nmap <silent> <Leader>w :set invwrap<CR>:set wrap?<CR>
 
 
 " Write a backup file at every ESC keypress
-fun! InitBex() 
-    let myvar = strftime("_%y%m%d-%Hh%Mm%Ss") 
-    let myvar = "set backupext=_". myvar 
-    execute myvar 
-endfun 
+fun! InitBex()
+    let myvar = strftime("_%y%m%d-%Hh%Mm%Ss")
+    let myvar = "set backupext=_". myvar
+    execute myvar
+endfun
 silent command! WriteBackup :silent call InitBex()
 autocmd BufWritePre * silent WriteBackup
 "noremap <silent> <ESC> :silent WriteBackup<CR>
 
 nmap n nzvzz
 nmap N Nzvzz
-"nmap g* g*zvzz 
+"nmap g* g*zvzz
 "nmap g# g#zvzz
 
 " Reformat a paragraph:
@@ -1692,6 +1740,10 @@ map <C-K> <C-W>k<C-W>_
 "nmap <C-w><C-Left> <C-w>H
 "" right
 "nmap <C-w><C-Right> <C-w>L
+
+" Remap motion w into motion iw in operator pending mode
+"onoremap w iw
+"onoremap W aw
 
 
 " ====================================
@@ -1892,7 +1944,7 @@ noremap '. `.zzzo
 noremap '' ``zzzo
 
 " ctrlp
-let g:ctrlp_map = '<Space>'
+"let g:ctrlp_user_command = ['.hg', 'hg --cwd %s locate -I .']
 let g:ctrlp_match_window_bottom = 1
 let g:ctrlp_max_height = 60
 let g:ctrlp_persistent_input = 0
@@ -1914,7 +1966,15 @@ let g:ctrlp_mruf_default_order = 0
 let g:ctrlp_mruf_save_on_update = 1
 let g:ctrlp_mruf_relative = 0
 
-let g:ctrlp_extensions = [ 'quickfix', 'undo', 'changes' ]
+let g:ctrlp_map = '<Space>'
+"nmap <M-m> :CtrlPMRU<CR>
+nmap <C-Space> :CtrlPMRU<CR>
+nmap <M-u> :CtrlPUndo<CR>
+nmap <M-.> :CtrlPChange<CR>
+map <M-m> :CtrlPModified<CR>
+map <M-f> :CtrlPFunky<CR>
+
+let g:ctrlp_extensions = [ 'quickfix', 'undo', 'changes', 'funky', 'modified' ]
 
 let g:ctrlp_prompt_mappings = {
             \ 'PrtBS()':              ['<bs>'. '', ''],
@@ -1953,7 +2013,7 @@ let g:ctrlp_prompt_mappings = {
             \ 'PrtExit()':            ['<esc>', '<c-c>', '<c-g>'],
             \ }
 
-"" matcher for ctrlP 
+"" matcher for ctrlP
 "let g:path_to_matcher = g:dot_vim_dir.'/bundle/ctrlp.vim/matcher'
 
 "function! g:GoodMatch(items, str, limit, mmode, ispath, crfile, regex)
@@ -2027,17 +2087,14 @@ imap <C-w> <C-o><C-w>
 
 " insert new line without going into insert mode
 au BufEnter,WinEnter *
-            \ if &modifiable && &buftype != 'quickfix'|
-            \   map <CR> :silent put=''<CR>|
-            \   map <S-CR> :silent put!=''<CR>|
-            \ else|
-            \   silent! unmap <CR>|
-            \   silent! unmap <S-CR>|
+            \ if &modifiable && &buftype != 'quickfix' && &filetype != 'org'|
+            \   map <buffer> <CR> :silent put=''<CR>|
+            \   map <buffer> <S-CR> :silent put!=''<CR>|
             \ endif
 
-au CmdwinEnter *
-            \ silent! unmap <CR>|
-            \ silent! unmap <S-CR>
+"au CmdwinEnter *
+"            \ silent! unmap <CR>|
+"            \ silent! unmap <S-CR>
 
 " Bash like keys for the command line
 cnoremap <C-A> <Home>
@@ -2259,11 +2316,6 @@ function! ShowSyntaxGroup() " {{{
 endfunction " }}}
 map <Leader>sy :call ShowSyntaxGroup()<CR>
 
-" CtrlP
-nmap <M-m> :CtrlPMRU<CR>
-nmap <M-u> :CtrlPUndo<CR>
-nmap <M-.> :CtrlPChange<CR>
-
 " Source lines from current file
 vnoremap <leader>S y:silent execute @@<CR>:echo 'Sourced selection.'<CR>
 nnoremap <leader>S ^vg_y:silent execute @@<CR>:echo 'Sourced line.'<CR>
@@ -2271,12 +2323,23 @@ nnoremap <leader>S ^vg_y:silent execute @@<CR>:echo 'Sourced line.'<CR>
 nnoremap <C-]> g<C-]>zvzz
 nnoremap g<C-]> g<C-]>zvzz
 
+" Strip whitespaces at the end of a line.
+" For current line
+nmap <Leader>w :call Preserve("s/\\s\\+$//e")<CR>
+" For all file
+nmap <Leader>W :call Preserve("%s/\\s\\+$//e")<CR>
+
+" Fix spelling mistake with the first suggestion proposed by vim
+nmap <Leader>f l[s1z=
+imap <Leader>f <Esc>l[s1z=`]a
+
 " }}}
 " Ctags, gtags and cscope {{{
 
 " The last semicolon is the key here. When Vim tries to locate the 'tags' file,
 " it first looks at the current directory, then the parent directory, then the parent of the parent, and so on:
-set tags=$HOME/ngi_1/tags
+"set tags=$HOME/ngi_1/tags
+set tags=tags;/
 
 " ctags completion
 set complete=.,t
@@ -2286,13 +2349,13 @@ set complete=.,t
 map <C-\> +:Gtags -r<CR><CR>
 
 " cscope
-"  map [I :cs find c <C-r><C-w><CR> 
+"  map [I :cs find c <C-r><C-w><CR>
 set csto=1
 
 " }}}
 " Functions {{{
 
-" Strip trailing whitespace {{{
+" Allow to run a command and restore the pre-existing state afterward {{{
 function! Preserve(command)
     " Preparation: save last search, and cursor position.
     let _s=@/
@@ -2329,7 +2392,7 @@ function! CVSdiff(cvsversion) " {{{
     let filenameRelativePath=bufname("%")
     let filenameOnly = fnamemodify(filenameRelativePath, ":t")
     let execVNew = "vnew [CVS]__" . filenameOnly
-    execute execVNew 
+    execute execVNew
     execute "r!cvs -q up -p " . a:cvsversion . " " . filenameRelativePath
     1d
     let Tb_loaded=1
@@ -2425,21 +2488,22 @@ command! -nargs=? Scriptnames call s:Filter_lines('scriptnames', <q-args>)
 " }}} Functions end
 " Compilation, start/stop applications, testing {{{
 
-set makeef=vim.err
+set makeef=$TMPDIR/$USER/_VIM/scons_errors/scons_temp.err
+set makeprg=~/doc/scripts/scons.sh\ 2>&1\ \\\|\ ~/doc/scripts/filter_scons.sh\ 2>&1\ \\\|\ tee\ /gctmp/darmand/_VIM/scons_errors/scons.err
 
 call EnsureDirExists($TMPDIR.'/'.$USER.'/_VIM/scons_errors')
-function! Scons() " {{{
+"function! Scons() " {{{
 
-    let l:save_shellcmdflag = &shellcmdflag
-    set shellcmdflag=-ic
-    :cd ~/ngi_1
-    ":lcd ~/ngi_1
-    :!~/doc/scripts/scons.sh 2>&1 | ~/doc/scripts/filter_scons.sh 2>&1 >| $TMPDIR/$USER/_VIM/scons_errors/scons.err&
-    ":cd -
-    exe 'set shellcmdflag='.escape(l:save_shellcmdflag,' ')
-    :cf $TMPDIR/$USER/_VIM/scons_errors/scons.err
+"    let l:save_shellcmdflag = &shellcmdflag
+"    set shellcmdflag=-ic
+"    :cd ~/ngi_1
+"    ":lcd ~/ngi_1
+"    :!~/doc/scripts/scons.sh 2>&1 | ~/doc/scripts/filter_scons.sh 2>&1 >| $TMPDIR/$USER/_VIM/scons_errors/scons.err&
+"    ":cd -
+"    exe 'set shellcmdflag='.escape(l:save_shellcmdflag,' ')
+"    :cf $TMPDIR/$USER/_VIM/scons_errors/scons.err
 
-endfunction " }}}
+"endfunction " }}}
 
 noremap <F7> :!~/doc/scripts/kill_scons.sh<CR>
 
@@ -2454,7 +2518,25 @@ function! RestartBE() " {{{
 endfunction " }}}
 
 " Start compilation
-noremap <F9> :call Scons()<CR>:botright copen<CR>
+"noremap <F9> :call Scons()<CR>:botright copen<CR>
+"au BufEnter *.cpp,*.hpp nmap <buffer> <F9> :Make<CR>
+"nmap <F9> :Make<CR>
+nmap <F9> :Dispatch killall -10 tmux -u darmand && cd ~/ngi_1 && pwd && ls -l src && sleep 2 && ~/doc/scripts/scons.sh 2>&1 \| ~/doc/scripts/filter_scons.sh 2>&1 \| tee /gctmp/darmand/_VIM/scons_errors/scons.err<CR>
+
+" Run current buffer in TTS (requires "Dispatch" plugin)
+func! RunInTTS()
+    let nonreg_name = matchstr(expand('%:p'), '.*/reg/\zs...\ze')
+    let link_target = system('readlink ' . '~/regression/' . nonreg_name)
+    echo link_target
+    let link_target_full = "~/regression/" . nonreg_name . "/" . link_target . ":p"
+    let link_target_expanded = expand(link_target_full)
+    echo link_target_expanded
+    "execute "Dispatch tts_launcher.sh -n -r ~/regression/" . nonreg_name . " -f %"
+endfunc
+
+" Start TTS on current buffer
+"au BufEnter *.edi*,*.gsv* nmap <buffer> <F9> :Dispatch tts_launcher.sh -n -r ~/regression/aah -f %<CR>
+au BufEnter *.edi*,*.gsv* nmap <buffer> <F9> :call RunInTTS()<CR>
 
 call EnsureDirExists($TMPDIR.'/'.$USER.'/_VIM/restart_logs')
 noremap <C-F9> :call RestartBE()<CR>:botright copen<CR>
@@ -2577,12 +2659,12 @@ endfunction
 " Recursive search in file tree
 nnoremap  <Leader>s :Rgrep -i  *pp<Left><Left><Left><Left>
 " Search in open buffers
-nnoremap  <Leader>sb :Bgrep -i 
+nnoremap  <Leader>sb :Bgrep -i
 " Search in files matching the regex, save matching filenames in args
 "nnoremap <Leader>sa :args `grep -Ril \"\" *`<Left><Left><Left><Left><Left>
 nnoremap <Leader>sa :args `find . -name \"*\" -exec grep -il \"\" '{}' \;`<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
 " Search in vim help pages
-nnoremap  <Leader>sh :helpgrep 
+nnoremap  <Leader>sh :helpgrep
 
 " ***********************************************
 " Target string is the word under the cursor
@@ -2592,7 +2674,7 @@ nnoremap  <Leader>sh :helpgrep
 " WHOLE word ("\<pattern\>")
 nnoremap  <Leader>ss :Rgrep -i \<<C-r><C-w>\> *pp
 "map <silent> <Leader>sS <plug>EgMapGrepCurrentWord_V
-" Search in open buffers 
+" Search in open buffers
 nnoremap  <Leader>ssb :Bgrep -i \<<C-r><C-w>\>
 " Search in files matching the regex, save matching filenames in args
 nnoremap <Leader>ssa :args `grep -Ril \"\<<C-r><C-w>\>\" *`<Left>
@@ -2672,7 +2754,7 @@ vnoremap <Leader>__ :s#\(\%(\<\l\+\)\%(_\)\@=\)\\|_\(\l\)#\u\1\2#g<CR><C-C>
 " Same, but in current line
 noremap <Leader>__ :s#\(\%(\<\l\+\)\%(_\)\@=\)\\|_\(\l\)#\u\1\2#g<CR>
 
-" CamelCase to under_scores 
+" CamelCase to under_scores
 " Convert each name_like_this to nameLikeThis in current line.
 vnoremap <Leader>_ :s#_\(\l\)#\u\1#g<CR><C-C>
 " Same, but in current line
@@ -2682,23 +2764,23 @@ noremap <Leader>_ :s#_\(\l\)#\u\1#g<CR>
 " global command in current file (word unfilled)
 nnoremap <Leader>g :g//normal <Left><Left><Left><Left><Left><Left><Left><Left>
 " global command on word under cursor in current file
-nnoremap <Leader>gg :g/\<<C-r><C-w>\>/normal 
+nnoremap <Leader>gg :g/\<<C-r><C-w>\>/normal
 " global command in all open files (word unfilled)
 nnoremap <Leader>gb :bufdo g//normal  \|up<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
 " global command on word under cursor in all open files
 nnoremap <Leader>ggb :bufdo g/\<<C-r><C-w>\>/normal  \|up<Left><Left><Left>
 " global command on word under cursor in local block code {...}
-nnoremap <Leader>gbb mo[{ma%mb`o:'a,'b g/\<<C-r><C-w>\>/normal 
+nnoremap <Leader>gbb mo[{ma%mb`o:'a,'b g/\<<C-r><C-w>\>/normal
 
 " global command inside visual selection (word unfilled)
 vnoremap <Leader>g :g//normal <Left><Left><Left><Left><Left><Left><Left><Left>
 " global command on visual selected test in current file
-vnoremap <Leader>gg y:g/<C-R>=escape(@",'\\/.*$^~[]')<CR>/normal 
+vnoremap <Leader>gg y:g/<C-R>=escape(@",'\\/.*$^~[]')<CR>/normal
 " global command on visual selected text in all open files
 vnoremap <Leader>gb y:bufdo g/<C-R>=escape(@",'\\/.*$^~[]')<CR>/normal  \|up<Left><Left><Left><Left><Left>
 vnoremap <Leader>ggb y:bufdo g/<C-R>=escape(@",'\\/.*$^~[]')<CR>/normal  \|up<Left><Left><Left><Left><Left>
 " global command on visual selected text in local block code {...}
-vnoremap <Leader>gbb y<C-C>mo[{ma%mb`o:'a,'b g/<C-R>=escape(@",'\\/.*$^~[]')<CR>/normal 
+vnoremap <Leader>gbb y<C-C>mo[{ma%mb`o:'a,'b g/<C-R>=escape(@",'\\/.*$^~[]')<CR>/normal
 
 " Get help for word under cursor
 " <F1>
@@ -2706,7 +2788,7 @@ autocmd bufenter *.vim,.vimrc nnoremap <F1> :h <C-R><C-W><CR>
 autocmd bufenter *.vim,.vimrc vnoremap <F1> y:h <C-R>=escape(@",'\\/.*$^~[]')<CR><CR>
 
 " Retrofitting: to convert from webpage to cvs up -j.. -j..
-"    noremap \wr Icvs up <M-w>dw.....<M-W>D<M-B>Pa ^wwdw.i-j<M-W>dwi-j^kd 
+"    noremap \wr Icvs up <M-w>dw.....<M-W>D<M-B>Pa ^wwdw.i-j<M-W>dwi-j^kd
 let @t='Icvs up wdw.....WDBPa ^wwdw.i-jWdwi-j^kd'
 "    let @t='^dWdWIcvs up kd^dwdwdwct;Ai kbkb krp^dWdWdWi-jWi-jbklkD^v$dku^wwP^kddd'
 "    let @t='dWdWkdv$dkuP^dWdWi-jt;krdWdWdWi -jbdW^PIcvs up kdddku^'
@@ -2722,7 +2804,8 @@ let @e='^df/...kdddkuEklDkd^dW.EklkrkDkrdW.^i-jWi-j^DkuPa I
 "nnoremap <C-P> ciw<C-r>0<C-C>
 
 " Always save last session when exiting vim
-autocmd VimLeavePre * SessionSaveAs _LAST_SESSION_
+"autocmd VimLeavePre * SessionSaveAs _LAST_SESSION_
+autocmd VimLeavePre * Obsess _LAST_SESSION_
 
 " Warn when opening a file generated during compilation
 autocmd BufEnter */replicate/*,*/deliveries/* setlocal readonly
@@ -2745,9 +2828,9 @@ map <Leader>tb :!~/doc/scripts/display_boi<CR>
 
 "Interpret file as latin1 or ebcdic:
 "latin1 --> ebcdic :
-":e ++enc=ebcdic-us
+nmap <Leader>teb :e ++enc=ebcdic-us<CR>
 "ebcdic --> latin1 :
-":e ++enc=latin1
+nmap <Leader>tla :e ++enc=latin1<CR>
 
 " }}}
 " Force file type {{{

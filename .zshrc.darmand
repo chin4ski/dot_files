@@ -41,8 +41,9 @@ ZSH_THEME="davide"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=()
 
-export PATH=$PATH:/data3/ngi/soft/git-1.7.1.1/bin
+echo "Sourcing oh-my-zsh ..."
 source $ZSH/oh-my-zsh.sh
+echo "Done!"
 
 #source $ZSH/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
@@ -104,6 +105,8 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/ama/obe/REG/ape/cfg/pack/OSP/lib/
 export PYTHON_LIBRARY=/softntools/opt/Python-2.7/lib
 export PYTHON_INCLUDE_DIR=/softntools/opt/Python-2.7/include/python2.7
 export PYTHON_EXECUTABLE=/softntools/opt/Python-2.7/bin/python
+
+export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$HOME/env/lib/pkgconfig
 
 # From Nordyne:
 #export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/gcc-4.3.2/lib64:/opt/gcc/lib64:/opt/python-2.6-64/lib:/opt/gcc-4.3.2/lib64:/nastools/oracle/products/11.2.0.2/lib:/data3/ngi/soft/lib64:/nastools/oracle/products/11.2.0.2/lib:/nastools/oracle/products/9.2.0.8/lib:/remote/users2/darmand/env/lib:/usr/lib64/engines/
@@ -180,8 +183,8 @@ zstyle '*' single-ignored show
 ##### new
 ######################
 
-
-
+# 10ms for key sequences
+KEYTIMEOUT=-1
 
 # tab completion for PID :D
 zstyle ':completion:*:*:kill:*' menu yes select
@@ -203,11 +206,21 @@ bindkey   -M   viins   '^r'      history-incremental-search-backward
 bindkey   -M   viins   ''      vi-backward-delete-char
 bindkey   -M   viins   ''      vi-backward-delete-char
 
+# Tab complete for startAPE.sh , restartBEs.sh, ...
+_otf_complete() {
+    local word completions
+    word="$1"
+    completions="$(view_as_state.sh | grep NODE_APE | cut -d "|" -f 1 | tr -d ' ' | grep -i "${word}")"
+    reply=( "${(ps:\n:)completions}" )
+}
+
+compctl -K _otf_complete startAPE.sh
+compctl -K _otf_complete restartBEs.sh
 
 # Report CPU usage for commands running longer than 10 seconds
 REPORTTIME=10
 
-OS_NAME=`uname`
+OS_NAME=$(uname)
 
 export PAGER=less
 
@@ -218,12 +231,23 @@ else
   export DISPLAY=:0.0
 fi
 
+# Update the $DISPLAY to the IP from which the ssh connection was done.
+# Useful when the IP of the machine where the X Server is running changes.
+# Also check: http://brainscraps.wikia.com/wiki/Extreme_Multitasking_with_tmux_and_PuTTY
+function update_display() {
+  echo "Old \$DISPLAY=\n$DISPLAY"
+  echo
+  export DISPLAY=$(echo $SSH_CLIENT | cut -d" " -f1):0.0
+  echo "New \$DISPLAY=\n$DISPLAY"
+  echo
+}
+
 
 export PAGER=less
 
 alias df='nocorrect df'
 alias mv='nocorrect mv'
-alias tmux='nocorrect tmux -2 -u'
+alias tmux='nocorrect tmux -2 -u -S $HOME/tmux/socket'
 alias cp='nocorrect cp'
 alias mkdir='nocorrect mkdir'
 alias cvs='nocorrect cvs -w -q'
@@ -321,7 +345,7 @@ export CVSREAD=0
 alias apeConnect='$HOME/tools/shell/apeConnect'
 
 gotToDirOrSsh() {
-    if [[ "$1" != "" ]]; then
+    if [ $# -gt 1 ]; then
         CMD="ssh -l $1 -t ncegcolnx217 'cd ~/$2; exec /bin/zsh;'"
         echo
         echo $CMD
@@ -332,7 +356,7 @@ gotToDirOrSsh() {
         echo
         eval "$CMD"
     else
-        cd $HOME/$2
+        cd $HOME/$1
     fi
 }
 golog() {
@@ -349,16 +373,20 @@ alias start_otf='nocorrect start_otf'
 alias scons="scons appname=APE custom_builddir=/gctmp/$USERNAME/obj obedelpath=/gctmp/$USERNAME/obetar"
 
 # HG
-alias hg='hg -v'
+# Breaks the nominate command!!!!!
+#alias hg='hg -v'
 
 ###########################################
 # tmux stuff
 
+alias r="printf '\033k'$(basename $(pwd))'\033\\'"
+
 # 2011-10-19: tmux shortcut for creating/attaching named sessions
 t() {
   [[ -z "$1" ]] && { echo "usage: t <session>" >&2; return 1; }
-  printf '\033]0;%s\007' $1 
-  tmux has -t $1 && tmux -2 attach -t $1 || tmux -2 new -s $1
+  printf '\033]0;%s\007' $1
+  killall -10 tmux -u darmand
+  tmux has -t $1 && tmux attach -t $1 || tmux new -s $1
 }
 
 if [[ "$USER" != "apeoncal" ]]; then
@@ -367,42 +395,61 @@ if [[ "$USER" != "apeoncal" ]]; then
   function __tmux-sessions() {
   local expl
   local -a sessions
-    sessions=( ${${(f)"$(command tmux list-sessions)"}/:[ $'\t']##/:} )
+    sessions=( ${${(f)"$(command tmux -S $HOME/tmux/socket list-sessions)"}/:[ $'\t']##/:} )
     _describe -t sessions 'sessions' sessions "$@"
   }
   compdef __tmux-sessions t
 fi
 
+# Create window if now already existing
+create_window_if() {
+    win_found=$(tmux list-windows | grep $1 | cut -d" " -f2 | sed 's/\*//g')
+    if [[ "$win_found" == "" ]] && [[ -d $2 ]]; then
+        cd $2
+        tmux new-window -n $1
+        cd -
+    fi
+}
+
+# Create windows
+create_windows() {
+    create_window_if BCG ~/AVSCFG
+    create_window_if ngi_1 ~/ngi_1
+    create_window_if ape ~/ape
+    create_window_if regression ~/regression
+    create_window_if log ~/apefiles/log
+    for dir in $(find $HOME -maxdepth 1 -regextype posix-egrep -regex "(.*CR_.*|.*TR_.*|.*PTR_.*|.*WO_.*)" -type d); do
+        create_window_if $(basename $dir) $(basename $dir)
+    done
+}
+
+# Automatically create basic windows when starting tmux
+#[ ! -z "$TMUX_SESSION" ] && create_windows
+
 # Automatically create a new tmux session when opening a terminal.  The new
 # tmux session is named by increasing number.  If an existing unattached
 # session is found, attach the terminal to it instead of creating a new one.
 
-SESSION_NB=0
-while [ $SESSION_NB -le  10 ]; do
+export TMUX_SOCKET="~/tmux/socket"
+tmux_session_nb=0
+while [ $tmux_session_nb -le  10 ]; do
 
   # Search for open session attached
-  if [[ $(tmux list-sessions | grep "attached" | cut -d ":" -f 1 | grep $SESSION_NB) == "" ]]; then
+  if [[ $(tmux list-sessions | grep "attached" | cut -d ":" -f 1 | grep $tmux_session_nb) == "" ]]; then
 
-    # The session $SESSION_NB can be used (not existing or existing but not attached)
-    TARGET_TMUX_SESSION_NB=$SESSION_NB
+    # The session $tmux_session_nb can be used (not existing or existing but not attached)
+    export TMUX_SESSION=$tmux_session_nb
     break
   #else
-    # The session $SESSION_NB is already existing and attached
+    # The session $tmux_session_nb is already existing and attached
   fi
 
-  SESSION_NB=$((SESSION_NB + 1))
+  export tmux_session_nb=$((tmux_session_nb + 1))
 
 done
 
-alias tmux_new_inc_session='nocorrect t $TARGET_TMUX_SESSION_NB'
+alias tmux_new_inc_session='nocorrect t $TMUX_SESSION'
 
-
-# Taken from: http://brainscraps.wikia.com/wiki/Extreme_Multitasking_with_tmux_and_PuTTY
-function update_display() {
-  good_display=$(netstat -an | grep 0\ [0-9,:,.]*:60..\  | awk '{print $4}' | tail -n 1)
-  good_display=${good_display: -2}
-  export DISPLAY=${HOSTNAME}:${good_display}.0
-}
 
 
 ###############
@@ -410,18 +457,29 @@ function update_display() {
 ###############
 
 if [ $SHLVL  -le 1 ] && [[ "$USER" == "${EXPECTED_USER}" ]]; then
-  if [[ "$SUSE_VERSION" == "11" ]]; then
-    xrdb ~/.Xresources
-    xterm -u8 &
-    if [ $? -eq 0 ]; then
-      disown
-      logout
-    else
-      echo "ERROR: Xterm failed to start! Check that you have an Xserver running"
-      alias v='v -X'
-      \exit
+    if [[ "$SUSE_VERSION" == "11" ]]; then
+        update_display
+        xrdb ~/.Xresources
+        xterm -u8 &
+        if [ $? -eq 0 ]; then
+            disown
+            logout
+        else
+            echo "ERROR: Xterm failed to start!"
+            echo "Trying to correct \$DISPLAY var.."
+            update_display
+            xrdb ~/.Xresources
+            xterm -u8 &
+            if [ $? -eq 0 ]; then
+                disown
+                logout
+            else
+                echo "ERROR: Xterm failed to start! Check that you have an Xserver running"
+                alias v='v -X'
+                \exit
+            fi
+        fi
     fi
-  fi
 fi
 
 
@@ -439,7 +497,10 @@ case $TERM in
         #    logout
         #  fi
         #else
+        killall -10 tmux -u darmand
+        echo "Creating/attaching tmux session ..."
         tmux_new_inc_session
+        echo "Done!"
         #tmux_new_inc_session && \exit
         #fi
         ;;

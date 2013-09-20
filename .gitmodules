@@ -242,3 +242,15 @@
 [submodule ".vim/bundle/simple_bookmarks"]
 	path = .vim/bundle/simple_bookmarks
 	url = https://github.com/AndrewRadev/simple_bookmarks.vim.git
+[submodule ".vim/bundle/obsession"]
+	path = .vim/bundle/obsession
+	url = https://github.com/tpope/vim-obsession.git
+[submodule ".vim/bundle/syntastic"]
+	path = .vim/bundle/syntastic
+	url = https://github.com/scrooloose/syntastic.git
+[submodule ".vim/bundle/ctrlp-modified"]
+	path = .vim/bundle/ctrlp-modified
+	url = https://github.com/jasoncodes/ctrlp-modified.vim.git
+[submodule ".vim/bundle/ctrlp-funky"]
+	path = .vim/bundle/ctrlp-funky
+	url = https://github.com/tacahiroy/ctrlp-funky.git

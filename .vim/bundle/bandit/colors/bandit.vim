@@ -18,6 +18,7 @@ let ColourAssignment = {}
 " terminals is essential
 
 let ColourAssignment['CursorLine']         = {"CTERMBG": '238', "CTERMFG": 'None', "CTERM": 'None'}
+"let ColourAssignment['CursorLine']         = {"CTERMFG": 'None', "CTERM": 'Underline'}
 let ColourAssignment['CursorColumn']         = {"CTERMBG": '237'}
 
 " By default, assume the background colour is dark (changes for light backgrounds are handled later)
@@ -71,10 +72,10 @@ let ColourAssignment['WildMenu']         = {"CTERMBG": '27', "CTERMFG": '255'}
 let ColourAssignment['qfLineNr']         = {"GUIFG": '228'}
 
 " spelling
-let ColourAssignment['SpellBad']         = {"ctermfg": '255',    "CTERMBG": '124',     "CTERM":  'Underline'}
-let ColourAssignment['SpellCap']         = {"CTERMBG": '167', "CTERMFG": '255',     "CTERM":  'Underline'}
-let ColourAssignment['SpellLocal']         = {"CTERMBG": '94', "CTERMFG": '255',     "CTERM":  'Underline'}
-let ColourAssignment['SpellRare']         = {"CTERMBG": '24', "CTERMFG": '255',     "CTERM":  'Underline'}
+let ColourAssignment['SpellBad']         = {"ctermfg": '255',    "CTERMBG": '52',     "CTERM":  'Underline'}
+let ColourAssignment['SpellCap']         = {"CTERMFG": '255', "CTERMBG": '52',     "CTERM":  'Underline'}
+let ColourAssignment['SpellLocal']         = {"CTERMFG": '255', "CTERMBG": '52',     "CTERM":  'Underline'}
+let ColourAssignment['SpellRare']         = {"CTERMFG": '255', "CTERMBG": '52',     "CTERM":  'Underline'}
 
 " StlShowFunc plugin
 "let ColourAssignment['User1']         = {"CTERMBG": '23', "CTERMFG": '255'}
@@ -168,7 +169,7 @@ let ColourAssignment['Error']           = {"GUIFG": 'White',       "GUIBG":   '1
 let ColourAssignment['NonIndentTabError']={"GUIFG": '255',        "GUIBG":   '166', "GUI":   'undercurl',    "TERM":  'Standout'}
 
 " Stuff needing doing
-let ColourAssignment['Todo']            = {"GUIFG": '232',        "GUIBG":   '75'}
+let ColourAssignment['Todo']            = {"GUIFG": '235',        "GUIBG":   '75', "CTERM": 'Underline'}
 
 " Folding
 let ColourAssignment['FoldColumn']      = {"GUIFG": '152', "GUIBG": '240'}
