@@ -17,6 +17,9 @@ let ColourAssignment = {}
 " In most cases, only GUIFG is therefore important unless support for Black and White
 " terminals is essential
 
+let ColourAssignment['CursorLine']         = {"CTERMBG": '238', "CTERMFG": 'None', "CTERM": 'None'}
+let ColourAssignment['CursorColumn']         = {"CTERMBG": '237'}
+
 " By default, assume the background colour is dark (changes for light backgrounds are handled later)
 let ColourAssignment['Normal']          = {"CTERMFG": '255', "CTERMBG": '237'}
 
@@ -114,6 +117,7 @@ let ColourAssignment['Operator']        = {"GUIFG": '226'}
 let ColourAssignment['MyOperators'] = {"GUIFG": '226'}
 let ColourAssignment['RoundSquareBracket'] = {"GUIFG": '46'}
 let ColourAssignment['CurlyBracket'] = {"GUIFG": '46'}
+let ColourAssignment['cErrInBracket'] = {"GUIFG": '46'}
 
 let ColourAssignment['Identifier']      = {"CTERMFG": 'Yellow', "TERM": 'Underline'}
 let ColourAssignment['Function']        = {"CTERMFG": '147'}
@@ -164,11 +168,11 @@ let ColourAssignment['Error']           = {"GUIFG": 'White',       "GUIBG":   '1
 let ColourAssignment['NonIndentTabError']={"GUIFG": '255',        "GUIBG":   '166', "GUI":   'undercurl',    "TERM":  'Standout'}
 
 " Stuff needing doing
-let ColourAssignment['Todo']            = {"GUIFG": '255',        "GUIBG":   '1',    "CTERM":  'Underline'}
+let ColourAssignment['Todo']            = {"GUIFG": '232',        "GUIBG":   '75'}
 
 " Folding
-let ColourAssignment['FoldColumn']      = {"GUIFG": '74', "GUIBG": '240'}
-let ColourAssignment['Folded']      = {"GUIFG": '74',    "GUIBG":   '240'}
+let ColourAssignment['FoldColumn']      = {"GUIFG": '152', "GUIBG": '240'}
+let ColourAssignment['Folded']      = {"GUIFG": '152',    "GUIBG":   '240'}
 
 if exists('+colorcolumn')
   let ColourAssignment['ColorColumn']      = {"GUIBG":   '238'}
@@ -219,9 +223,6 @@ let ColourAssignment['Delimiter']       = {"GUIFG": 'DarkCyan'}
 " " Stop rainbow.vim from overwriting these colours (requires modifications to rainbow.vim v2a
 " let g:rainbow_delimiter_colours_defined = 1
 
-let ColourAssignment['CursorLine']         = {"CTERMBG": '238'}
-let ColourAssignment['CursorColumn']         = {"CTERMBG": '237'}
-
 " Marks plugin
 let ColourAssignment['MarkWord1']          = {"CTERMFG": '232', "CTERMBG": '117'}
 let ColourAssignment['MarkWord2']          = {"CTERMFG": '232', "CTERMBG": '119'}
@@ -242,6 +243,10 @@ let ColourAssignment['TagbarScope']          = {"CTERMFG": '158'}
 syn keyword MySpecialChars  <
 let ColourAssignment['MySpecialChars']          = {"CTERMFG": '46'}
 
+" simple-bookmark plugin
+let ColourAssignment['SimpleBookmark']         = {"CTERMFG": '232',    "CTERMBG": '75', "TERM": 'None'}
+
+
 " ========================================================================
 " Other available highlighting groups are listed at the bottom of the file
 " Light Background stuff is below the MakeDarker function
@@ -249,6 +254,7 @@ let ColourAssignment['MySpecialChars']          = {"CTERMFG": '46'}
 
 function! s:MakeDarker(rgb)
 	let rgbSplitter = '^#\(\x\{2}\)\(\x\{2}\)\(\x\{2}\)$'
+
 	let matches = matchlist(a:rgb, rgbSplitter)
 	if empty(matches)
 		return a:rgb

@@ -87,7 +87,7 @@ function! Allmap(mapping) " {{{
 
 endfunction " }}}
 
-if exists("$USING_TERA_TERM")
+if exists("$USING_TERA_TERM") " {{{
 
     "set term=xterm-256color
     set ttymouse=sgr
@@ -121,8 +121,8 @@ if exists("$USING_TERA_TERM")
     call Allmap('   OM   <CR>')
 
     "echo 'Tera Term key mapping applied!'
-
-elseif exists("$USING_XTERM_LINUX") || exists("$USING_XTERM_CYGWIN")
+" }}}
+elseif exists("$USING_XTERM_LINUX") || exists("$USING_XTERM_CYGWIN") " {{{
 
     set ttymouse=sgr
 
@@ -136,8 +136,11 @@ elseif exists("$USING_XTERM_LINUX") || exists("$USING_XTERM_CYGWIN")
     "call Allmap('            <Del>')
 
     call Allmap('    <C-@>      <C-Space>')
-    call Allmap('   [27;5;13~ <C-CR>')
-    call Allmap('   [27;2;13~ <S-CR>')
+    call Allmap('   [z5b <C-CR>')
+    call Allmap('   [z2b <S-CR>')
+    call Allmap('   [z3b <M-CR>')
+    call Allmap('   [z6b <C-S-CR>')
+    call Allmap('   [z7b <C-M-CR>')
 
     call Allmap('   [1~      <Home>')
     call Allmap('   [4~      <End>')
@@ -232,7 +235,8 @@ elseif exists("$USING_XTERM_LINUX") || exists("$USING_XTERM_CYGWIN")
 
     "echo 'xterm key mapping applied!'
 
-elseif exists( "$USING_URXVT_LINUX" )
+    " }}}
+elseif exists( "$USING_URXVT_LINUX" ) " {{{
 
     set term=xterm-256color
     "set termencoding=latin1
@@ -241,13 +245,15 @@ elseif exists( "$USING_URXVT_LINUX" )
 
     echo 'rxvt-linux key mapping applied!'
 
-elseif exists("$USING_URXVT_CYGWIN")
+" }}}
+elseif exists("$USING_URXVT_CYGWIN") " {{{
 
     set term=xterm-256color
     set ttymouse=urxvt
     echo 'urxvt cygwin key mapping applied!'
 
-elseif exists("$USING_PUTTY")
+" }}}
+elseif exists("$USING_PUTTY") " {{{
 
     for i in range(97,122)
         let c = nr2char(i)
@@ -263,11 +269,13 @@ elseif exists("$USING_PUTTY")
 
     "echo 'putty key mapping applied!'
 
-elseif exists("$USING_MOBAXTERM")
+" }}}
+elseif exists("$USING_MOBAXTERM") " {{{
 
     echo 'mobaxterm key mapping applied!'
 
-elseif exists("$USING_FUTTY")
+" }}}
+elseif exists("$USING_FUTTY") " {{{
 
     "set ttymouse=xterm2   " Make mouse and putty work together (no tmux)
     "set ttymouse=xterm    " Make mouse and putty work together (with tmux)
@@ -278,7 +286,8 @@ elseif exists("$USING_FUTTY")
 
     echo 'futty key mapping applied!'
 
-elseif exists("$USING_PUTTY_GDI")
+" }}}
+elseif exists("$USING_PUTTY_GDI") " {{{
 
     "set ttymouse=xterm2   " Make mouse and putty work together (no tmux)
     "set ttymouse=xterm    " Make mouse and putty work together (with tmux)
@@ -289,7 +298,8 @@ elseif exists("$USING_PUTTY_GDI")
 
     "echo 'putty_gdi key mapping applied!'
 
-elseif exists("$USING_ST_TERMINAL_LINUX")
+" }}}
+elseif exists("$USING_ST_TERMINAL_LINUX") " {{{
 
     set term=st-256color
     set ttymouse=sgr
@@ -335,10 +345,11 @@ endif
 call EnsureDirExists($TMPDIR.'/'.$USER.'/_VIM')
 
 " }}}
-" Load bundles {{{
+" Load bundle {{{
 
 let g:bundle_dir = g:dot_vim_dir.'/bundle'
-let g:localbundle_dir = g:dot_vim_dir.'/localbundle'
+"let g:localbundle_dir = g:dot_vim_dir.'/localbundle'
+let g:localbundle_dir = $TMPDIR.'/'.$USER.'/localbundle'
 
 filetype off  " required!
 
@@ -348,6 +359,7 @@ let &rtp = &rtp . ',' . g:bundle_dir . '/vundle'
 
 if isdirectory(g:localbundle_dir)
     " add localbundle target dir
+    "echo "davide - add localbundle target dir"
     let &rtp = &rtp . ',' . g:dot_vim_dir.','.g:localbundle_dir.','.g:localbundle_dir.'/after'
 endif
 
@@ -367,7 +379,6 @@ if isdirectory(g:vundle_dir)
     Bundle 'Mark--Karkat'
     Bundle 'MatchTag'
     Bundle 'Rename2'
-    "Bundle 'TabBar'
     Bundle 'taghighlight'
     Bundle 'Vimball'
     Bundle 'a.vim'
@@ -382,7 +393,6 @@ if isdirectory(g:vundle_dir)
     Bundle 'file-line'
     Bundle 'grep'
     Bundle 'gtags'
-    Bundle 'localbundle'
     Bundle 'marvim'
     Bundle 'matchit'
     Bundle 'matchit.zip'
@@ -412,7 +422,7 @@ if isdirectory(g:vundle_dir)
     Bundle 'operator-camelize'
     Bundle 'operator-user'
     Bundle 'signify'
-    Bundle 'unite.vim-master'
+    Bundle 'unite'
     Bundle 'recover'
     Bundle 'largefile'
     Bundle 'cpp-enhanced-highlight'
@@ -427,6 +437,10 @@ if isdirectory(g:vundle_dir)
     Bundle 'YouCompleteMe'
     Bundle 'EasyClip'
     Bundle 'Dispatch'
+    Bundle 'orgmode'
+    Bundle 'speeddating'
+    Bundle 'calendar'
+    Bundle 'simple_bookmarks'
     " Add new bundles here
 
     Bundle 'localbundle'
@@ -1226,7 +1240,7 @@ au FileType cvslog set syntax=rcslog
 " Sessionman {{{
 
 let sessionman_save_on_exit = 1
-noremap <silent> <F12> :SessionList<CR>
+noremap <silent> <F12> :silent SessionList<CR>
 
 " }}}
 " Quickfixsigns {{{
@@ -1424,9 +1438,25 @@ let EasyGrepAllOptionsInExplorer = 1
 let EasyGrepWindow = 0
 
 " }}}
+" orgmode {{{
+
+let g:org_todo_keywords = ['TODO', 'ONGOING', 'WAITING', '|', 'DONE']
+"let g:org_heading_highlight_colors = 
+            "\ ['Title', 'Constant',  'Statement', 'Identifier', 'PreProc', 'Type', 'Special']
+let g:org_todo_keyword_faces = [
+            \ ['ONGOING', [':foreground black', ':background 178']],
+            \ ['CANCELED', [':foreground white', ':background red']],
+            \ ['DONE', [':foreground black', ':background 82']]
+            \]
+let g:org_agenda_files = ['~/doc/TODO_LIST.org']
+
+autocmd BufEnter TODO_LIST.org nmap <C-Left> @<Plug>OrgTodoBackward
+autocmd BufEnter TODO_LIST.org nmap <C-Right> @<Plug>OrgTodoForward
+
+" }}}
 " VimOrganizer {{{
 
-let g:org_todo_setup='TODO WAITING ON-GOING COMMITTED REQ_LOAD_TST LOADED_IN_TST REQ_LOAD_PRD | DONE'
+"let g:org_todo_setup='TODO WAITING ON-GOING COMMITTED REQ_LOAD_TST LOADED_IN_TST REQ_LOAD_PRD | DONE'
 "let g:org_todo_custom_highlights =
 "      \ {
 "      \   'TODO': {'guifg':'white', 'guibg':'blue'},
@@ -1539,6 +1569,26 @@ nnoremap <leader>gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
   let g:ycm_key_list_previous_completion = ['<Up>']
 
 " }}}
+" Calendar {{{
+let g:calendar_keys = {
+            \ 'goto_next_month': '<PageDown>',
+            \ 'goto_prev_month': '<PageUp>',
+            \ 'goto_next_year': '<C-PageUp>',
+            \ 'goto_prev_year': '<C-PageDown>'
+            \}
+
+" }}}
+" simple-bookmark {{{
+
+let g:simple_bookmarks_filename = '~/.vimbookmarks'
+"let g:simple_bookmarks_long_quickfix = 1
+let g:simple_bookmarks_highlight = 1
+let g:simple_bookmarks_signs = 1
+nmap <Leader>bo :CopenBookmarks<CR>
+nmap <Leader>b :Bookmark 
+nmap <Leader>bb :Bookmark <C-R><C-W>
+
+" }}}
 
 " }}}
 " Mappings {{{
@@ -1589,6 +1639,7 @@ nmap <silent> <Leader>ef :e ~/.fonts.conf<CR>
 nmap <silent> <Leader>ei :e ~/.inputrc<CR>
 nmap <silent> <Leader>et :execute "e ~/.tmux.conf"<CR>
 "nmap <silent> <Leader>eto :execute "e ~/doc/TODO_LIST.org"<CR>:let g:quickfixsigns#marks#marks = []<CR>:let g:quickfixsigns_class_vcsdiff = {}<CR>
+nmap <silent> <Leader>ed :execute "e ~/doc/TODO_LIST.org"<CR>
 
 
 " Edit TTS files
@@ -2017,7 +2068,7 @@ let g:NERDCustomDelimiters = {
 "map <Leader>` ysiw`
 
 " Highlight current block of code
-nmap <Leader>b va{
+"nmap <Leader>b va{
 
 " Jump to previous/next fold point
 nmap <S-Up> zk

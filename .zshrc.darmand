@@ -213,7 +213,7 @@ export PAGER=less
 
 if [[ "$USER" == "${EXPECTED_USER}" ]]; then
   export DISPLAY=NCEL2404.iis.amadeus.net:0.0
-  export DISPLAY=172.26.214.251:0.0
+  #export DISPLAY=172.16.253.79:0.0
 else
   export DISPLAY=:0.0
 fi
@@ -273,6 +273,10 @@ alias cdreg='cd ~/regression'
 
 alias cdt='cd /gctmp/${EXPECTED_USER}/'
 
+cdToPkgSrc() {
+    cd ~/ngi_1/src/$1
+}
+
 alias cdaah='cd ~/ngi_1/src/aah'
 alias cdaam='cd ~/ngi_1/src/aam'
 alias cdacb='cd ~/ngi_1/src/acb'
@@ -314,13 +318,33 @@ export CVSREAD=0
 # export PAGER="vim -"
 # export MANPAGER="vim -c '%!col -b' -c 'set ft=man nomod nolist' -c 'set nomodifiable' -"
 
-
 alias apeConnect='$HOME/tools/shell/apeConnect'
-alias golog='cd $HOME/ama/obe/REG/ape/com/log'
-alias cdlog='cd $HOME/ama/obe/REG/ape/com/log'
-alias cdcore='cd $HOME/ama/obe/SLS'
-alias gocore='cd $HOME/ama/obe/SLS'
-alias goabr='cd $HOME/ama/obe/REG/ape/com/data/abr'
+
+gotToDirOrSsh() {
+    if [[ "$1" != "" ]]; then
+        CMD="ssh -l $1 -t ncegcolnx217 'cd ~/$2; exec /bin/zsh;'"
+        echo
+        echo $CMD
+        echo
+        echo "Useful path:"
+        echo " /gctmp/$1/log/Start.log"
+        echo " /gctmp/$1/log/Stop.log"
+        echo
+        eval "$CMD"
+    else
+        cd $HOME/$2
+    fi
+}
+golog() {
+    gotToDirOrSsh $1 ama/obe/REG/ape/com/log
+}
+gocore() {
+    gotToDirOrSsh $1 ama/obe/SLS
+}
+goabr() {
+    gotToDirOrSsh $1 ama/obe/REG/ape/com/data/abr
+}
+
 alias start_otf='nocorrect start_otf'
 alias scons="scons appname=APE custom_builddir=/gctmp/$USERNAME/obj obedelpath=/gctmp/$USERNAME/obetar"
 

@@ -78,6 +78,12 @@ xterm*Translations: #override \
     Meta<Key>4:  string("\0334")\n\
     Alt<Key>5:  string("\0335")\n\
     Meta<Key>5:  string("\0335")\n\
+    ~Ctrl ~Meta Shift  <Key> Return:      string(0x1b) string("[z2b") \n\
+    ~Ctrl Meta  ~Shift <Key> Return:      string(0x1b) string("[z3b") \n\
+    ~Ctrl Meta  Shift  <Key> Return:      string(0x1b) string("[z4b") \n\
+    Ctrl  ~Meta ~Shift <Key> Return:      string(0x1b) string("[z5b") \n\
+    Ctrl  ~Meta Shift  <Key> Return:      string(0x1b) string("[z6b") \n\
+    Ctrl  Meta  ~Shift <Key> Return:      string(0x1b) string("[z7b") \n\
 
 
 urxvt*title: urxvt
