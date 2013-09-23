@@ -325,7 +325,6 @@ alias start_otf='nocorrect start_otf'
 alias scons="scons appname=APE custom_builddir=/gctmp/$USERNAME/obj obedelpath=/gctmp/$USERNAME/obetar"
 
 # HG
-alias hg='hg -v'
 
 ###########################################
 # tmux stuff
