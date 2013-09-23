@@ -10,13 +10,13 @@ fi
 
 echo "Going to remove submodule '$2' from '$1'"
 echo "Press <Ctrl-C> to stop, another key to continue ..."
-read $CMD_IN
+#read $CMD_IN
 
 # 1/ Go to the base repository dir
 CMD_EXEC="cd $1"
 echo $CMD_EXEC
 echo "Press <Ctrl-C> to stop, another key to continue ..."
-read $CMD_IN
+#read $CMD_IN
 eval $CMD_EXEC
 echo
 
@@ -28,7 +28,7 @@ CMD_EXEC="git config -f .git/config --remove-section submodule.$2 \
 
 echo $CMD_EXEC
 echo "Press <Ctrl-C> to stop, another key to continue ..."
-read $CMD_IN
+#read $CMD_IN
 eval $CMD_EXEC
 echo
 
@@ -37,6 +37,6 @@ CMD_EXEC="rm -rf $2"
 
 echo $CMD_EXEC
 echo "Press <Ctrl-C> to stop, another key to continue ..."
-read $CMD_IN
+#read $CMD_IN
 eval $CMD_EXEC
 echo
