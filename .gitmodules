@@ -1,50 +1,6 @@
-[submodule ".vim/bundle/errormarker"]
-	path = .vim/bundle/errormarker
-	url = https://github.com/vim-scripts/errormarker.vim.git
-  ignore = dirty
 [submodule ".vim/bundle/Mark--Karkat"]
 	path = .vim/bundle/Mark--Karkat
 	url = https://github.com/chin4ski/Mark--Karkat.git
-  ignore = dirty
-[submodule ".vim/bundle/undotree"]
-	path = .vim/bundle/undotree
-	url = https://github.com/mbbill/undotree.git
-  ignore = dirty
-[submodule ".vim/bundle/vim-repeat"]
-	path = .vim/bundle/vim-repeat
-	url = https://github.com/tpope/vim-repeat.git
-  ignore = dirty
-[submodule ".vim/bundle/vim-yankstack"]
-	path = .vim/bundle/vim-yankstack
-	url = https://github.com/maxbrunsfeld/vim-yankstack.git
-  ignore = dirty
-[submodule ".vim/bundle/grep"]
-	path = .vim/bundle/grep
-	url = https://github.com/vim-scripts/grep.vim.git
-  ignore = dirty
-[submodule ".vim/bundle/gtags"]
-	path = .vim/bundle/gtags
-	url = https://github.com/vim-scripts/gtags.vim.git
-  ignore = dirty
-[submodule ".vim/bundle/sessionman"]
-	path = .vim/bundle/sessionman
-	url = https://github.com/vim-scripts/sessionman.vim.git
-  ignore = dirty
-[submodule ".vim/bundle/textobj-word-column"]
-	path = .vim/bundle/textobj-word-column
-	url = https://github.com/coderifous/textobj-word-column.vim.git
-  ignore = dirty
-[submodule ".vim/bundle/current-func-info"]
-	path = .vim/bundle/current-func-info
-	url = https://github.com/tyru/current-func-info.vim.git
-  ignore = dirty
-[submodule ".vim/bundle/localbundle"]
-	path = .vim/bundle/localbundle
-	url = https://github.com/chin4ski/localbundle.vim.git
-  ignore = dirty
-[submodule ".vim/bundle/xml"]
-	path = .vim/bundle/xml
-	url = https://github.com/othree/xml.vim.git
   ignore = dirty
 [submodule ".vim/bundle/xterm-color-table"]
 	path = .vim/bundle/xterm-color-table
