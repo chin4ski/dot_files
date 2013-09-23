@@ -206,9 +206,6 @@
 [submodule ".vim/bundle/rsi"]
 	path = .vim/bundle/rsi
 	url = https://github.com/tpope/vim-rsi.git
-[submodule ".vim/bundle/airline"]
-	path = .vim/bundle/airline
-	url = https://github.com/bling/vim-airline.git
 [submodule ".vim/bundle/context_filetype"]
 	path = .vim/bundle/context_filetype
 	url = https://github.com/Shougo/context_filetype.vim.git
