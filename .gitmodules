@@ -1,27 +1,3 @@
-[submodule ".vim/bundle/Color-Sampler-Pack"]
-	path = .vim/bundle/Color-Sampler-Pack
-	url = https://github.com/vim-scripts/Color-Sampler-Pack
-  ignore = dirty
-[submodule ".vim/bundle/Enter-Indent"]
-	path = .vim/bundle/Enter-Indent
-	url = https://github.com/vim-scripts/Enter-Indent
-  ignore = dirty
-[submodule ".vim/bundle/marvim"]
-	path = .vim/bundle/marvim
-	url = https://github.com/vim-scripts/marvim
-  ignore = dirty
-[submodule ".vim/bundle/matchit.zip"]
-	path = .vim/bundle/matchit.zip
-	url = https://github.com/vim-scripts/matchit.zip
-  ignore = dirty
-[submodule ".vim/bundle/Rename2"]
-	path = .vim/bundle/Rename2
-	url = https://github.com/vim-scripts/Rename2
-  ignore = dirty
-[submodule ".vim/bundle/TabBar"]
-	path = .vim/bundle/TabBar
-	url = https://github.com/chin4ski/TabBar.git
-  ignore = dirty
 [submodule ".vim/bundle/Vimball"]
 	path = .vim/bundle/Vimball
 	url = https://github.com/vim-scripts/Vimball
@@ -97,10 +73,6 @@
 [submodule ".vim/bundle/gtags"]
 	path = .vim/bundle/gtags
 	url = https://github.com/vim-scripts/gtags.vim.git
-  ignore = dirty
-[submodule ".vim/bundle/matchit"]
-	path = .vim/bundle/matchit
-	url = https://github.com/vim-scripts/matchit.zip.git
   ignore = dirty
 [submodule ".vim/bundle/sessionman"]
 	path = .vim/bundle/sessionman
