@@ -375,6 +375,14 @@ alias scons="scons appname=APE custom_builddir=/gctmp/$USERNAME/obj obedelpath=/
 # HG
 # Breaks the nominate command!!!!!
 #alias hg='hg -v'
+# Consider all files (e.g. Description.xml) in hg commands:
+alias hg='hg '
+alias st='st --no-exclude'
+alias status='status --no-exclude'
+alias ci='ci --no-exclude'
+alias commit='commit --no-exclude'
+alias di='di --no-exclude'
+alias diff='diff --no-exclude'
 
 ###########################################
 # tmux stuff

@@ -350,7 +350,7 @@ endif
 call EnsureDirExists($TMPDIR.'/'.$USER.'/_VIM')
 
 " }}}
-" Load bundle {{{
+" Load bundles {{{
 
 let g:bundle_dir = g:dot_vim_dir.'/bundle'
 "let g:localbundle_dir = g:dot_vim_dir.'/localbundle'
@@ -374,6 +374,9 @@ if isdirectory(g:vundle_dir)
     " let Vundle manage Vundle
     " required!
     Bundle 'vundle'
+
+    " Migrated!
+    Bundle 'vim-airline'
 
     Bundle 'CVSconflict'
     Bundle 'Color-Sampler-Pack'
@@ -434,12 +437,11 @@ if isdirectory(g:vundle_dir)
     Bundle 'tagbar'
     Bundle 'rsi'
     Bundle 'MiniBufExpl'
-    Bundle 'airline'
     Bundle 'context_filetype'
     "Bundle 'unite-help'
     Bundle 'ultisnips'
     Bundle 'snippets'
-    Bundle 'YouCompleteMe'
+    "Bundle 'YouCompleteMe'
     Bundle 'EasyClip'
     Bundle 'Dispatch'
     Bundle 'orgmode'
@@ -1387,8 +1389,8 @@ let g:syntastic_check_on_wq =  0
 
 let b:syntastic_cpp_cflags = ' -I$HOME/ngi_1/src/acp/include'
 
-noremap <S-F5> :SyntasticCheck<CR>
-noremap <silent> <S-F10> :silent botright Errors<CR>
+"noremap <S-F5> :SyntasticCheck<CR>
+"noremap <silent> <S-F10> :silent botright Errors<CR>
 
 " }}}
 " DynamicSigns {{{
